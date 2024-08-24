@@ -8,12 +8,14 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App: [.SignIn]
+    .App: [.SignIn],
+    .Domain: []
 ]
 
 public enum DependencyInformation: String {
     case App = "App"
     case SignIn = "SignIn"
+    case Domain = "Domain"
 }
 
 public enum PresentationDependencyInformation: String, CaseIterable {
