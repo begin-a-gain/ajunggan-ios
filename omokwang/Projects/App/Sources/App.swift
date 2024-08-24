@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Root
 
 @main
 struct RootApp: App {
@@ -15,9 +16,7 @@ struct RootApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                Text("Hello World")
-            }
+            RootView()
         }
     }
 }
