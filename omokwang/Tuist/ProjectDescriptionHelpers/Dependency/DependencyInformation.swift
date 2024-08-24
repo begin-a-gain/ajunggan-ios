@@ -8,9 +8,11 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App: [.SignIn],
+    .App: [.Root],
     .Domain: [],
-    .Data: [.Domain]
+    .Data: [.Domain],
+    .Root: [.SignIn],
+    .SignIn: []
 ]
 
 public enum DependencyInformation: String {
@@ -18,9 +20,10 @@ public enum DependencyInformation: String {
     case SignIn = "SignIn"
     case Domain = "Domain"
     case Data = "Data"
+    case Root = "Root"
 }
 
 public enum PresentationDependencyInformation: String, CaseIterable {
-    case App = "App"
     case SignIn = "SignIn"
+    case Root = "Root"
 }
