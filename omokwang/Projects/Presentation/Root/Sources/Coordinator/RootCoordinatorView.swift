@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SignIn
 
 extension RootCoordinator {
     @ViewBuilder
@@ -19,8 +20,13 @@ extension RootCoordinator {
 
 extension RootCoordinator {
     private func signInView() -> some View {
-        return VStack {
-            Text("This is SignIn Example View")
-        }
+        return SignInView(
+            coordinator: .init(
+                navigateToMain: { testMessage in
+                    // TODO: push Main Page with parameter
+                }
+            ),
+            signInViewModel: SignInViewModel()
+        )
     }
 }
