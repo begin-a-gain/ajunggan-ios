@@ -71,3 +71,4 @@ Tuist/.build
 
 Package.resolved
 .build/
+*graph.png

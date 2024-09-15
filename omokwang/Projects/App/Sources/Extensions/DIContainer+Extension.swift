@@ -6,9 +6,23 @@
 //
 
 import DI
+import Data
+import Domain
 
 extension DIContainer {
     func register() {
-        // TODO: Dpendency Injection in this function
+        container.register(ApiService.self) { _ in
+            ApiService()
+        }
+        
+        container.register(AccountRepositoryProtocol.self) { resolver in
+            let apiService: ApiService = resolver.resolve()
+            return AccountRepository(apiService: apiService)
+        }
+        
+        container.register(AccountUseCaseProtocol.self) { resolver in
+            let repository: AccountRepositoryProtocol = resolver.resolve()
+            return AccountUseCase(repository: repository)
+        }
     }
 }

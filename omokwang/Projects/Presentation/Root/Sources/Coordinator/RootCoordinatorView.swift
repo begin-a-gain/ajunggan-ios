@@ -26,7 +26,9 @@ extension RootCoordinator {
                     // TODO: push Main Page with parameter
                 }
             ),
-            signInViewModel: SignInViewModel()
+            signInViewModel: SignInViewModel(
+                accountUseCaseProtocol: accountUseCaseProtocol
+            )
         )
     }
 }
