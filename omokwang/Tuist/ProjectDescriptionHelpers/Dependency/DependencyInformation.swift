@@ -8,11 +8,11 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App: [.Root, .DI],
-    .Domain: [],
+    .App: [.Root, .DI, .Data],
+    .Domain: [.DI],
     .Data: [.Domain],
     .Root: [.SignIn, .Main],
-    .SignIn: [],
+    .SignIn: [.Domain],
     .Main: [],
     .DI: [.Swinject]
 ]
