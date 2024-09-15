@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import Domain
+import DI
 
 final class RootCoordinator: Hashable {
     @Binding var navigationPath: NavigationPath
-    
+    let accountUseCaseProtocol: AccountUseCaseProtocol = DIContainer.shared.resolve()
+
     private var id: UUID
     var screen: RootScreen
     
