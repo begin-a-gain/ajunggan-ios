@@ -20,18 +20,13 @@ public struct SignInView: View {
         VStack {
             Text("This is Sign In View")
             Button {
-                coordinator.navigateToMain("카카오 로그인 성공")
+//                coordinator.navigateToMain("카카오 로그인 성공")
+                viewStore.send(.kakaoButtonTapped)
             } label: {
                 Text("카카오 로그인")
                 .frame(width: 200, height: 100).background(.green)
             }
-            Button {
-                viewStore.send(.signInButtonTapped)
-            } label: {
-                Text("API 통신 테스트 = \(viewStore.state.signInResult)")
-                .frame(width: 200, height: 100).background(.green)
-            }
-            Text("[\(viewStore.state.count)]")
+            Text("토큰 : \(viewStore.state.tempToken)")
         }
     }
 }
