@@ -11,61 +11,52 @@ import Base
 
 public struct SignInState {
     public init() {}
-    var signInResult: String = "-"
-    var count: Int = 0
+    var tempToken: String = "-"
 }
 
 public enum SignInAction {
-    case signInButtonTapped
-    case signIn
-    case dataFetched
-    case failed
-    case allFetched
+    case kakaoButtonTapped
+    case receiveKakaoTokenSuccessfully(String)
+    case kakaoLoginError(NetworkError)
 }
 
 public class SignInStore: Reducer<SignInState, SignInAction> {
-    public init(accountUseCaseProtocol: AccountUseCaseProtocol) {
+    public init(
+        accountUseCaseProtocol: AccountUseCaseProtocol,
+        socialUseCaseProtocol: SocialUseCaseProtocol
+    ) {
         self.accountUseCaseProtocol = accountUseCaseProtocol
+        self.socialUseCaseProtocol = socialUseCaseProtocol
         super.init(initialState: SignInState())
     }
     
     private var accountUseCaseProtocol: AccountUseCaseProtocol
+    private var socialUseCaseProtocol: SocialUseCaseProtocol
         
     public override func reduce(state: inout SignInState, action: SignInAction) -> Effect<SignInAction> {
         switch action {
-        case .signInButtonTapped:
-            print("sign in button tapped")
-            state.signInResult = "..."
+        case .kakaoButtonTapped:
             return .run {
-                await self.testSignIn()
+                await self.signInWithKakao()
             }
-        case .signIn:
+        case .receiveKakaoTokenSuccessfully(let token):
+            state.tempToken = token
             return .none
-        case .dataFetched:
-            state.signInResult = "Success!"
-            state.count += 1
-            return .run {
-                await self.testFunc()
-            }
-        case .failed:
-            state.signInResult = "Failed!"
-            return .none
-        case .allFetched:
-            state.signInResult = "All Fetched!"
-            state.count += 1
+        case .kakaoLoginError(let error):
+            state.tempToken = error.localizedDescription
             return .none
         }
     }
 }
 
 private extension SignInStore {
-    private func testSignIn() async -> SignInAction {
-        let _ = await accountUseCaseProtocol.signIn()
-        return .dataFetched
-    }
-    
-    private func testFunc() async -> SignInAction {
-        let _ = await accountUseCaseProtocol.signIn()
-        return .allFetched
+    private func signInWithKakao() async -> SignInAction {
+        let response = await socialUseCaseProtocol.signInWithKakao()
+        switch response {
+        case let .success(result):
+            return .receiveKakaoTokenSuccessfully(result)
+        case let .failure(error):
+            return .kakaoLoginError(error)
+        }
     }
 }
