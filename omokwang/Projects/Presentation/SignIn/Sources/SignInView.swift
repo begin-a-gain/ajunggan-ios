@@ -9,11 +9,11 @@ import SwiftUI
 
 public struct SignInView: View {
     var coordinator: SignInCoordinator
-    @StateObject var signInViewModel: SignInViewModel
+    @StateObject var viewStore: SignInStore
     
-    public init(coordinator: SignInCoordinator, signInViewModel: SignInViewModel) {
+    public init(coordinator: SignInCoordinator, viewStore: SignInStore) {
         self.coordinator = coordinator
-        self._signInViewModel = StateObject(wrappedValue: signInViewModel)
+        self._viewStore = StateObject(wrappedValue: viewStore)
     }
     
     public var body: some View {
@@ -25,6 +25,13 @@ public struct SignInView: View {
                 Text("카카오 로그인")
                 .frame(width: 200, height: 100).background(.green)
             }
+            Button {
+                viewStore.send(.signInButtonTapped)
+            } label: {
+                Text("API 통신 테스트 = \(viewStore.state.signInResult)")
+                .frame(width: 200, height: 100).background(.green)
+            }
+            Text("[\(viewStore.state.count)]")
         }
     }
 }
