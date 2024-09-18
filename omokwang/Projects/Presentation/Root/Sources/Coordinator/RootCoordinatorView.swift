@@ -27,7 +27,8 @@ extension RootCoordinator {
                 }
             ),
             viewStore: SignInStore(
-                accountUseCaseProtocol: accountUseCaseProtocol
+                accountUseCaseProtocol: accountUseCaseProtocol,
+                socialUseCaseProtocol: socialUseCaseProtocol
             )
         )
     }
