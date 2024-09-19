@@ -12,6 +12,7 @@ import Domain
 extension DIContainer {
     func register() {
         registerApiService()
+        registerSocialService()
         registerAccountDependency()
         registerSocialDependency()
     }
@@ -19,6 +20,12 @@ extension DIContainer {
     private func registerApiService() {
         container.register(ApiService.self) { _ in
             ApiService()
+        }
+    }
+    
+    private func registerSocialService() {
+        container.register(SocialService.self) { _ in
+            SocialService()
         }
     }
     
@@ -36,8 +43,8 @@ extension DIContainer {
     
     private func registerSocialDependency() {
         container.register(SocialRepositoryProtocol.self) { resolver in
-            let apiService: ApiService = resolver.resolve()
-            return SocialRepository(apiService: apiService)
+            let socialService: SocialService = resolver.resolve()
+            return SocialRepository(socialService: socialService)
         }
         
         container.register(SocialUseCaseProtocol.self) { resolver in
