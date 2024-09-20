@@ -7,4 +7,5 @@
 
 public protocol SocialRepositoryProtocol {
     func signInWithKakao() async -> Result<String, NetworkError>
+    func signInWithApple() async -> Result<String, AppleSignInError>
 }

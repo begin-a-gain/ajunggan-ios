@@ -6,10 +6,12 @@
 //
 
 import KakaoSDKUser
+import AuthenticationServices
 
-public struct SocialService {
-    public init() {}
-    
+public class SocialService: NSObject {
+    public override init() {}
+    private var appleSignDelegate: AppleSignDelegate? = nil
+
     @MainActor
     func signInWithKakao() async -> String? {
         do {
@@ -37,5 +39,20 @@ public struct SocialService {
         } catch {
             return nil
         }
+    }
+    
+    func signInWithApple() async -> AppleSignResult {
+        let result = await withCheckedContinuation { continuation in
+            let request = ASAuthorizationAppleIDProvider().createRequest()
+            request.requestedScopes = [.fullName, .email]
+            let controller = ASAuthorizationController(authorizationRequests: [request])
+            
+            appleSignDelegate = AppleSignDelegate(appleSignContinuation: continuation)
+            controller.delegate = appleSignDelegate
+            controller.performRequests()
+        }
+        
+        appleSignDelegate = nil
+        return result
     }
 }
