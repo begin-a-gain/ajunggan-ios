@@ -26,7 +26,15 @@ public struct SignInView: View {
                 Text("카카오 로그인")
                 .frame(width: 200, height: 100).background(.green)
             }
-            Text("토큰 : \(viewStore.state.tempToken)")
+            Text("카카오 토큰 : \(viewStore.state.tempKakaoToken)")
+            Button {
+                viewStore.send(.appleButtonTapped)
+            } label: {
+                Text("애플 로그인")
+                .foregroundStyle(.white)
+                .frame(width: 200, height: 100).background(.black)
+            }
+            Text("애플 토큰 : \(viewStore.state.tempAppleToken)")
         }
     }
 }
