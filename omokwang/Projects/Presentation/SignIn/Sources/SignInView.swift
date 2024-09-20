@@ -9,22 +9,32 @@ import SwiftUI
 
 public struct SignInView: View {
     var coordinator: SignInCoordinator
-    @StateObject var signInViewModel: SignInViewModel
+    @StateObject var viewStore: SignInStore
     
-    public init(coordinator: SignInCoordinator, signInViewModel: SignInViewModel) {
+    public init(coordinator: SignInCoordinator, viewStore: SignInStore) {
         self.coordinator = coordinator
-        self._signInViewModel = StateObject(wrappedValue: signInViewModel)
+        self._viewStore = StateObject(wrappedValue: viewStore)
     }
     
     public var body: some View {
         VStack {
             Text("This is Sign In View")
             Button {
-                coordinator.navigateToMain("카카오 로그인 성공")
+//                coordinator.navigateToMain("카카오 로그인 성공")
+                viewStore.send(.kakaoButtonTapped)
             } label: {
                 Text("카카오 로그인")
                 .frame(width: 200, height: 100).background(.green)
             }
+            Text("카카오 토큰 : \(viewStore.state.tempKakaoToken)")
+            Button {
+                viewStore.send(.appleButtonTapped)
+            } label: {
+                Text("애플 로그인")
+                .foregroundStyle(.white)
+                .frame(width: 200, height: 100).background(.black)
+            }
+            Text("애플 토큰 : \(viewStore.state.tempAppleToken)")
         }
     }
 }

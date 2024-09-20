@@ -8,5 +8,6 @@
 import Foundation
 
 let externalDependency: [DependencyInformation] = [
-    .Swinject
+    .Swinject,
+    .KakaoSDKUser
 ]
