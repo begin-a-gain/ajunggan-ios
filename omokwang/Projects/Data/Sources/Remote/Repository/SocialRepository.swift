@@ -23,4 +23,14 @@ public struct SocialRepository: SocialRepositoryProtocol {
         
         return .success(result)
     }
+    
+    public func signInWithApple() async -> Result<String, AppleSignInError> {
+        let result = await socialService.signInWithApple()
+        switch result {
+        case .success(let token):
+            return .success(token)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

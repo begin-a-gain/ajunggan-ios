@@ -9,6 +9,7 @@ import DI
 
 public protocol SocialUseCaseProtocol {
     func signInWithKakao() async -> Result<String, NetworkError>
+    func signInWithApple() async -> Result<String, AppleSignInError>
 }
 
 public struct SocialUseCase: SocialUseCaseProtocol {
@@ -20,5 +21,9 @@ public struct SocialUseCase: SocialUseCaseProtocol {
 
     public func signInWithKakao() async -> Result<String, NetworkError> {
         await repository.signInWithKakao()
+    }
+    
+    public func signInWithApple() async -> Result<String, AppleSignInError> {
+        await repository.signInWithApple()
     }
 }
