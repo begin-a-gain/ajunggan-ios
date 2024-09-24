@@ -1,7 +1,7 @@
-# Omokawng iOS
+# Omokawn iOS
 
 **[Project Description]**  
-오목왕 : 오늘 목표 완료! (목표 관리 어플)  
+오목완 : 오늘 목표 완료! (목표 관리 어플)  
 유저 그룹 간 목표 설정 및 모니터링 가능  
 
 ---  

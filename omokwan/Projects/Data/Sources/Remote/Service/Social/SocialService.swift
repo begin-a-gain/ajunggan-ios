@@ -41,6 +41,7 @@ public class SocialService: NSObject {
         }
     }
     
+    @MainActor
     func signInWithApple() async -> AppleSignResult {
         let result = await withCheckedContinuation { continuation in
             let request = ASAuthorizationAppleIDProvider().createRequest()
