@@ -45,6 +45,7 @@ public extension Target {
             infoPlist: .file(path: "Support/Info.plist"),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            entitlements: "App.entitlements",
             dependencies: dependencies,
             settings: .settings(configurations: Configuration.defaultSettings, defaultSettings: defaultSettings)
         )
