@@ -1,4 +1,0 @@
-#include "./Shared.xcconfig"
-
-BUNDLE_IDENTIFIER = com.begin-a-gain.omokwan
-BUNDLE_NAME = 오목완
