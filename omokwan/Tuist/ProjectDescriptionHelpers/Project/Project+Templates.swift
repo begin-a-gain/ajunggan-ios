@@ -56,12 +56,9 @@ public extension Project {
 
 public extension Project {
     static let fontFamilys: [Plist.Value] = [
-        .string("Pretendard_Bold.otf"),
-        .string("Pretendard_Light.otf"),
-        .string("Pretendard_Medium.otf"),
-        .string("Pretendard_Regular.otf"),
-        .string("Pretendard_SemiBold.otf"),
-        .string("Pretendard_Thin.otf")
+        .string("SUIT-Bold.otf"),
+        .string("SUIT-Medium.otf"),
+        .string("SUIT-Regular.otf")
     ]
     
     static func designSystemModule(

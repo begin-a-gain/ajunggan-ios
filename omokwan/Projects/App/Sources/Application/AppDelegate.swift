@@ -7,6 +7,7 @@
 
 import UIKit
 import DI
+import DesignSystem
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         DIContainer.shared.register()
+        DesignSystemFontFamily.registerAllCustomFonts()
         return true
     }
 
