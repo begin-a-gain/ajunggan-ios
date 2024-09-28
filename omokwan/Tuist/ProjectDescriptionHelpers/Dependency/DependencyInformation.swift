@@ -15,7 +15,7 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .SignIn: [.Domain, .Base],
     .Main: [],
     .DI: [.Swinject],
-    .Base: []
+    .Base: [.DesignSystem]
 ]
 
 public enum DependencyInformation: String {
@@ -29,6 +29,7 @@ public enum DependencyInformation: String {
     case Swinject = "Swinject"
     case Base = "Base"
     case KakaoSDKUser = "KakaoSDKUser"
+    case DesignSystem = "DesignSystem"
 }
 
 public enum PresentationDependencyInformation: String, CaseIterable {
