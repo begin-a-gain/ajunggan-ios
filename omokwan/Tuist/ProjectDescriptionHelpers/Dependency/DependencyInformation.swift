@@ -11,9 +11,10 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .App: [.Root, .DI, .Data, .KakaoSDKUser],
     .Domain: [.DI],
     .Data: [.Domain, .KakaoSDKUser],
-    .Root: [.SignIn, .Main],
+    .Root: [.SignIn, .SignUp, .Main, .Base],
     .SignIn: [.Domain, .Base],
-    .Main: [],
+    .SignUp: [.Domain, .Base],
+    .Main: [.Base],
     .DI: [.Swinject],
     .Base: [.DesignSystem]
 ]
@@ -21,6 +22,7 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
 public enum DependencyInformation: String {
     case App = "App"
     case SignIn = "SignIn"
+    case SignUp = "SignUp"
     case Domain = "Domain"
     case Data = "Data"
     case Root = "Root"
@@ -34,6 +36,7 @@ public enum DependencyInformation: String {
 
 public enum PresentationDependencyInformation: String, CaseIterable {
     case SignIn = "SignIn"
+    case SignUp = "SignUp"
     case Root = "Root"
     case Main = "Main"
     case Base = "Base"
