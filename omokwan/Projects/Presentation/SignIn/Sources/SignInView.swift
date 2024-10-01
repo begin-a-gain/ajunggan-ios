@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 public struct SignInView: View {
     var coordinator: SignInCoordinator
@@ -17,24 +18,54 @@ public struct SignInView: View {
     }
     
     public var body: some View {
-        VStack {
-            Text("This is Sign In View")
+        signInBody
+    }
+    
+    private var signInBody: some View {
+        VStack(spacing: 0) {
+            Spacer().height(78)
+            Rectangle().fill(.gray).greedyWidth().height(484).hPadding(20)
+            Spacer().height(32)
+            loginButton
+            Spacer()
+            policyView
+        }
+    }
+    
+    private var loginButton: some View {
+        HStack(spacing: 20) {
             Button {
-//                coordinator.navigateToMain("카카오 로그인 성공")
                 viewStore.send(.kakaoButtonTapped)
             } label: {
-                Text("카카오 로그인")
-                .frame(width: 200, height: 100).background(.green)
+                OImage.icKakao.swiftUIImage
             }
-            Text("카카오 토큰 : \(viewStore.state.tempKakaoToken)")
             Button {
                 viewStore.send(.appleButtonTapped)
             } label: {
-                Text("애플 로그인")
-                .foregroundStyle(.white)
-                .frame(width: 200, height: 100).background(.black)
+                OImage.icApple.swiftUIImage
             }
-            Text("애플 토큰 : \(viewStore.state.tempAppleToken)")
         }
+    }
+    
+    private var policyView: some View {
+        VStack(spacing: 8) {
+            OText("회원가입을 진행할 경우, 아래의 정책에 대해 동의한 것으로 간주합니다.", token: .caption)
+            HStack(spacing: 12) {
+                Button {
+                    
+                } label: {
+                    OText("이용약관", token: .caption, isUnderline: true)
+                }
+                Button {
+                    
+                } label: {
+                    OText("개인정보처리방침", token: .caption, isUnderline: true)
+                }
+            }
+        }
+        .greedyWidth()
+        .hPadding(20)
+        .padding(.top, 20)
+        .padding(.bottom, 32)
     }
 }
