@@ -7,29 +7,24 @@
 
 import SwiftUI
 import SignIn
+import Base
 
-extension RootCoordinator {
-    @ViewBuilder
-    func view() -> some View {
-        switch self.screen {
-        case .signIn:
-            signInView()
+public struct RootCoordinatorView: View {
+    @StateObject private var rootNavigationPath = RouteNavigationPath<RootScreen>(path: NavigationPath(), screen: .signIn)
+
+    public init() {}
+    
+    public var body: some View {
+        NavigationStack(path: $rootNavigationPath.path) {
+            Group {
+                RootCoordinator(
+                    navigationPath: $rootNavigationPath.path,
+                    screen: $rootNavigationPath.screen
+                ).view()
+            }
+            .navigationDestination(for: RootCoordinator.self) { coordinator in
+                coordinator.view()
+            }
         }
-    }
-}
-
-extension RootCoordinator {
-    private func signInView() -> some View {
-        return SignInView(
-            coordinator: .init(
-                navigateToMain: { testMessage in
-                    // TODO: push Main Page with parameter
-                }
-            ),
-            viewStore: SignInStore(
-                accountUseCaseProtocol: accountUseCaseProtocol,
-                socialUseCaseProtocol: socialUseCaseProtocol
-            )
-        )
     }
 }

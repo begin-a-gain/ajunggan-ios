@@ -8,34 +8,34 @@
 import SwiftUI
 import Domain
 import DI
+import Base
+import SignIn
 
-final class RootCoordinator: Hashable {
-    @Binding var navigationPath: NavigationPath
+final class RootCoordinator: BaseCoordinator<RootScreen> {
     let accountUseCaseProtocol: AccountUseCaseProtocol = DIContainer.shared.resolve()
     let socialUseCaseProtocol: SocialUseCaseProtocol = DIContainer.shared.resolve()
 
-    private var id: UUID
-    var screen: RootScreen
-    
-    init(navigationPath: Binding<NavigationPath>, screen: RootScreen) {
-        self._navigationPath = navigationPath
-        self.id = UUID()
-        self.screen = screen
+    @ViewBuilder
+    func view() -> some View {
+        switch self.screen {
+        case .signIn:
+            signInView()
+        }
     }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+}
 
-    static func == (lhs: RootCoordinator, rhs: RootCoordinator) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    func push<V>(_ value: V) where V : Hashable {
-        navigationPath.append(value)
-    }
-    
-    func pop() {
-        navigationPath.removeLast()
+extension RootCoordinator {
+    private func signInView() -> some View {
+        return SignInView(
+            coordinator: .init(
+                navigateToMain: { testMessage in
+                    // TODO: push Main Page with parameter
+                }
+            ),
+            viewStore: SignInStore(
+                accountUseCaseProtocol: accountUseCaseProtocol,
+                socialUseCaseProtocol: socialUseCaseProtocol
+            )
+        )
     }
 }
