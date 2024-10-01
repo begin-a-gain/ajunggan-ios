@@ -14,6 +14,7 @@ public struct OText: View {
     let alignment: TextAlignment
     let lineLimit: Int?
     let letterSpace: CGFloat
+    let isUnderline: Bool
     
     public init(
         _ text: String,
@@ -21,7 +22,8 @@ public struct OText: View {
         color: Color = .black,
         alignment: TextAlignment = .center,
         lineLimit: Int = 1,
-        letterSpace: CGFloat = 0
+        letterSpace: CGFloat = 0,
+        isUnderline: Bool = false
     ) {
         self.text = text
         self.token = token
@@ -29,10 +31,12 @@ public struct OText: View {
         self.alignment = alignment
         self.lineLimit = lineLimit
         self.letterSpace = letterSpace
+        self.isUnderline = isUnderline
     }
     
     public var body: some View {
         Text(text)
+            .modifier(OTextModifier(isUnderline: isUnderline))
             .font(.suit(token: token))
             .foregroundStyle(color)
             .multilineTextAlignment(alignment)
@@ -52,6 +56,22 @@ public struct OText: View {
         
         case .caption: return 4
         case .caption_long: return 8
+        }
+    }
+}
+
+private struct OTextModifier: ViewModifier {
+    fileprivate var isUnderline: Bool
+    
+    fileprivate init(isUnderline: Bool) {
+        self.isUnderline = isUnderline
+    }
+    
+    func body(content: Content) -> some View {
+        if isUnderline {
+            content.underline()
+        } else {
+            content
         }
     }
 }
