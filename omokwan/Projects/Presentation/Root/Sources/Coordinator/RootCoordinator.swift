@@ -30,6 +30,12 @@ extension RootCoordinator {
             coordinator: .init(
                 navigateToMain: { testMessage in
                     // TODO: push Main Page with parameter
+                },
+                navigateToOpenTermsAndConditionsOfUse: {
+                    self.navigateToOpenTermsAndConditionsOfUse()
+                },
+                navigateToOpenPersonalInformationProcessingPolicy: {
+                    self.navigateToOpenPersonalInformationProcessingPolicy()
                 }
             ),
             viewStore: SignInStore(
@@ -37,5 +43,17 @@ extension RootCoordinator {
                 socialUseCaseProtocol: socialUseCaseProtocol
             )
         )
+    }
+    
+    private func navigateToOpenTermsAndConditionsOfUse() {
+        if let url = URL(string: "https://www.naver.com") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    private func navigateToOpenPersonalInformationProcessingPolicy() {
+        if let url = URL(string: "https://www.google.com") {
+            UIApplication.shared.open(url)
+        }
     }
 }
