@@ -52,12 +52,12 @@ public struct SignInView: View {
             OText("회원가입을 진행할 경우, 아래의 정책에 대해 동의한 것으로 간주합니다.", token: .caption)
             HStack(spacing: 12) {
                 Button {
-                    
+                    coordinator.navigateToOpenTermsAndConditionsOfUse()
                 } label: {
                     OText("이용약관", token: .caption, isUnderline: true)
                 }
                 Button {
-                    
+                    coordinator.navigateToOpenPersonalInformationProcessingPolicy()
                 } label: {
                     OText("개인정보처리방침", token: .caption, isUnderline: true)
                 }
