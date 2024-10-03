@@ -7,15 +7,14 @@
 
 import SwiftUI
 
-open class BaseCoordinator<Screen: Hashable>: Hashable {
-    @Binding public var navigationPath: NavigationPath
-    @Binding public var screen: Screen
+open class BaseCoordinator<Screen: Hashable>: ObservableObject {
+    @Published public var navigationPath: NavigationPath = NavigationPath()
+    @Published public var rootScreen: Screen
 
     public var id: UUID
     
-    public init(navigationPath: Binding<NavigationPath>, screen: Binding<Screen>) {
-        self._navigationPath = navigationPath
-        self._screen = screen
+    public init(rootScreen: Binding<Screen>) {
+        self.rootScreen = rootScreen.wrappedValue
         self.id = UUID()
     }
     
