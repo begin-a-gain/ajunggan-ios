@@ -7,4 +7,6 @@
 
 public enum RootScreen {
     case signIn
+    case signUp
+    case main
 }

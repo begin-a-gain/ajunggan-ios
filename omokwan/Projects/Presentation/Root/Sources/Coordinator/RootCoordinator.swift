@@ -10,31 +10,41 @@ import Domain
 import DI
 import Base
 import SignIn
+import SignUp
+import Main
 
 final class RootCoordinator: BaseCoordinator<RootScreen> {
     let accountUseCaseProtocol: AccountUseCaseProtocol = DIContainer.shared.resolve()
     let socialUseCaseProtocol: SocialUseCaseProtocol = DIContainer.shared.resolve()
 
     @ViewBuilder
-    func view() -> some View {
-        switch self.screen {
+    func view(_ screen: RootScreen) -> some View {
+        switch screen {
         case .signIn:
             signInView()
+        case .signUp:
+            signUpView()
+        case .main:
+            mainView()
         }
     }
 }
 
+// MARK: About SignIn
 extension RootCoordinator {
     private func signInView() -> some View {
         return SignInView(
             coordinator: .init(
-                navigateToMain: { testMessage in
-                    // TODO: push Main Page with parameter
+                navigateToMain: {
+                    self.rootScreen = .main
+                },
+                navigateToSignUp: { 
+                    self.push(RootScreen.signUp)
                 },
                 navigateToOpenTermsAndConditionsOfUse: {
                     self.navigateToOpenTermsAndConditionsOfUse()
                 },
-                navigateToOpenPersonalInformationProcessingPolicy: {
+                navigateToOpenPersonalInformationProcessingPolicy: { 
                     self.navigateToOpenPersonalInformationProcessingPolicy()
                 }
             ),
@@ -55,5 +65,25 @@ extension RootCoordinator {
         if let url = URL(string: "https://www.google.com") {
             UIApplication.shared.open(url)
         }
+    }
+}
+
+// MARK: About SignUp
+extension RootCoordinator {
+    private func signUpView() -> some View {
+        return SignUpView(
+            coordinator: .init(
+                navigateToMain: {
+                    self.rootScreen = .main
+                }
+            )
+        )
+    }
+}
+
+// MARK: About Main
+extension RootCoordinator {
+    private func mainView() -> some View {
+        return MainView()
     }
 }
