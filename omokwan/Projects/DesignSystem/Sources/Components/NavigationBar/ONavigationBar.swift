@@ -75,6 +75,7 @@ public struct ONavigationBar: View {
             }
         }
         .greedyWidth()
+        .navigationBarBackButtonHidden(true)
     }
     
     private var mainLogoView: some View {

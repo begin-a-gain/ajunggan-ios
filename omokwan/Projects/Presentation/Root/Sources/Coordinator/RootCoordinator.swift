@@ -26,6 +26,8 @@ final class RootCoordinator: BaseCoordinator<RootScreen> {
             signUpView()
         case .main:
             mainView()
+        case .signUpDone:
+            signUpDoneView()
         }
     }
 }
@@ -73,7 +75,25 @@ extension RootCoordinator {
     private func signUpView() -> some View {
         return SignUpView(
             coordinator: .init(
+                navigateToSignUpDone: {
+                    self.push(RootScreen.signUpDone)
+                },
+                navigateToBack: {
+                    self.pop()
+                }
+            ),
+            viewStore: SignUpStore()
+        )
+    }
+}
+
+// MARK: About SignUpDone
+extension RootCoordinator {
+    private func signUpDoneView() -> some View {
+        return SignUpDoneView(
+            coordinator: .init(
                 navigateToMain: {
+                    self.root()
                     self.rootScreen = .main
                 }
             )
