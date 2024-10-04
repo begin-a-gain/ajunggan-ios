@@ -25,7 +25,9 @@ public struct OButton: View {
     public var body: some View {
         HStack(spacing: 0) {
             Button {
-                
+                if let action = action {
+                    action()
+                }
             } label: {
                 OText(
                     title,
@@ -35,6 +37,7 @@ public struct OButton: View {
                 .vPadding(12)
                 .greedyWidth()
             }
+            .disabled(style == .disabled)
         }
         .background(backgroundColor)
 //        .overlay(RoundedRectangle(cornerRadius: 8).stroke(borderColor, lineWidth: 1.0)) // TODO: 컬러 나오면 바꿀 것.

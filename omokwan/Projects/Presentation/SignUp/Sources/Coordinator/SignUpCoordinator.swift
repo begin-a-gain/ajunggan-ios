@@ -8,11 +8,14 @@
 extension SignUpView {
     public struct SignUpCoordinator {
         public init(
-            navigateToMain: @escaping () -> Void
+            navigateToSignUpDone: @escaping () -> Void,
+            navigateToBack: @escaping () -> Void
         ) {
-            self.navigateToMain = navigateToMain
+            self.navigateToSignUpDone = navigateToSignUpDone
+            self.navigateToBack = navigateToBack
         }
         
-        let navigateToMain: () -> Void
+        let navigateToSignUpDone: () -> Void
+        let navigateToBack: () -> Void
     }
 }
