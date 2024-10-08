@@ -6,29 +6,109 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 public struct MainView: View {
-    @StateObject private var mainCoordinator = MainCoordinator(rootScreen: .constant(.main))
-    @State var selectedTab: Int = 0
+    @StateObject private var coordinator:  MainCoordinator
+    @StateObject var viewStore: MainStore
     
-    public init() {}
-    
-    public var body: some View {
-        mainView
+    public init(
+        coordinator: MainCoordinator,
+        viewStore: MainStore
+    ) {
+        self._coordinator = StateObject(wrappedValue: coordinator)
+        self._viewStore = StateObject(wrappedValue: viewStore)
     }
     
-    private var mainView: some View {
-        TabView(selection: $selectedTab) {
-            HomeView(coordinator: mainCoordinator)
-            .tabItem {
-                Label("홈", systemImage: "house")
+    public var body: some View {
+        ZStack {
+            mainContentView
+            mainBottomTabBarView
+                .height(80)
+                .greedyHeight(.bottom)
+                .ignoresSafeArea()
+        }
+    }
+    
+    private var mainContentView: some View {
+        Group {
+            switch viewStore.state.selectedTab {
+            case .home:
+                HomeView(coordinator: coordinator)
+            case .profile:
+                ProfileView()
             }
-            .tag(0)
-            ProfileView()
-            .tabItem {
-                Label("프로필", systemImage: "person")
+        }
+    }
+    
+    private var mainBottomTabBarView: some View {
+        ZStack(alignment: .top) {
+            Spacer().height(1).background(.gray).opacity(0.2)
+            HStack(alignment: .top, spacing: 0) {
+                MenuButton(
+                    selectedTab:
+                        Binding(
+                            get: { viewStore.state.selectedTab },
+                            set: { _ in }
+                        ),
+                    item: .home,
+                    action: { viewStore.send(.selectTab(.home)) }
+                )
+                MenuButton(
+                    selectedTab:
+                        Binding(
+                            get: { viewStore.state.selectedTab },
+                            set: { _ in }
+                        ),
+                    item: .profile,
+                    action: { viewStore.send(.selectTab(.profile)) }
+                )
             }
-            .tag(1)
+        }
+        .height(80)
+        .greedyWidth()
+    }
+}
+
+private struct MenuButton: View {
+    @Binding var selectedTab : MainState.TabItem
+    let item: MainState.TabItem
+    let action: () -> (Void)
+    
+    init(
+        selectedTab: Binding<MainState.TabItem>,
+        item: MainState.TabItem,
+        action: @escaping () -> Void
+    ) {
+        self._selectedTab = selectedTab
+        self.item = item
+        self.action = action
+    }
+    
+    fileprivate var body : some View {
+        VStack (spacing:0) {
+            Spacer().height(12)
+            Button {
+                action()
+            } label: {
+                VStack(spacing: 4) {
+                    getImage(item: item, isSelected: item == selectedTab)
+                    Text(item.rawValue)
+                        .font(.system(size: 12))
+                        .foregroundStyle(item == selectedTab ? .black : .gray)
+                }
+            }.greedyWidth()
+        }.height(80, .top)
+    }
+    
+    private func getImage(item: MainState.TabItem, isSelected: Bool) -> some View {
+        switch item {
+        case .home:
+            OImage.icKakao.swiftUIImage
+                .renderingMode(.template).foregroundColor(isSelected ? .black : .gray)
+        case .profile:
+            OImage.icApple.swiftUIImage
+                .renderingMode(.template).foregroundColor(isSelected ? .black : .gray)
         }
     }
 }
@@ -37,18 +117,20 @@ public struct MainView: View {
 public struct HomeView: View {
     @StateObject var coordinator: MainCoordinator
     
+    public init(coordinator: MainCoordinator) {
+        self._coordinator = StateObject(wrappedValue: coordinator)
+    }
+    
     public var body: some View {
-        NavigationStack(path: $coordinator.homePath) {
+        ZStack {
             VStack {
                 Text("Home View")
                 Button {
-                    coordinator.homePath.append(HomeScreen.homeDetail)
+                    coordinator.push(MainScreen.depth)
+                    print("DONGJUN \(coordinator.navigationPath)")
                 } label: {
-                    Text("Return To Sign In")
+                    Text("Navigate To Depth View")
                 }
-            }
-            .navigationDestination(for: HomeScreen.self) { screen in
-                coordinator.view(screen)
             }
         }
     }
@@ -56,13 +138,13 @@ public struct HomeView: View {
 
 // TODO: Remove This View
 public struct HomeDetailView: View {
-    public init() {}
+    @StateObject var coordinator: MainCoordinator
     
     public var body: some View {
         VStack {
             Text("Home Detail View")
             Button {
-                
+                coordinator.push(MainScreen.depth)
             } label: {
                 Text("Return To Sign In")
             }
@@ -77,6 +159,17 @@ public struct ProfileView: View {
     public var body: some View {
         VStack {
             Text("Profile View")
+        }
+    }
+}
+
+// TODO: Remove This View
+public struct DepthView: View {
+    public init() {}
+    
+    public var body: some View {
+        VStack {
+            Text("DepthView View")
         }
     }
 }

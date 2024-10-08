@@ -104,6 +104,6 @@ extension RootCoordinator {
 // MARK: About Main
 extension RootCoordinator {
     private func mainView() -> some View {
-        return MainView()
+        return MainCoordinatorView()
     }
 }
