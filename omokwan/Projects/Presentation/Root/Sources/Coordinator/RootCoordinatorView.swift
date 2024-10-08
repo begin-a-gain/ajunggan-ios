@@ -24,13 +24,7 @@ public struct RootCoordinatorView: View {
     
     private var withRootCoordinatorView: some View {
         NavigationStack(path: $rootCoordinator.navigationPath) {
-            Group {
-                switch rootCoordinator.rootScreen {
-                case .signIn: rootCoordinator.view(.signIn)
-                case .signUp: rootCoordinator.view(.signUp)
-                default: EmptyView()
-                }
-            }
+            rootCoordinator.view(.signIn)
             .navigationDestination(for: RootScreen.self) { screen in
                 if screen != .main {
                     rootCoordinator.view(screen)
