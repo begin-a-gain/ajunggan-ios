@@ -7,6 +7,11 @@
 
 extension SignInView {
     public struct SignInCoordinator {
+        let navigateToMain: () -> Void
+        let navigateToSignUp: () -> Void
+        let navigateToOpenTermsAndConditionsOfUse: () -> Void
+        let navigateToOpenPersonalInformationProcessingPolicy: () -> Void
+        
         public init(
             navigateToMain: @escaping () -> Void,
             navigateToSignUp: @escaping () -> Void,
@@ -18,10 +23,5 @@ extension SignInView {
             self.navigateToOpenTermsAndConditionsOfUse = navigateToOpenTermsAndConditionsOfUse
             self.navigateToOpenPersonalInformationProcessingPolicy = navigateToOpenPersonalInformationProcessingPolicy
         }
-        
-        let navigateToMain: () -> Void
-        let navigateToSignUp: () -> Void
-        let navigateToOpenTermsAndConditionsOfUse: () -> Void
-        let navigateToOpenPersonalInformationProcessingPolicy: () -> Void
     }
 }

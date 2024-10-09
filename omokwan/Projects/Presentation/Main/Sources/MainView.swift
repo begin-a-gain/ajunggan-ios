@@ -9,7 +9,7 @@ import SwiftUI
 import DesignSystem
 
 public struct MainView: View {
-    @ObservedObject private var coordinator:  MainCoordinator
+    private let coordinator:  MainCoordinator
     @ObservedObject var viewStore: MainStore
     
     public init(
@@ -151,7 +151,11 @@ private struct BottomTabItem: View {
 
 // TODO: Remove This View
 public struct HomeView: View {
-    @ObservedObject var coordinator: MainCoordinator
+    private let coordinator: MainView.MainCoordinator
+    
+    public init(coordinator: MainView.MainCoordinator) {
+        self.coordinator = coordinator
+    }
     
     public var body: some View {
         ScrollView {
@@ -160,8 +164,7 @@ public struct HomeView: View {
             }
             
             Button {
-                coordinator.push(MainScreen.depth)
-                print("DONGJUN \(coordinator.navigationPath)")
+                coordinator.navigateToDepth()
             } label: {
                 Text("Navigate To Depth View")
             }
@@ -171,9 +174,9 @@ public struct HomeView: View {
 
 // TODO: Remove This View
 public struct HomeDetailView: View {
-    @ObservedObject var coordinator: MainCoordinator
+    private let coordinator: MainView.MainCoordinator
     
-    public init(coordinator: MainCoordinator) {
+    public init(coordinator: MainView.MainCoordinator) {
         self.coordinator = coordinator
     }
     
@@ -181,7 +184,7 @@ public struct HomeDetailView: View {
         VStack {
             Text("Home Detail View")
             Button {
-                coordinator.push(MainScreen.depth)
+                coordinator.navigateToDepth()
             } label: {
                 Text("Return To Sign In")
             }
@@ -191,9 +194,9 @@ public struct HomeDetailView: View {
 
 // TODO: Remove This View
 public struct ProfileView: View {
-    @ObservedObject var coordinator: MainCoordinator
+    private let coordinator: MainView.MainCoordinator
 
-    public init(coordinator: MainCoordinator) {
+    public init(coordinator: MainView.MainCoordinator) {
         self.coordinator = coordinator
     }
     
@@ -201,8 +204,7 @@ public struct ProfileView: View {
         VStack {
             Text("Profile View")
             Button {
-                coordinator.root()
-                
+                coordinator.navigateToRoot()
             } label: {
                 Text("Logout")
             }

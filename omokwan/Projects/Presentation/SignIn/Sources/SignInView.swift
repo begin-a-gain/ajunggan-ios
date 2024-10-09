@@ -9,7 +9,7 @@ import SwiftUI
 import DesignSystem
 
 public struct SignInView: View {
-    var coordinator: SignInCoordinator
+    private let coordinator: SignInCoordinator
     @ObservedObject var viewStore: SignInStore
     
     public init(coordinator: SignInCoordinator, viewStore: SignInStore) {

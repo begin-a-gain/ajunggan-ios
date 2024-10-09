@@ -5,34 +5,17 @@
 //  Created by 김동준 on 10/1/24
 //
 
-import Base
-import SwiftUI
+extension MainView {
+    public struct MainCoordinator {
+        let navigateToRoot: () -> Void
+        let navigateToDepth: () -> Void
 
-final public class MainCoordinator: BaseCoordinator<MainScreen> {
-    @ViewBuilder
-    func view(_ screen: MainScreen) -> some View {
-        switch screen {
-        case .main:
-            mainView(.main)
-        case .depth:
-            mainView(.depth)
-        }
-    }
-}
-
-// MARK: About Main
-extension MainCoordinator {
-    private func mainView(_ screen: MainScreen) -> some View {
-        switch screen {
-        case .main:
-            return AnyView(
-                MainView(
-                    coordinator: self,
-                    viewStore: MainStore()
-                )
-            )
-        case .depth:
-            return AnyView(DepthView())
+        public init(
+            navigateToRoot: @escaping () -> Void,
+            navigateToDepth: @escaping () -> Void
+        ) {
+            self.navigateToRoot = navigateToRoot
+            self.navigateToDepth = navigateToDepth
         }
     }
 }
