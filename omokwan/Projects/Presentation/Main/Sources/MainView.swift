@@ -23,63 +23,86 @@ public struct MainView: View {
     public var body: some View {
         ZStack {
             mainContentView
-            mainBottomTabBarView
-                .height(80)
+                .padding(.bottom, MainConstants.bottomTabBarHeight)
+                .ignoresSafeArea(edges: .bottom)
+            MainBottomTabBarView(viewStore: viewStore)
+                .height(MainConstants.bottomTabBarHeight)
                 .greedyHeight(.bottom)
-                .ignoresSafeArea()
+                .ignoresSafeArea(edges: .bottom)
         }
     }
     
     private var mainContentView: some View {
         Group {
             switch viewStore.state.selectedTab {
-            case .home:
+            case .myGame:
                 HomeView(coordinator: coordinator)
-            case .profile:
-                ProfileView()
+            case .feed:
+                FeedView()
+            case .myPage:
+                ProfileView(coordinator: coordinator)
+            }
+        }
+    }
+}
+
+private struct MainBottomTabBarView: View {
+    @ObservedObject fileprivate var viewStore: MainStore
+    
+    fileprivate init(viewStore: MainStore) {
+        self.viewStore = viewStore
+    }
+    
+    fileprivate var body: some View {
+        ZStack(alignment: .top) {
+            cornerView
+            tabItems
+        }
+        .height(MainConstants.bottomTabBarHeight)
+        .greedyWidth()
+    }
+    
+    private var cornerView: some View {
+        RoundedCorner(radius: 20, corners: [.topLeft, .topRight]) // TODO: radius 시안 나오면 변경
+            .fill(Color.white)
+            .greedyWidth()
+            .height(MainConstants.bottomTabBarHeight)
+            .shadow(color: .orange.opacity(0.2), radius: 5, x:0, y: -5) // TODO: Color, shadow 시안 나오면 변경
+            .overlay(
+                RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
+                    .stroke(.blue, lineWidth: 1) // TODO: Color 시안 나오면 변경
+            )
+    }
+    
+    private var tabItems: some View {
+        HStack(alignment: .top, spacing: 0) {
+            ForEach(MainState.TabItem.allCases, id: \.self) { item in
+                BottomTabItem(
+                    selectedTab:
+                        Binding(
+                            get: { viewStore.state.selectedTab },
+                            set: { _ in }
+                        ),
+                    item: item,
+                    action: tabTouchAction(tab: item)
+                )
             }
         }
     }
     
-    private var mainBottomTabBarView: some View {
-        ZStack(alignment: .top) {
-            RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
-                .fill(Color.white)
-                .frame(width: 350, height: 100)
-                .shadow(color: .red, radius: 30, x:5, y:5)
-                .overlay(
-                    RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
-                        .stroke(.blue, lineWidth: 1)
-                )
-                
-                
-            HStack(alignment: .top, spacing: 0) {
-                MenuButton(
-                    selectedTab:
-                        Binding(
-                            get: { viewStore.state.selectedTab },
-                            set: { _ in }
-                        ),
-                    item: .home,
-                    action: { viewStore.send(.selectTab(.home)) }
-                )
-                MenuButton(
-                    selectedTab:
-                        Binding(
-                            get: { viewStore.state.selectedTab },
-                            set: { _ in }
-                        ),
-                    item: .profile,
-                    action: { viewStore.send(.selectTab(.profile)) }
-                )
-            }
+    private func tabTouchAction(tab: MainState.TabItem) -> () -> Void {
+        switch tab {
+        case .myGame:
+            return { viewStore.send(.selectTab(.myGame)) }
+        case .feed:
+            return { viewStore.send(.selectTab(.feed)) }
+        case .myPage:
+            return { viewStore.send(.selectTab(.myPage)) }
         }
-        .height(80)
-        .greedyWidth()
     }
 }
 
-private struct MenuButton: View {
+private struct BottomTabItem: View {
     @Binding var selectedTab : MainState.TabItem
     let item: MainState.TabItem
     let action: () -> (Void)
@@ -101,23 +124,27 @@ private struct MenuButton: View {
                 action()
             } label: {
                 VStack(spacing: 4) {
-                    getImage(item: item, isSelected: item == selectedTab)
-                    Text(item.rawValue)
-                        .font(.system(size: 12))
-                        .foregroundStyle(item == selectedTab ? .black : .gray)
+                    getImage(item: item)
+                        .renderingMode(.template).foregroundColor(item == selectedTab ? .black : .gray)
+                    OText(
+                        item.rawValue,
+                        token: .title_01,
+                        color: item == selectedTab ? .black : .gray // TODO: 컬러 바꾸기
+                    )
                 }
             }.greedyWidth()
-        }.height(80, .top)
+        }.height(MainConstants.bottomTabBarHeight, .top)
     }
     
-    private func getImage(item: MainState.TabItem, isSelected: Bool) -> some View {
+    // TODO: 이미지랑 컬러 바꿀 것
+    private func getImage(item: MainState.TabItem) -> Image {
         switch item {
-        case .home:
+        case .myGame:
             OImage.icKakao.swiftUIImage
-                .renderingMode(.template).foregroundColor(isSelected ? .black : .gray)
-        case .profile:
+        case .feed:
+            OImage.icArrowLeft.swiftUIImage
+        case .myPage:
             OImage.icApple.swiftUIImage
-                .renderingMode(.template).foregroundColor(isSelected ? .black : .gray)
         }
     }
 }
@@ -126,20 +153,17 @@ private struct MenuButton: View {
 public struct HomeView: View {
     @ObservedObject var coordinator: MainCoordinator
     
-    public init(coordinator: MainCoordinator) {
-        self.coordinator = coordinator
-    }
-    
     public var body: some View {
-        ZStack {
-            VStack {
-                Text("Home View")
-                Button {
-                    coordinator.push(MainScreen.depth)
-                    print("DONGJUN \(coordinator.navigationPath)")
-                } label: {
-                    Text("Navigate To Depth View")
-                }
+        ScrollView {
+            ForEach(0..<40) { _ in
+                Text("Home View").greedyWidth()
+            }
+            
+            Button {
+                coordinator.push(MainScreen.depth)
+                print("DONGJUN \(coordinator.navigationPath)")
+            } label: {
+                Text("Navigate To Depth View")
             }
         }
     }
@@ -148,6 +172,10 @@ public struct HomeView: View {
 // TODO: Remove This View
 public struct HomeDetailView: View {
     @ObservedObject var coordinator: MainCoordinator
+    
+    public init(coordinator: MainCoordinator) {
+        self.coordinator = coordinator
+    }
     
     public var body: some View {
         VStack {
@@ -163,11 +191,21 @@ public struct HomeDetailView: View {
 
 // TODO: Remove This View
 public struct ProfileView: View {
-    public init() {}
+    @ObservedObject var coordinator: MainCoordinator
+
+    public init(coordinator: MainCoordinator) {
+        self.coordinator = coordinator
+    }
     
     public var body: some View {
         VStack {
             Text("Profile View")
+            Button {
+                coordinator.root()
+                
+            } label: {
+                Text("Logout")
+            }
         }
     }
 }
@@ -179,6 +217,17 @@ public struct DepthView: View {
     public var body: some View {
         VStack {
             Text("DepthView View")
+        }
+    }
+}
+
+// TODO: Remove This View
+public struct FeedView: View {
+    public init() {}
+    
+    public var body: some View {
+        VStack {
+            Text("Feed View")
         }
     }
 }

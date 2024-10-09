@@ -10,12 +10,13 @@ import Base
 public struct MainState {
     public init() {}
     
-    public enum TabItem: String {
-        case home = "홈"
-        case profile = "프로필"
+    public enum TabItem: String, CaseIterable {
+        case myGame = "My 대국"
+        case feed = "대국 피드"
+        case myPage = "마이페이지"
     }
     
-    var selectedTab: TabItem = .home
+    var selectedTab: TabItem = .myGame
 }
 
 public enum MainAction {
