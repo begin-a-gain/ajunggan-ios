@@ -9,15 +9,15 @@ import SwiftUI
 import DesignSystem
 
 public struct MainView: View {
-    @StateObject private var coordinator:  MainCoordinator
-    @StateObject var viewStore: MainStore
+    @ObservedObject private var coordinator:  MainCoordinator
+    @ObservedObject var viewStore: MainStore
     
     public init(
         coordinator: MainCoordinator,
         viewStore: MainStore
     ) {
-        self._coordinator = StateObject(wrappedValue: coordinator)
-        self._viewStore = StateObject(wrappedValue: viewStore)
+        self.coordinator = coordinator
+        self.viewStore = viewStore
     }
     
     public var body: some View {
@@ -43,7 +43,16 @@ public struct MainView: View {
     
     private var mainBottomTabBarView: some View {
         ZStack(alignment: .top) {
-            Spacer().height(1).background(.gray).opacity(0.2)
+            RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
+                .fill(Color.white)
+                .frame(width: 350, height: 100)
+                .shadow(color: .red, radius: 30, x:5, y:5)
+                .overlay(
+                    RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
+                        .stroke(.blue, lineWidth: 1)
+                )
+                
+                
             HStack(alignment: .top, spacing: 0) {
                 MenuButton(
                     selectedTab:
@@ -115,10 +124,10 @@ private struct MenuButton: View {
 
 // TODO: Remove This View
 public struct HomeView: View {
-    @StateObject var coordinator: MainCoordinator
+    @ObservedObject var coordinator: MainCoordinator
     
     public init(coordinator: MainCoordinator) {
-        self._coordinator = StateObject(wrappedValue: coordinator)
+        self.coordinator = coordinator
     }
     
     public var body: some View {
@@ -138,7 +147,7 @@ public struct HomeView: View {
 
 // TODO: Remove This View
 public struct HomeDetailView: View {
-    @StateObject var coordinator: MainCoordinator
+    @ObservedObject var coordinator: MainCoordinator
     
     public var body: some View {
         VStack {

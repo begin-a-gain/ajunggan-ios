@@ -10,11 +10,11 @@ import DesignSystem
 
 public struct SignInView: View {
     var coordinator: SignInCoordinator
-    @StateObject var viewStore: SignInStore
+    @ObservedObject var viewStore: SignInStore
     
     public init(coordinator: SignInCoordinator, viewStore: SignInStore) {
         self.coordinator = coordinator
-        self._viewStore = StateObject(wrappedValue: viewStore)
+        self.viewStore = viewStore
     }
     
     public var body: some View {
