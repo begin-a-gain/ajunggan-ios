@@ -28,6 +28,8 @@ final class RootCoordinator: BaseCoordinator<RootScreen> {
             mainView()
         case .signUpDone:
             signUpDoneView()
+        case .depth:
+            depthView()
         }
     }
 }
@@ -36,7 +38,7 @@ final class RootCoordinator: BaseCoordinator<RootScreen> {
 extension RootCoordinator {
     private func signInView() -> some View {
         return SignInView(
-            coordinator: .init(
+            coordinator: SignInView.SignInCoordinator(
                 navigateToMain: {
                     self.rootScreen = .main
                 },
@@ -104,6 +106,20 @@ extension RootCoordinator {
 // MARK: About Main
 extension RootCoordinator {
     private func mainView() -> some View {
-        return MainCoordinatorView()
+        return MainView(
+            coordinator: MainView.MainCoordinator(
+                navigateToRoot: {
+                    self.rootScreen = .signIn
+                },
+                navigateToDepth: {
+                    self.push(RootScreen.depth)
+                }
+            ),
+            viewStore: MainStore()
+        )
+    }
+    
+    private func depthView() -> some View {
+        return DepthView()
     }
 }

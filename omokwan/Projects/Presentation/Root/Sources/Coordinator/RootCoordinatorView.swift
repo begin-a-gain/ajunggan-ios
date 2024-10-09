@@ -15,25 +15,17 @@ public struct RootCoordinatorView: View {
     public init() {}
     
     public var body: some View {
-        if rootCoordinator.rootScreen == .main {
-            withoutRootCoordinatorView
-        } else {
-            withRootCoordinatorView
-        }
-    }
-    
-    private var withRootCoordinatorView: some View {
         NavigationStack(path: $rootCoordinator.navigationPath) {
-            rootCoordinator.view(.signIn)
-            .navigationDestination(for: RootScreen.self) { screen in
-                if screen != .main {
-                    rootCoordinator.view(screen)
+            Group {
+                if rootCoordinator.rootScreen == .main {
+                    rootCoordinator.view(.main)
+                } else {
+                    rootCoordinator.view(.signIn)
                 }
             }
+            .navigationDestination(for: RootScreen.self) { screen in
+                rootCoordinator.view(screen)
+            }
         }
-    }
-    
-    private var withoutRootCoordinatorView: some View {
-        rootCoordinator.view(.main)
     }
 }
