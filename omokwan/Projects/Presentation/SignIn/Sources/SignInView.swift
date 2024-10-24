@@ -38,13 +38,13 @@ public struct SignInView: View {
                 coordinator.navigateToMain()
 //                viewStore.send(.kakaoButtonTapped)
             } label: {
-                OImage.icKakao.swiftUIImage
+                OImages.icKakao.swiftUIImage
             }
             Button {
                 coordinator.navigateToSignUp()
 //                viewStore.send(.appleButtonTapped)
             } label: {
-                OImage.icApple.swiftUIImage
+                OImages.icApple.swiftUIImage
             }
         }
     }

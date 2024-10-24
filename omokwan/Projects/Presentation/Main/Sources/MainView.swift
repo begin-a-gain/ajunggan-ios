@@ -140,11 +140,11 @@ private struct BottomTabItem: View {
     private func getImage(item: MainState.TabItem) -> Image {
         switch item {
         case .myGame:
-            OImage.icKakao.swiftUIImage
+            OImages.icKakao.swiftUIImage
         case .feed:
-            OImage.icArrowLeft.swiftUIImage
+            OImages.icArrowLeft.swiftUIImage
         case .myPage:
-            OImage.icApple.swiftUIImage
+            OImages.icApple.swiftUIImage
         }
     }
 }
