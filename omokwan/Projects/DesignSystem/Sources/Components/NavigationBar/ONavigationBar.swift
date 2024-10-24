@@ -53,7 +53,7 @@ public struct ONavigationBar: View {
                         OText(
                             title,
                             token: .headline,
-                            color: .black // TODO: 컬러 나오면 바꿀 것.
+                            color: OColors.text01.swiftUIColor
                         )
                         .vPadding(14)
                         .greedyWidth()
@@ -136,7 +136,7 @@ public struct ONavigationBar: View {
                 OText(
                     "건너뛰기",
                     token: .body_02,
-                    color: .gray // TODO: 컬러 나오면 조정
+                    color: OColors.text02.swiftUIColor
                 )
                 .vPadding(18)
                 .hPadding(20)

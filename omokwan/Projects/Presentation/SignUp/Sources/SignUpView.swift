@@ -24,7 +24,7 @@ public struct SignUpView: View {
     private var signUpBody: some View {
         VStack(spacing: 0) {
             ONavigationBar(
-                leadingIcon: OImage.icArrowLeft.swiftUIImage,
+                leadingIcon: OImages.icArrowLeft.swiftUIImage,
                 leadingIconAction: { coordinator.navigateToBack() }
             ).padding(.bottom, 34)
             nicknameSettingView.hPadding(20)
