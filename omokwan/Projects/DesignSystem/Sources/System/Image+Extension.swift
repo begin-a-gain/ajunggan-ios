@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public typealias OImage = DesignSystemAsset
+public typealias OImage = DesignSystemAsset.Images
 
 public extension Image {
     func resizedToFit(capInsets: EdgeInsets = EdgeInsets()) -> some View {
