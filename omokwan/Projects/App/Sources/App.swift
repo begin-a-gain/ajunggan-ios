@@ -22,6 +22,7 @@ struct RootApp: App {
     var body: some Scene {
         WindowGroup {
             RootCoordinatorView()
+            .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
             .onOpenURL(perform: { url in
                 if (AuthApi.isKakaoTalkLoginUrl(url)) {
                     _ = AuthController.handleOpenUrl(url: url)
