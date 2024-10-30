@@ -11,6 +11,11 @@ import DesignSystem
 public struct SignUpView: View {
     var coordinator: SignUpCoordinator
     @ObservedObject var viewStore: SignUpStore
+    @FocusState private var focusedField: SignUpTextFieldType?
+    
+    private enum SignUpTextFieldType {
+        case nickname
+    }
     
     public init(coordinator: SignUpCoordinator, viewStore: SignUpStore) {
         self.coordinator = coordinator
@@ -53,16 +58,16 @@ public struct SignUpView: View {
             )
             .greedyWidth(.leading)
             .padding(.bottom, 24)
-            OTextFeild(
-                placeholder: "ex.오목완",
+            OTextField<SignUpTextFieldType>(
                 text: Binding(
-                    get: {
-                        viewStore.state.nickname
-                    },
+                    get: { viewStore.state.nickname },
                     set: { newValue in
                         viewStore.send(.setNickname(newValue))
                     }
                 ),
+                focusedField: $focusedField,
+                focusedFieldType: .nickname,
+                placeholder: "ex.오목완",
                 textMaxCount: 20
             )
         }
