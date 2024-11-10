@@ -36,7 +36,8 @@ public struct SignUpView: View {
             Spacer()
             OButton(
                 title: "다음",
-                style: viewStore.state.isNextButtonEnable ? .primary : .disabled,
+                status: viewStore.state.isNextButtonEnable ? .default : .disable,
+                type: .default,
                 action: { coordinator.navigateToSignUpDone() }
             ).padding(20)
         }
