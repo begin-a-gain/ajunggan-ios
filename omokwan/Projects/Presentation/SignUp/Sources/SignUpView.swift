@@ -47,14 +47,14 @@ public struct SignUpView: View {
             OText(
                 "닉네임을 설정해주세요.",
                 token: .display,
-                color: .black // TODO: 컬러 변경
+                color: OColors.text01.swiftUIColor
             )
             .greedyWidth(.leading)
             .padding(.bottom, 16)
             OText(
                 "2~10글자 사이의 한글, 영문, 숫자로 입력해주세요.",
                 token: .body_long_02,
-                color: .gray // TODO: 컬러 변경
+                color: OColors.text02.swiftUIColor
             )
             .greedyWidth(.leading)
             .padding(.bottom, 24)
@@ -68,7 +68,7 @@ public struct SignUpView: View {
                 focusedField: $focusedField,
                 focusedFieldType: .nickname,
                 placeholder: "ex.오목완",
-                textMaxCount: 20
+                textMaxCount: 10
             )
         }
     }
