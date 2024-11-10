@@ -26,7 +26,8 @@ public struct SignUpDoneView: View {
             Spacer()
             OButton(
                 title: "오목완 시작하기",
-                style: .primary,
+                status: .default,
+                type: .default,
                 action: {
                     coordinator.navigateToMain()
                 }
