@@ -10,17 +10,11 @@ import Base
 public struct MainState {
     public init() {}
     
-    public enum TabItem: String, CaseIterable {
-        case myGame = "My 대국"
-        case feed = "대국 피드"
-        case myPage = "마이페이지"
-    }
-    
-    var selectedTab: TabItem = .myGame
+    var selectedTab: MainBottomTabItem = .myGame
 }
 
 public enum MainAction {
-    case selectTab(MainState.TabItem)
+    case selectTab(MainBottomTabItem)
 }
 
 public class MainStore: Reducer<MainState, MainAction> {
