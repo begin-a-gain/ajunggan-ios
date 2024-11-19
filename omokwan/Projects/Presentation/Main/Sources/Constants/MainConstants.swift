@@ -6,5 +6,5 @@
 //
 
 struct MainConstants {
-    static let bottomTabBarHeight: Double = 80
+    static let bottomTabBarHeight: Double = 100
 }

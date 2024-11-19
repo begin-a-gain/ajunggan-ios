@@ -23,8 +23,19 @@ public struct MainView: View {
     public var body: some View {
         ZStack {
             mainContentView
-                .padding(.bottom, MainConstants.bottomTabBarHeight)
                 .ignoresSafeArea(edges: .bottom)
+            
+            MainBottomTabBarShape()
+                .fill(OColors.oWhite.swiftUIColor)
+                .shadow(
+                    color: OColors.oPrimary.swiftUIColor.opacity(0.3),
+                    radius: 20,
+                    x: 0, y: 0
+                )
+                .height(MainConstants.bottomTabBarHeight)
+                .greedyHeight(.bottom)
+                .ignoresSafeArea(edges: .bottom)
+            
             MainBottomTabBarView(viewStore: viewStore)
                 .height(MainConstants.bottomTabBarHeight)
                 .greedyHeight(.bottom)
@@ -37,114 +48,11 @@ public struct MainView: View {
             switch viewStore.state.selectedTab {
             case .myGame:
                 HomeView(coordinator: coordinator)
-            case .feed:
-                FeedView()
+                    .padding(.bottom, MainConstants.bottomTabBarHeight)
             case .myPage:
                 ProfileView(coordinator: coordinator)
+                    .padding(.bottom, MainConstants.bottomTabBarHeight)
             }
-        }
-    }
-}
-
-private struct MainBottomTabBarView: View {
-    @ObservedObject fileprivate var viewStore: MainStore
-    
-    fileprivate init(viewStore: MainStore) {
-        self.viewStore = viewStore
-    }
-    
-    fileprivate var body: some View {
-        ZStack(alignment: .top) {
-            cornerView
-            tabItems
-        }
-        .height(MainConstants.bottomTabBarHeight)
-        .greedyWidth()
-    }
-    
-    private var cornerView: some View {
-        RoundedCorner(radius: 20, corners: [.topLeft, .topRight]) // TODO: radius 시안 나오면 변경
-            .fill(Color.white)
-            .greedyWidth()
-            .height(MainConstants.bottomTabBarHeight)
-            .shadow(color: .orange.opacity(0.2), radius: 5, x:0, y: -5) // TODO: Color, shadow 시안 나오면 변경
-            .overlay(
-                RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
-                    .stroke(.blue, lineWidth: 1) // TODO: Color 시안 나오면 변경
-            )
-    }
-    
-    private var tabItems: some View {
-        HStack(alignment: .top, spacing: 0) {
-            ForEach(MainState.TabItem.allCases, id: \.self) { item in
-                BottomTabItem(
-                    selectedTab:
-                        Binding(
-                            get: { viewStore.state.selectedTab },
-                            set: { _ in }
-                        ),
-                    item: item,
-                    action: tabTouchAction(tab: item)
-                )
-            }
-        }
-    }
-    
-    private func tabTouchAction(tab: MainState.TabItem) -> () -> Void {
-        switch tab {
-        case .myGame:
-            return { viewStore.send(.selectTab(.myGame)) }
-        case .feed:
-            return { viewStore.send(.selectTab(.feed)) }
-        case .myPage:
-            return { viewStore.send(.selectTab(.myPage)) }
-        }
-    }
-}
-
-private struct BottomTabItem: View {
-    @Binding var selectedTab : MainState.TabItem
-    let item: MainState.TabItem
-    let action: () -> (Void)
-    
-    init(
-        selectedTab: Binding<MainState.TabItem>,
-        item: MainState.TabItem,
-        action: @escaping () -> Void
-    ) {
-        self._selectedTab = selectedTab
-        self.item = item
-        self.action = action
-    }
-    
-    fileprivate var body : some View {
-        VStack (spacing:0) {
-            Spacer().height(12)
-            Button {
-                action()
-            } label: {
-                VStack(spacing: 4) {
-                    getImage(item: item)
-                        .renderingMode(.template).foregroundColor(item == selectedTab ? .black : .gray)
-                    OText(
-                        item.rawValue,
-                        token: .title_01,
-                        color: item == selectedTab ? .black : .gray // TODO: 컬러 바꾸기
-                    )
-                }
-            }.greedyWidth()
-        }.height(MainConstants.bottomTabBarHeight, .top)
-    }
-    
-    // TODO: 이미지랑 컬러 바꿀 것
-    private func getImage(item: MainState.TabItem) -> Image {
-        switch item {
-        case .myGame:
-            OImages.icKakao.swiftUIImage
-        case .feed:
-            OImages.icArrowLeft.swiftUIImage
-        case .myPage:
-            OImages.icApple.swiftUIImage
         }
     }
 }
@@ -219,17 +127,6 @@ public struct DepthView: View {
     public var body: some View {
         VStack {
             Text("DepthView View")
-        }
-    }
-}
-
-// TODO: Remove This View
-public struct FeedView: View {
-    public init() {}
-    
-    public var body: some View {
-        VStack {
-            Text("Feed View")
         }
     }
 }
