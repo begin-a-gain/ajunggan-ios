@@ -8,6 +8,7 @@
 import SwiftUI
 import DesignSystem
 import ComposableArchitecture
+import MyGame
 
 public struct MainView: View {
     let store: StoreOf<MainFeature>
@@ -45,66 +46,15 @@ public struct MainView: View {
         Group {
             switch viewStore.state.selectedTab {
             case .myGame:
-                HomeView(store: .init(initialState: HomeFeature.State(), reducer: { HomeFeature() }))
-                    .padding(.bottom, MainConstants.bottomTabBarHeight)
+                MyGameView(
+                    store: .init(
+                        initialState: MyGameFeature.State(),
+                        reducer: { MyGameFeature() }
+                    )
+                ).padding(.bottom, MainConstants.bottomTabBarHeight)
             case .myPage:
                 ProfileView()
                     .padding(.bottom, MainConstants.bottomTabBarHeight)
-            }
-        }
-    }
-}
-
-// TODO: Remove This View
-public struct HomeView: View {
-    let store: StoreOf<HomeFeature>
-    @ObservedObject var viewStore: ViewStoreOf<HomeFeature>
-
-    public init(store: StoreOf<HomeFeature>) {
-        self.store = store
-        self.viewStore = ViewStore(store, observe: { $0 })
-    }
-    
-    public var body: some View {
-        ScrollView {
-            ForEach(0..<40) { _ in
-                Text("Home View").greedyWidth()
-            }
-            
-            Button {
-
-            } label: {
-                Text("Navigate To Depth View")
-            }
-        }
-    }
-}
-
-public struct HomeFeature: Reducer {
-    public struct State: Equatable {
-        
-    }
-    
-    public enum Action {
-        
-    }
-    
-    public var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            return .none
-        }
-    }
-}
-
-// TODO: Remove This View
-public struct HomeDetailView: View {
-    public var body: some View {
-        VStack {
-            Text("Home Detail View")
-            Button {
-
-            } label: {
-                Text("Return To Sign In")
             }
         }
     }

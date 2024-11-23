@@ -6,20 +6,21 @@
 //
 
 import ComposableArchitecture
+import MyGame
 
 extension MainCoordinatorFeature {
     public struct MainPath: Reducer {
         public enum State: Equatable {
-            case home(HomeFeature.State)
+            case myGame(MyGameFeature.State)
         }
 
         public enum Action {
-            case home(HomeFeature.Action)
+            case myGame(MyGameFeature.Action)
         }
         
         public var body: some ReducerOf<Self> {
-            Scope(state: /State.home, action: /Action.home) {
-                HomeFeature()._printChanges()
+            Scope(state: /State.myGame, action: /Action.myGame) {
+                MyGameFeature()._printChanges()
             }
         }
     }

@@ -8,15 +8,16 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App: [.Root, .DI, .Data, .KakaoSDKUser, .ComposableArchitecture],
+    .App: [.Root, .DI, .Data, .KakaoSDKUser],
     .Domain: [.DI],
     .Data: [.Domain, .KakaoSDKUser],
-    .Root: [.SignIn, .SignUp, .Main, .Base, .ComposableArchitecture],
-    .SignIn: [.Domain, .Base, .ComposableArchitecture],
-    .SignUp: [.Domain, .Base, .ComposableArchitecture],
-    .Main: [.Base, .ComposableArchitecture],
+    .Root: [.SignIn, .SignUp, .Main],
+    .SignIn: [.Domain, .Base],
+    .SignUp: [.Domain, .Base],
+    .Main: [.MyGame],
     .DI: [.Swinject],
-    .Base: [.DesignSystem, .ComposableArchitecture]
+    .Base: [.DesignSystem, .ComposableArchitecture],
+    .MyGame: [.Base]
 ]
 
 public enum DependencyInformation: String {
@@ -33,6 +34,7 @@ public enum DependencyInformation: String {
     case KakaoSDKUser = "KakaoSDKUser"
     case DesignSystem = "DesignSystem"
     case ComposableArchitecture = "ComposableArchitecture"
+    case MyGame = "MyGame"
 }
 
 public enum PresentationDependencyInformation: String, CaseIterable {
@@ -41,4 +43,5 @@ public enum PresentationDependencyInformation: String, CaseIterable {
     case Root = "Root"
     case Main = "Main"
     case Base = "Base"
+    case MyGame = "MyGame"
 }
