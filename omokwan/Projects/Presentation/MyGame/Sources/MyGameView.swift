@@ -25,7 +25,7 @@ public struct MyGameView: View {
             }
             
             Button {
-
+                
             } label: {
                 Text("Navigate To Depth View")
             }
