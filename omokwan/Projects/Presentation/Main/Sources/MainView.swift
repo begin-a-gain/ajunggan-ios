@@ -39,6 +39,9 @@ public struct MainView: View {
                 .height(MainConstants.bottomTabBarHeight)
                 .greedyHeight(.bottom)
                 .ignoresSafeArea(edges: .bottom)
+        }.sheet(store: store.scope(state: \.$addGameSheet, action: MainFeature.Action.addGameSheet)) { store in
+            AddGameSheetView(store: store)
+                .modifier(CommonSheetModifier(detent: [.medium]))
         }
     }
     

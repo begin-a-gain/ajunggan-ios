@@ -24,7 +24,7 @@ struct MainBottomTabBarView: View {
             }
             
             CenterPlusFloatingActionButton() {
-                // TODO: Implement Add action item
+                viewStore.send(.addGameButtonTapped)
             }
        }
         .height(MainConstants.bottomTabBarHeight, .top)

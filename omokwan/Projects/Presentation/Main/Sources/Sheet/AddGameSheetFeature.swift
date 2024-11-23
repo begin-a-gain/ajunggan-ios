@@ -1,27 +1,26 @@
 //
-//  MyGameFeature.swift
-//  MyGame
+//  AddGameSheetFeature.swift
+//  Main
 //
-//  Created by 김동준 on 11/23/24
+//  Created by 김동준 on 11/24/24
 //
 
 import ComposableArchitecture
 
-public struct MyGameFeature: Reducer {
-    public init() {}
-    
+public struct AddGameSheetFeature: Reducer {
     public struct State: Equatable {
-        public init() {}
         
     }
     
     public enum Action {
+        
     }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            
+            default:
+                return .none
             }
         }
     }
