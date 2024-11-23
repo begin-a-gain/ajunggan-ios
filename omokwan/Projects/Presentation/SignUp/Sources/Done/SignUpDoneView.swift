@@ -7,12 +7,15 @@
 
 import SwiftUI
 import DesignSystem
+import ComposableArchitecture
 
 public struct SignUpDoneView: View {
-    let coordinator: SignUpDoneCoordinator
-    
-    public init(coordinator: SignUpDoneCoordinator) {
-        self.coordinator = coordinator
+    let store: StoreOf<SignUpDoneFeature>
+    @ObservedObject var viewStore: ViewStoreOf<SignUpDoneFeature>
+
+    public init(store: StoreOf<SignUpDoneFeature>) {
+        self.store = store
+        self.viewStore = ViewStore(store, observe: { $0 })
     }
     
     public var body: some View {
@@ -29,7 +32,7 @@ public struct SignUpDoneView: View {
                 status: .default,
                 type: .default,
                 action: {
-                    coordinator.navigateToMain()
+                    // Main 으로 이동
                 }
             ).padding(20)
         }.navigationBarBackButtonHidden(true)

@@ -8,15 +8,15 @@
 import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
-    .App: [.Root, .DI, .Data, .KakaoSDKUser],
+    .App: [.Root, .DI, .Data, .KakaoSDKUser, .ComposableArchitecture],
     .Domain: [.DI],
     .Data: [.Domain, .KakaoSDKUser],
-    .Root: [.SignIn, .SignUp, .Main, .Base],
-    .SignIn: [.Domain, .Base],
-    .SignUp: [.Domain, .Base],
-    .Main: [.Base],
+    .Root: [.SignIn, .SignUp, .Main, .Base, .ComposableArchitecture],
+    .SignIn: [.Domain, .Base, .ComposableArchitecture],
+    .SignUp: [.Domain, .Base, .ComposableArchitecture],
+    .Main: [.Base, .ComposableArchitecture],
     .DI: [.Swinject],
-    .Base: [.DesignSystem]
+    .Base: [.DesignSystem, .ComposableArchitecture]
 ]
 
 public enum DependencyInformation: String {
@@ -32,6 +32,7 @@ public enum DependencyInformation: String {
     case Base = "Base"
     case KakaoSDKUser = "KakaoSDKUser"
     case DesignSystem = "DesignSystem"
+    case ComposableArchitecture = "ComposableArchitecture"
 }
 
 public enum PresentationDependencyInformation: String, CaseIterable {
