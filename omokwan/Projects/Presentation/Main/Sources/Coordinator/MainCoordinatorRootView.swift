@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import MyGame
 
 public struct MainCoordinatorRootView: View {
     let store: StoreOf<MainCoordinatorFeature>
@@ -19,12 +20,17 @@ public struct MainCoordinatorRootView: View {
     
     public var body: some View {
         NavigationStackStore(store.scope(state: \.path, action: MainCoordinatorFeature.Action.path)) {
-            MainView(store: .init(initialState: MainFeature.State(), reducer: { MainFeature() }))
+            MainView(
+                store: .init(
+                    initialState: MainFeature.State(),
+                    reducer: { MainFeature() }
+                )
+            )
         } destination: { store in
             switch store {
-            case .home:
-                CaseLet(/MainCoordinatorFeature.MainPath.State.home, action: MainCoordinatorFeature.MainPath.Action.home) { store in
-                    HomeView(store: store)
+            case .myGame:
+                CaseLet(/MainCoordinatorFeature.MainPath.State.myGame, action: MainCoordinatorFeature.MainPath.Action.myGame) { store in
+                    MyGameView(store: store)
                 }
             }
         }
