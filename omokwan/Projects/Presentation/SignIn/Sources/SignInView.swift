@@ -7,18 +7,20 @@
 
 import SwiftUI
 import DesignSystem
+import ComposableArchitecture
 
 public struct SignInView: View {
-    private let coordinator: SignInCoordinator
-    @ObservedObject var viewStore: SignInStore
-    
-    public init(coordinator: SignInCoordinator, viewStore: SignInStore) {
-        self.coordinator = coordinator
-        self.viewStore = viewStore
+    let store: StoreOf<SignInFeature>
+    @ObservedObject var viewStore: ViewStoreOf<SignInFeature>
+
+    public init(store: StoreOf<SignInFeature>) {
+        self.store = store
+        self.viewStore = ViewStore(store, observe: { $0 })
     }
     
     public var body: some View {
         signInBody
+            .navigationBarBackButtonHidden(true)
     }
     
     private var signInBody: some View {
@@ -35,14 +37,12 @@ public struct SignInView: View {
     private var loginButton: some View {
         HStack(spacing: 20) {
             Button {
-                coordinator.navigateToMain()
 //                viewStore.send(.kakaoButtonTapped)
             } label: {
                 OImages.icKakao.swiftUIImage
             }
             Button {
-                coordinator.navigateToSignUp()
-//                viewStore.send(.appleButtonTapped)
+                viewStore.send(.appleButtonTapped)
             } label: {
                 OImages.icApple.swiftUIImage
             }
@@ -58,7 +58,7 @@ public struct SignInView: View {
             )
             HStack(spacing: 12) {
                 Button {
-                    coordinator.navigateToOpenTermsAndConditionsOfUse()
+                    
                 } label: {
                     OText(
                         "이용약관",
@@ -68,7 +68,7 @@ public struct SignInView: View {
                     )
                 }
                 Button {
-                    coordinator.navigateToOpenPersonalInformationProcessingPolicy()
+                    
                 } label: {
                     OText(
                         "개인정보처리방침",

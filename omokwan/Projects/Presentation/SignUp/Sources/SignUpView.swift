@@ -7,19 +7,21 @@
 
 import SwiftUI
 import DesignSystem
+import ComposableArchitecture
 
 public struct SignUpView: View {
-    var coordinator: SignUpCoordinator
-    @ObservedObject var viewStore: SignUpStore
+    let store: StoreOf<SignUpFeature>
+    @ObservedObject var viewStore: ViewStoreOf<SignUpFeature>
+
+    public init(store: StoreOf<SignUpFeature>) {
+        self.store = store
+        self.viewStore = ViewStore(store, observe: { $0 })
+    }
+    
     @FocusState private var focusedField: SignUpTextFieldType?
     
     private enum SignUpTextFieldType {
         case nickname
-    }
-    
-    public init(coordinator: SignUpCoordinator, viewStore: SignUpStore) {
-        self.coordinator = coordinator
-        self.viewStore = viewStore
     }
     
     public var body: some View {
@@ -30,7 +32,9 @@ public struct SignUpView: View {
         VStack(spacing: 0) {
             ONavigationBar(
                 leadingIcon: OImages.icArrowLeft.swiftUIImage,
-                leadingIconAction: { coordinator.navigateToBack() }
+                leadingIconAction: {
+                    // Navigate Back
+                }
             ).padding(.bottom, 34)
             nicknameSettingView.hPadding(20)
             Spacer()
@@ -38,7 +42,9 @@ public struct SignUpView: View {
                 title: "다음",
                 status: viewStore.state.isNextButtonEnable ? .default : .disable,
                 type: .default,
-                action: { coordinator.navigateToSignUpDone() }
+                action: {
+                    viewStore.send(.nextButtonTapped)
+                }
             ).padding(20)
         }
     }

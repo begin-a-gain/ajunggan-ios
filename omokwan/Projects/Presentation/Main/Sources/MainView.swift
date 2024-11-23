@@ -7,17 +7,15 @@
 
 import SwiftUI
 import DesignSystem
+import ComposableArchitecture
 
 public struct MainView: View {
-    private let coordinator:  MainCoordinator
-    @ObservedObject var viewStore: MainStore
-    
-    public init(
-        coordinator: MainCoordinator,
-        viewStore: MainStore
-    ) {
-        self.coordinator = coordinator
-        self.viewStore = viewStore
+    let store: StoreOf<MainFeature>
+    @ObservedObject var viewStore: ViewStoreOf<MainFeature>
+
+    public init(store: StoreOf<MainFeature>) {
+        self.store = store
+        self.viewStore = ViewStore(store, observe: { $0 })
     }
     
     public var body: some View {
@@ -47,10 +45,10 @@ public struct MainView: View {
         Group {
             switch viewStore.state.selectedTab {
             case .myGame:
-                HomeView(coordinator: coordinator)
+                HomeView(store: .init(initialState: HomeFeature.State(), reducer: { HomeFeature() }))
                     .padding(.bottom, MainConstants.bottomTabBarHeight)
             case .myPage:
-                ProfileView(coordinator: coordinator)
+                ProfileView()
                     .padding(.bottom, MainConstants.bottomTabBarHeight)
             }
         }
@@ -59,10 +57,12 @@ public struct MainView: View {
 
 // TODO: Remove This View
 public struct HomeView: View {
-    private let coordinator: MainView.MainCoordinator
-    
-    public init(coordinator: MainView.MainCoordinator) {
-        self.coordinator = coordinator
+    let store: StoreOf<HomeFeature>
+    @ObservedObject var viewStore: ViewStoreOf<HomeFeature>
+
+    public init(store: StoreOf<HomeFeature>) {
+        self.store = store
+        self.viewStore = ViewStore(store, observe: { $0 })
     }
     
     public var body: some View {
@@ -72,7 +72,7 @@ public struct HomeView: View {
             }
             
             Button {
-                coordinator.navigateToDepth()
+
             } label: {
                 Text("Navigate To Depth View")
             }
@@ -80,19 +80,29 @@ public struct HomeView: View {
     }
 }
 
-// TODO: Remove This View
-public struct HomeDetailView: View {
-    private let coordinator: MainView.MainCoordinator
-    
-    public init(coordinator: MainView.MainCoordinator) {
-        self.coordinator = coordinator
+public struct HomeFeature: Reducer {
+    public struct State: Equatable {
+        
     }
     
+    public enum Action {
+        
+    }
+    
+    public var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            return .none
+        }
+    }
+}
+
+// TODO: Remove This View
+public struct HomeDetailView: View {
     public var body: some View {
         VStack {
             Text("Home Detail View")
             Button {
-                coordinator.navigateToDepth()
+
             } label: {
                 Text("Return To Sign In")
             }
@@ -102,17 +112,11 @@ public struct HomeDetailView: View {
 
 // TODO: Remove This View
 public struct ProfileView: View {
-    private let coordinator: MainView.MainCoordinator
-
-    public init(coordinator: MainView.MainCoordinator) {
-        self.coordinator = coordinator
-    }
-    
     public var body: some View {
         VStack {
             Text("Profile View")
             Button {
-                coordinator.navigateToRoot()
+                
             } label: {
                 Text("Logout")
             }
@@ -120,13 +124,3 @@ public struct ProfileView: View {
     }
 }
 
-// TODO: Remove This View
-public struct DepthView: View {
-    public init() {}
-    
-    public var body: some View {
-        VStack {
-            Text("DepthView View")
-        }
-    }
-}

@@ -25,9 +25,5 @@ git Version: `2.39.3 (Apple Git-146)`
 
 ### Skill Stack
 
-Skill: MVI(Reducer)-C + Tuist + SwiftUI  
+Skill: TCA + Tuist + SwiftUI  
 Architecture: Clean Architecture + Modular Architecture  
-
-`MVI-C`는 MVVM-C 패턴에서 생각해낸 구조.  
-MVVM-C 패턴은 MVVM 구조를 가져가며 Coordinator를 사용하는 패턴인데,  
-유사하게 MVI를 사용하며 Coordinator를 사용할 수 있지 않을까 생각하여 만든 패턴.  

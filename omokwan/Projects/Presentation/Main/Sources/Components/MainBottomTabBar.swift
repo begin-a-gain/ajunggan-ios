@@ -7,11 +7,12 @@
 
 import SwiftUI
 import DesignSystem
+import ComposableArchitecture
 
 struct MainBottomTabBarView: View {
-    @ObservedObject var viewStore: MainStore
-    
-    init(viewStore: MainStore) {
+    @ObservedObject var viewStore: ViewStoreOf<MainFeature>
+
+    public init(viewStore: ViewStoreOf<MainFeature>) {
         self.viewStore = viewStore
     }
     

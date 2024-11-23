@@ -9,6 +9,7 @@ import SwiftUI
 import Root
 import KakaoSDKCommon
 import KakaoSDKAuth
+import ComposableArchitecture
 
 @main
 struct RootApp: App {
@@ -21,7 +22,11 @@ struct RootApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RootCoordinatorView()
+            RootCoordinatorView(
+                store: Store(initialState: RootCoordinatorFeature.State(), reducer: {
+                    RootCoordinatorFeature()
+                })
+            )
             .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
             .onOpenURL(perform: { url in
                 if (AuthApi.isKakaoTalkLoginUrl(url)) {
