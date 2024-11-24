@@ -19,7 +19,7 @@ public struct OText: View {
     public init(
         _ text: String,
         token: Font.FontToken = .body_02,
-        color: Color = .black,
+        color: Color = OColors.text01.swiftUIColor,
         alignment: TextAlignment = .center,
         lineLimit: Int = 1,
         letterSpace: CGFloat = 0,
