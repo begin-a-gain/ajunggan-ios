@@ -9,6 +9,7 @@ import SwiftUI
 import DesignSystem
 import ComposableArchitecture
 import MyGame
+import Base
 
 public struct MainView: View {
     let store: StoreOf<MainFeature>
