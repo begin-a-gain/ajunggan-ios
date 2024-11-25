@@ -150,7 +150,14 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
     
     private var normalTextFieldView: some View {
         ZStack {
-            if !text.isEmpty {
+            if text.isEmpty {
+                OText(
+                    placeholder,
+                    token: .body_02,
+                    color: OColors.textDisable.swiftUIColor
+                )
+                .greedyWidth(.leading)
+            } else {
                 OText(
                     text,
                     token: .body_02,
@@ -158,15 +165,10 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
                 )
                 .greedyWidth(.leading)
             }
-
+            
             TextField(
                 "",
-                text: $text,
-                prompt: Text(
-                    placeholder
-                )
-                .font(.suit(token: .body_02))
-                .foregroundColor(OColors.textDisable.swiftUIColor)
+                text: $text
             )
             .focused($focusedField, equals: focusedFieldType)
             .keyboardType(keyboardType)
