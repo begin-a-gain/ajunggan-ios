@@ -27,7 +27,7 @@ public struct MyGameAddView: View {
             ONavigationBar(
                 leadingIcon: OImages.icArrowLeft.swiftUIImage,
                 leadingIconAction: {
-                    
+                    viewStore.send(.navigateToBack)
                 }
             )
         }

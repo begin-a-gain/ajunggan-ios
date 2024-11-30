@@ -24,7 +24,7 @@ public struct MyGameFeature: Reducer {
         case dateArrowLeftButtonTapped
         case dateArrowRightButtonTapped
         case datePickerButtonTapped
-        case navigateToMyGameAdd
+        case navigateToMyGameAddCategory
     }
     
     public var body: some ReducerOf<Self> {
@@ -42,7 +42,7 @@ public struct MyGameFeature: Reducer {
             case .datePickerButtonTapped:
                 state.isDatePickerVisible.toggle()
                 return .none
-            case .navigateToMyGameAdd:
+            case .navigateToMyGameAddCategory:
                 return .none
             }
         }

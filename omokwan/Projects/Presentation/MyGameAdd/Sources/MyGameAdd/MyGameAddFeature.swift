@@ -16,11 +16,15 @@ public struct MyGameAddFeature: Reducer {
     }
     
     public enum Action {
+        case navigateToBack
     }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
-            return .none
+            switch action {
+            case .navigateToBack:
+                return .none
+            }
         }
     }
 }

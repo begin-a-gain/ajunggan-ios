@@ -25,6 +25,7 @@ public struct MyGameAddCategoryFeature: Reducer {
         case skipButtonTapped
         case nextButtonTapped
         case categoryTapped(Int)
+        case navigateToBack
     }
     
     public var body: some ReducerOf<Self> {
@@ -36,6 +37,8 @@ public struct MyGameAddCategoryFeature: Reducer {
                 return .none
             case .categoryTapped(let index):
                 state.isSelectedList[index].toggle()
+                return .none
+            case .navigateToBack:
                 return .none
             }
         }

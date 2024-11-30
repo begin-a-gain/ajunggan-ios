@@ -10,9 +10,9 @@ import DesignSystem
 import ComposableArchitecture
 
 struct MainBottomTabBarView: View {
-    @ObservedObject var viewStore: ViewStoreOf<MainFeature>
+    @ObservedObject var viewStore: ViewStoreOf<MainCoordinatorFeature>
 
-    public init(viewStore: ViewStoreOf<MainFeature>) {
+    public init(viewStore: ViewStoreOf<MainCoordinatorFeature>) {
         self.viewStore = viewStore
     }
     
