@@ -12,7 +12,7 @@ public struct MyGameFeature: Reducer {
     
     public struct State: Equatable {
         public init() {}
-        
+        var isGameAddFloatingMessageVisible: Bool = false
     }
     
     public enum Action {
@@ -21,7 +21,7 @@ public struct MyGameFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            
+                
             }
         }
     }
