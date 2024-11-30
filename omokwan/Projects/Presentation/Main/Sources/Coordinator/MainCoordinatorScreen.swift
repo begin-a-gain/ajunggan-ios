@@ -20,7 +20,7 @@ extension MainCoordinatorFeature {
         
         public var body: some ReducerOf<Self> {
             Scope(state: /State.myGame, action: /Action.myGame) {
-                MyGameFeature()._printChanges()
+                MyGameFeature()
             }
         }
     }

@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 import DesignSystem
+import Util
 
 public struct MyGameView: View {
     let store: StoreOf<MyGameFeature>
@@ -20,6 +21,9 @@ public struct MyGameView: View {
     
     public var body: some View {
         myGameViewBody
+        .onAppear {
+            viewStore.send(.onAppear)
+        }
     }
     
     private var myGameViewBody: some View {
@@ -36,7 +40,11 @@ public struct MyGameView: View {
                         // TODO: Impelment this action
                     }
                 )
+                dateInfoView
                 ScrollView {
+                    if viewStore.isDatePickerVisible {
+                        datePickerView
+                    }
                     ForEach(0..<40) { _ in
                         Text("My Game View").greedyWidth()
                     }
@@ -75,6 +83,56 @@ public struct MyGameView: View {
                     .frame(30, 30)
                     .padding(.bottom, 14)
             }
+        }
+    }
+}
+
+// MARK: About Calendar
+private extension MyGameView {
+    private var dateInfoView: some View {
+        HStack(spacing: 8) {
+            Button {
+                viewStore.send(.dateArrowLeftButtonTapped)
+            } label: {
+                OImages.icArrowLeft.swiftUIImage
+                    .renderingMode(.template)
+                    .resizedToFit(20, 20)
+                    .foregroundColor(OColors.icon01.swiftUIColor)
+            }
+            
+            Button {
+                viewStore.send(.datePickerButtonTapped)
+            } label: {
+                OText(
+                    viewStore.selectedDate.formattedString(),
+                    token: .headline,
+                    color: OColors.gray900.swiftUIColor
+                )
+            }
+            
+            Button {
+                viewStore.send(.dateArrowRightButtonTapped)
+            } label: {
+                OImages.icArrowRight.swiftUIImage
+                    .renderingMode(.template)
+                    .resizedToFit(20, 20)
+                    .foregroundColor(isSelectedDateEqualsToday ? OColors.iconDisable.swiftUIColor : OColors.icon01.swiftUIColor)
+            }.disabled(isSelectedDateEqualsToday)
+        }.vPadding(16)
+    }
+    
+    private var isSelectedDateEqualsToday: Bool {
+        let isDisable = viewStore.selectedDate.formattedString(format: DateFormatConstants.calendarDayDateFormatter) ==
+        Date.now.formattedString(format: DateFormatConstants.calendarDayDateFormatter)
+        
+        return isDisable
+    }
+    
+    private var datePickerView: some View {
+        ZStack {
+            DatePicker("", selection: viewStore.$selectedDate, displayedComponents: [.date])
+                .datePickerStyle(.wheel)
+                .labelsHidden()
         }
     }
 }

@@ -80,7 +80,7 @@ public struct OButton: View {
             .background(backgroundColor)
             .modifier(OButtonModifier(type: type, status: status))
             .cornerRadius(8)
-        }
+        }.disabled(status == .disable)
     }
     
     private var textColor: Color {

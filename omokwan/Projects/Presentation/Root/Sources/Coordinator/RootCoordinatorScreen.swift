@@ -24,10 +24,10 @@ extension RootCoordinatorFeature {
         
         public var body: some ReducerOf<Self> {
             Scope(state: /State.signIn, action: /Action.signIn) {
-                SignInFeature()._printChanges()
+                SignInFeature()
             }
             Scope(state: /State.signUp, action: /Action.signUp) {
-                SignUpFeature()._printChanges()
+                SignUpFeature()
             }
         }
     }
