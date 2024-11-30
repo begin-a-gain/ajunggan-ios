@@ -13,25 +13,19 @@ import MyGameAdd
 public struct MainCoordinatorRootView: View {
     let store: StoreOf<MainCoordinatorFeature>
     @ObservedObject var viewStore: ViewStoreOf<MainCoordinatorFeature>
+    let myGameStore: StoreOf<MyGameFeature>
 
-    public init(store: StoreOf<MainCoordinatorFeature>) {
+    public init(store: StoreOf<MainCoordinatorFeature>, myGameStore: StoreOf<MyGameFeature>) {
         self.store = store
         self.viewStore = ViewStore(store, observe: { $0 })
+        self.myGameStore = myGameStore
     }
     
     public var body: some View {
         NavigationStackStore(store.scope(state: \.path, action: MainCoordinatorFeature.Action.path)) {
-//            MainView(
-//                store: .init(
-//                    initialState: MainFeature.State(),
-//                    reducer: { MainFeature() }
-//                )
-//            )
-            MyGameAddCategoryView(
-                store: .init(
-                    initialState: MyGameAddCategoryFeature.State(),
-                    reducer: { MyGameAddCategoryFeature() }
-                )
+            MainView(
+                store: store,
+                myGameStore: myGameStore
             )
         } destination: { store in
             switch store {

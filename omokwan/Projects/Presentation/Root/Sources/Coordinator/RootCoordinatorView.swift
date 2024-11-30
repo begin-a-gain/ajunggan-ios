@@ -10,6 +10,7 @@ import ComposableArchitecture
 import Main
 import SignIn
 import SignUp
+import MyGame
 
 public struct RootCoordinatorView: View {
     let store: StoreOf<RootCoordinatorFeature>
@@ -23,7 +24,8 @@ public struct RootCoordinatorView: View {
     public var body: some View {
         if viewStore.isAuth {
             MainCoordinatorRootView(
-                store: .init(initialState: MainCoordinatorFeature.State(), reducer: { MainCoordinatorFeature() })
+                store: .init(initialState: MainCoordinatorFeature.State(), reducer: { MainCoordinatorFeature() }),
+                myGameStore: .init(initialState: MyGameFeature.State(), reducer: { MyGameFeature() })
             )
         } else {
             rootView

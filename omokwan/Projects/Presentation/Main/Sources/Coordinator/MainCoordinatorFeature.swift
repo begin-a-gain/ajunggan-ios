@@ -17,15 +17,57 @@ public struct MainCoordinatorFeature: Reducer {
         public init() {}
 
         var path: StackState<MainPath.State> = .init()
+        
+        // MARK: Main State
+        var selectedTab: MainBottomTabItem = .myGame
+        @PresentationState var addGameSheet: AddGameSheetFeature.State?
+        var myGameState: MyGameFeature.State = .init()
     }
 
     public enum Action {
         case path(StackAction<MainPath.State, MainPath.Action>)
+        
+        // MARK: Main Action
+        case selectTab(MainBottomTabItem)
+        case addGameSheet(PresentationAction<AddGameSheetFeature.Action>)
+        case addGameButtonTapped
+        case noAction
+        case navigateToMyGameAddCategory
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .selectTab(let item):
+                state.selectedTab = item
+                return .none
+            case .addGameSheet(let presentationAction):
+                switch presentationAction {
+                case .presented(let sheetAction):
+                    switch sheetAction {
+                    case .navigateToMyGameAddCategory:
+                        state.addGameSheet = nil
+                        return .concatenate([
+                            .run { send in
+                                await send(waitZeroPointFiveSeconds())
+                            },
+                            .send(.navigateToMyGameAddCategory)
+                        ])
+                    default:
+                        return .none
+                    }
+                default:
+                    return .none
+                }
+            case .navigateToMyGameAddCategory:
+                state.path.append(.myGameAddCategory(.init()))
+                return .none
+            case .addGameButtonTapped:
+                state.addGameSheet = .init()
+                return .none
+            case .noAction:
+                return .none
+                
             case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGame(let myGameAction))):
                 return myGameNavigation(&state, myGameAction)
             case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGameAddCategory(let myGameAddCategoryAction))):
@@ -34,39 +76,22 @@ public struct MainCoordinatorFeature: Reducer {
                 return .none
             }
         }
+        .ifLet(\.$addGameSheet, action: /MainCoordinatorFeature.Action.addGameSheet) {
+            AddGameSheetFeature()
+        }
         .forEach(\.path, action: /MainCoordinatorFeature.Action.path) {
             MainPath()
         }
     }
 }
 
-// MARK: MyGame Navigation
 private extension MainCoordinatorFeature {
-    private func myGameNavigation(_ state: inout State, _ action: MyGameFeature.Action) -> Effect<Action> {
-        switch action {
-        case .navigateToMyGameAdd:
-            state.path.append(.myGameAdd(MyGameAddFeature.State()))
-            return .none
-        case .datePickerButtonTapped:
-            return .none
-        default:
-            return .none
-        }
-    }
-}
-
-// MARK: MyGameAddCategory Navigation
-private extension MainCoordinatorFeature {
-    private func myGameAddCategoryNavigation(_ state: inout State, _ action: MyGameAddCategoryFeature.Action) -> Effect<Action> {
-        switch action {
-        case .skipButtonTapped:
-            state.path.append(.myGameAdd(MyGameAddFeature.State()))
-            return .none
-        case .nextButtonTapped:
-            state.path.append(.myGameAdd(MyGameAddFeature.State()))
-            return .none
-        default:
-            return .none
+    func waitZeroPointFiveSeconds() async -> Action {
+        do {
+            let _ = try await Task.sleep(nanoseconds: 1 * 500_000_000)
+            return .noAction
+        } catch {
+            return .noAction
         }
     }
 }

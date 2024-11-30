@@ -12,12 +12,14 @@ import MyGame
 import Base
 
 public struct MainView: View {
-    let store: StoreOf<MainFeature>
-    @ObservedObject var viewStore: ViewStoreOf<MainFeature>
+    let store: StoreOf<MainCoordinatorFeature>
+    @ObservedObject var viewStore: ViewStoreOf<MainCoordinatorFeature>
+    let myGameStore: StoreOf<MyGameFeature>
 
-    public init(store: StoreOf<MainFeature>) {
+    public init(store: StoreOf<MainCoordinatorFeature>, myGameStore: StoreOf<MyGameFeature>) {
         self.store = store
         self.viewStore = ViewStore(store, observe: { $0 })
+        self.myGameStore = myGameStore
     }
     
     public var body: some View {
@@ -40,7 +42,7 @@ public struct MainView: View {
                 .height(MainConstants.bottomTabBarHeight)
                 .greedyHeight(.bottom)
                 .ignoresSafeArea(edges: .bottom)
-        }.sheet(store: store.scope(state: \.$addGameSheet, action: MainFeature.Action.addGameSheet)) { store in
+        }.sheet(store: store.scope(state: \.$addGameSheet, action: MainCoordinatorFeature.Action.addGameSheet)) { store in
             AddGameSheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
         }
@@ -51,10 +53,7 @@ public struct MainView: View {
             switch viewStore.state.selectedTab {
             case .myGame:
                 MyGameView(
-                    store: .init(
-                        initialState: MyGameFeature.State(),
-                        reducer: { MyGameFeature() }
-                    )
+                    store: myGameStore
                 ).padding(.bottom, MainConstants.bottomTabBarHeight)
             case .myPage:
                 ProfileView()
