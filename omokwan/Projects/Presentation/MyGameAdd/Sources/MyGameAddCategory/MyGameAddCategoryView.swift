@@ -27,7 +27,7 @@ public struct MyGameAddCategoryView: View {
             ONavigationBar(
                 leadingIcon: OImages.icArrowLeft.swiftUIImage,
                 leadingIconAction: {
-                    
+                    viewStore.send(.navigateToBack)
                 }
             )
             Spacer().height(32)

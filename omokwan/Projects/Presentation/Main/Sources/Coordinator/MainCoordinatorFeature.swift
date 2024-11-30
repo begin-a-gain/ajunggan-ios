@@ -49,7 +49,7 @@ public struct MainCoordinatorFeature: Reducer {
                         state.addGameSheet = nil
                         return .concatenate([
                             .run { send in
-                                await send(waitZeroPointFiveSeconds())
+                                await send(waitFewSeconds())
                             },
                             .send(.navigateToMyGameAddCategory)
                         ])
@@ -72,6 +72,8 @@ public struct MainCoordinatorFeature: Reducer {
                 return myGameNavigation(&state, myGameAction)
             case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGameAddCategory(let myGameAddCategoryAction))):
                 return myGameAddCategoryNavigation(&state, myGameAddCategoryAction)
+            case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGameAdd(let myGameAddAction))):
+                return myGameAddNavigation(&state, myGameAddAction)
             case .path:
                 return .none
             }
@@ -86,9 +88,9 @@ public struct MainCoordinatorFeature: Reducer {
 }
 
 private extension MainCoordinatorFeature {
-    func waitZeroPointFiveSeconds() async -> Action {
+    func waitFewSeconds() async -> Action {
         do {
-            let _ = try await Task.sleep(nanoseconds: 1 * 500_000_000)
+            let _ = try await Task.sleep(nanoseconds: 1 * 300_000_000)
             return .noAction
         } catch {
             return .noAction

@@ -9,10 +9,28 @@ import MyGame
 import MyGameAdd
 import ComposableArchitecture
 
+// MARK: MyGame Navigation
+extension MainCoordinatorFeature {
+    func myGameNavigation(_ state: inout State, _ action: MyGameFeature.Action) -> Effect<Action> {
+        switch action {
+        case .navigateToMyGameAddCategory:
+            state.path.append(.myGameAddCategory(MyGameAddCategoryFeature.State()))
+            return .none
+        case .datePickerButtonTapped:
+            return .none
+        default:
+            return .none
+        }
+    }
+}
+
 // MARK: MyGameAddCategory Navigation
 extension MainCoordinatorFeature {
     func myGameAddCategoryNavigation(_ state: inout State, _ action: MyGameAddCategoryFeature.Action) -> Effect<Action> {
         switch action {
+        case .navigateToBack:
+            _ = state.path.popLast()
+            return .none
         case .skipButtonTapped:
             state.path.append(.myGameAdd(MyGameAddFeature.State()))
             return .none
@@ -25,14 +43,12 @@ extension MainCoordinatorFeature {
     }
 }
 
-// MARK: MyGame Navigation
+// MARK: MyGameAdd Navigation
 extension MainCoordinatorFeature {
-    func myGameNavigation(_ state: inout State, _ action: MyGameFeature.Action) -> Effect<Action> {
+    func myGameAddNavigation(_ state: inout State, _ action: MyGameAddFeature.Action) -> Effect<Action> {
         switch action {
-        case .navigateToMyGameAddCategory:
-            state.path.append(.myGameAdd(MyGameAddFeature.State()))
-            return .none
-        case .datePickerButtonTapped:
+        case .navigateToBack:
+            _ = state.path.popLast()
             return .none
         default:
             return .none
