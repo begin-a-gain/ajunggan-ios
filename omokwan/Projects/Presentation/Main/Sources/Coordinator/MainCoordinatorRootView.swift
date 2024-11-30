@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import SwiftUI
 import MyGame
+import MyGameAdd
 
 public struct MainCoordinatorRootView: View {
     let store: StoreOf<MainCoordinatorFeature>
@@ -31,6 +32,10 @@ public struct MainCoordinatorRootView: View {
             case .myGame:
                 CaseLet(/MainCoordinatorFeature.MainPath.State.myGame, action: MainCoordinatorFeature.MainPath.Action.myGame) { store in
                     MyGameView(store: store)
+                }
+            case .myGameAdd:
+                CaseLet(/MainCoordinatorFeature.MainPath.State.myGameAdd, action: MainCoordinatorFeature.MainPath.Action.myGameAdd) { store in
+                    MyGameAddView(store: store)
                 }
             }
         }

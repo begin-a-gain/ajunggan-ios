@@ -14,10 +14,11 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .Root: [.SignIn, .SignUp, .Main],
     .SignIn: [.Domain, .Base],
     .SignUp: [.Domain, .Base],
-    .Main: [.MyGame],
+    .Main: [.MyGame, .MyGameAdd],
     .DI: [.Swinject],
     .Base: [.DesignSystem, .ComposableArchitecture],
-    .MyGame: [.Base, .Util]
+    .MyGame: [.Base, .Util],
+    .MyGameAdd: [.Base, .Util]
 ]
 
 public enum DependencyInformation: String {
@@ -36,6 +37,7 @@ public enum DependencyInformation: String {
     case ComposableArchitecture = "ComposableArchitecture"
     case MyGame = "MyGame"
     case Util = "Util"
+    case MyGameAdd = "MyGameAdd"
 }
 
 public enum PresentationDependencyInformation: String, CaseIterable {
@@ -45,6 +47,7 @@ public enum PresentationDependencyInformation: String, CaseIterable {
     case Main = "Main"
     case Base = "Base"
     case MyGame = "MyGame"
+    case MyGameAdd = "MyGameAdd"
 }
 
 public enum UtilsDependencyInformation: String, CaseIterable {

@@ -20,6 +20,7 @@ public struct AddGameSheetFeature: Reducer {
     public enum Action {
         case selectType(State.AddGameType)
         case addGameSheetButtonTapped
+        case navigateToMyGameAdd
     }
     
     public var body: some ReducerOf<Self> {
@@ -29,8 +30,12 @@ public struct AddGameSheetFeature: Reducer {
                 state.selectedGameType = type
                 return .none
             case .addGameSheetButtonTapped:
-                // TODO: Implement
-                return .none
+                if let type = state.selectedGameType {
+                    return .send(.navigateToMyGameAdd)
+                } else {
+                    return .none
+                }
+            case .navigateToMyGameAdd: return .none
             }
         }
     }
