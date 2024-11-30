@@ -18,7 +18,7 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .DI: [.Swinject],
     .Base: [.DesignSystem, .ComposableArchitecture],
     .MyGame: [.Base, .Util],
-    .MyGameAdd: [.Base, .Util]
+    .MyGameAdd: [.Base, .Util, .Domain]
 ]
 
 public enum DependencyInformation: String {

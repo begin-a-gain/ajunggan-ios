@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import DesignSystem
 
 public struct MyGameAddView: View {
     let store: StoreOf<MyGameAddFeature>
@@ -18,8 +19,17 @@ public struct MyGameAddView: View {
     }
     
     public var body: some View {
-        VStack {
-            
+        myGameAddBodyView
+    }
+    
+    private var myGameAddBodyView: some View {
+        VStack(spacing: 0) {
+            ONavigationBar(
+                leadingIcon: OImages.icArrowLeft.swiftUIImage,
+                leadingIconAction: {
+                    
+                }
+            )
         }
     }
 }

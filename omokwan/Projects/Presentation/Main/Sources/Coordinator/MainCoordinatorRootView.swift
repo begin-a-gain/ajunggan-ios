@@ -21,10 +21,16 @@ public struct MainCoordinatorRootView: View {
     
     public var body: some View {
         NavigationStackStore(store.scope(state: \.path, action: MainCoordinatorFeature.Action.path)) {
-            MainView(
+//            MainView(
+//                store: .init(
+//                    initialState: MainFeature.State(),
+//                    reducer: { MainFeature() }
+//                )
+//            )
+            MyGameAddCategoryView(
                 store: .init(
-                    initialState: MainFeature.State(),
-                    reducer: { MainFeature() }
+                    initialState: MyGameAddCategoryFeature.State(),
+                    reducer: { MyGameAddCategoryFeature() }
                 )
             )
         } destination: { store in
@@ -36,6 +42,10 @@ public struct MainCoordinatorRootView: View {
             case .myGameAdd:
                 CaseLet(/MainCoordinatorFeature.MainPath.State.myGameAdd, action: MainCoordinatorFeature.MainPath.Action.myGameAdd) { store in
                     MyGameAddView(store: store)
+                }
+            case .myGameAddCategory:
+                CaseLet(/MainCoordinatorFeature.MainPath.State.myGameAddCategory, action: MainCoordinatorFeature.MainPath.Action.myGameAddCategory) { store in
+                    MyGameAddCategoryView(store: store)
                 }
             }
         }

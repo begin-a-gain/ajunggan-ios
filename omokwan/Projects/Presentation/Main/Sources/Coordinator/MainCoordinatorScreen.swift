@@ -14,11 +14,13 @@ extension MainCoordinatorFeature {
         public enum State: Equatable {
             case myGame(MyGameFeature.State)
             case myGameAdd(MyGameAddFeature.State)
+            case myGameAddCategory(MyGameAddCategoryFeature.State)
         }
 
         public enum Action {
             case myGame(MyGameFeature.Action)
             case myGameAdd(MyGameAddFeature.Action)
+            case myGameAddCategory(MyGameAddCategoryFeature.Action)
         }
         
         public var body: some ReducerOf<Self> {
@@ -27,6 +29,9 @@ extension MainCoordinatorFeature {
             }
             Scope(state: /State.myGameAdd, action: /Action.myGameAdd) {
                 MyGameAddFeature()
+            }
+            Scope(state: /State.myGameAddCategory, action: /Action.myGameAddCategory) {
+                MyGameAddCategoryFeature()
             }
         }
     }
