@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainBottomTabBarShape: Shape {
-    private let circleButtonPadding: CGFloat = 64
+    private let circleButtonPadding: CGFloat = MainConstants.circleButtonSize
     private let emptySpacePadding: CGFloat = 8
     private let radius: CGFloat = 8
     

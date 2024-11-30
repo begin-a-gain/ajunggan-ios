@@ -81,6 +81,11 @@ public struct ONavigationBar: View {
     private var mainLogoView: some View {
         HStack(spacing: 0) {
             // TODO: Main Logo 이미지 넣기
+            Rectangle()
+                .width(160).height(40)
+                .background(OColors.gray400.swiftUIColor)
+                .padding(.leading, 20)
+                .vPadding(8)
             Spacer()
         }
     }
