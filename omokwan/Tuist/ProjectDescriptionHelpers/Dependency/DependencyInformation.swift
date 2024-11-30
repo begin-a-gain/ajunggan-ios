@@ -17,7 +17,7 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .Main: [.MyGame],
     .DI: [.Swinject],
     .Base: [.DesignSystem, .ComposableArchitecture],
-    .MyGame: [.Base]
+    .MyGame: [.Base, .Util]
 ]
 
 public enum DependencyInformation: String {
@@ -35,6 +35,7 @@ public enum DependencyInformation: String {
     case DesignSystem = "DesignSystem"
     case ComposableArchitecture = "ComposableArchitecture"
     case MyGame = "MyGame"
+    case Util = "Util"
 }
 
 public enum PresentationDependencyInformation: String, CaseIterable {
@@ -44,4 +45,8 @@ public enum PresentationDependencyInformation: String, CaseIterable {
     case Main = "Main"
     case Base = "Base"
     case MyGame = "MyGame"
+}
+
+public enum UtilsDependencyInformation: String, CaseIterable {
+    case Util = "Util"
 }
