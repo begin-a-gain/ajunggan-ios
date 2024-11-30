@@ -7,7 +7,8 @@
 
 import Base
 import ComposableArchitecture
-import CasePaths
+import MyGame
+import MyGameAdd
 
 public struct MainCoordinatorFeature: Reducer {
     public init() {}
@@ -25,12 +26,47 @@ public struct MainCoordinatorFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGame(let myGameAction))):
+                return myGameNavigation(&state, myGameAction)
+            case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGameAddCategory(let myGameAddCategoryAction))):
+                return myGameAddCategoryNavigation(&state, myGameAddCategoryAction)
             case .path:
                 return .none
             }
         }
         .forEach(\.path, action: /MainCoordinatorFeature.Action.path) {
             MainPath()
+        }
+    }
+}
+
+// MARK: MyGame Navigation
+private extension MainCoordinatorFeature {
+    private func myGameNavigation(_ state: inout State, _ action: MyGameFeature.Action) -> Effect<Action> {
+        switch action {
+        case .navigateToMyGameAdd:
+            state.path.append(.myGameAdd(MyGameAddFeature.State()))
+            return .none
+        case .datePickerButtonTapped:
+            return .none
+        default:
+            return .none
+        }
+    }
+}
+
+// MARK: MyGameAddCategory Navigation
+private extension MainCoordinatorFeature {
+    private func myGameAddCategoryNavigation(_ state: inout State, _ action: MyGameAddCategoryFeature.Action) -> Effect<Action> {
+        switch action {
+        case .skipButtonTapped:
+            state.path.append(.myGameAdd(MyGameAddFeature.State()))
+            return .none
+        case .nextButtonTapped:
+            state.path.append(.myGameAdd(MyGameAddFeature.State()))
+            return .none
+        default:
+            return .none
         }
     }
 }
