@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Foundation
 
 public struct MyGameFeature: Reducer {
     public init() {}
@@ -13,15 +14,34 @@ public struct MyGameFeature: Reducer {
     public struct State: Equatable {
         public init() {}
         var isGameAddFloatingMessageVisible: Bool = false
+        @BindingState var selectedDate: Date = .now
+        var isDatePickerVisible: Bool = false
     }
     
-    public enum Action {
+    public enum Action: BindableAction {
+        case onAppear
+        case binding(BindingAction<State>)
+        case dateArrowLeftButtonTapped
+        case dateArrowRightButtonTapped
+        case datePickerButtonTapped
     }
     
     public var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
-                
+            case .onAppear:
+                print("GameFeature OnAppear")
+                return .none
+            case .binding:
+                return .none
+            case .dateArrowLeftButtonTapped:
+                return .none
+            case .dateArrowRightButtonTapped:
+                return .none
+            case .datePickerButtonTapped:
+                state.isDatePickerVisible.toggle()
+                return .none
             }
         }
     }
