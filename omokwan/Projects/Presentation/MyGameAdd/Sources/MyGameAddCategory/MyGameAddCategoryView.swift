@@ -58,10 +58,10 @@ public struct MyGameAddCategoryView: View {
             LazyVGrid(
                 columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
             ) {
-                ForEach(viewStore.categories.indices, id: \.self) { index in
+                ForEach(Array(zip(viewStore.categories.indices, viewStore.categories)), id: \.1) { index, category in
                     OImojiChips(
-                        imoji: viewStore.categories[index].imoji,
-                        title: viewStore.categories[index].title,
+                        imoji: category.imoji,
+                        title: category.rawValue,
                         isSelected: Binding(
                             get: { viewStore.isSelectedList[index] },
                             set: { newValue in viewStore.send(.categoryTapped(index)) }

@@ -86,7 +86,7 @@ private extension MyGameAddView {
             .greedyWidth(.leading)
             VStack(spacing: 0) {
                 repeatDayView
-                Spacer().height(1).greedyWidth().background(OColors.stroke02.swiftUIColor)
+                Stroke02Divider()
                 maxNumOfPeopleView
             }
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(OColors.stroke02.swiftUIColor, lineWidth: 1.0))
@@ -168,8 +168,38 @@ private extension MyGameAddView {
 // MARK: Additional Setting
 private extension MyGameAddView {
     private var additionalSetting: some View {
-        VStack(spacing: 0) {
-            
+        VStack(spacing: 6) {
+            OText(
+                "기타 설정",
+                token: .subtitle_02
+            )
+            .hPadding(16)
+            .greedyWidth(.leading)
+            VStack(spacing: 0) {
+                gameCategoryView
+                Stroke02Divider()
+                // TODO: Implement Toggle Input View "리마인드 알림"
+                // TODO: Implement Toggle Input View "비공개"
+            }
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(OColors.stroke02.swiftUIColor, lineWidth: 1.0))
+        }
+    }
+    
+    private var gameCategoryView: some View {
+        OInputField(
+            title: "대국 카테고리",
+            value: selectedCategoryString,
+            buttonAction: {
+                
+            }
+        )
+    }
+    
+    private var selectedCategoryString: String {
+        if let category = viewStore.selectedCategory {
+            return category.rawValue
+        } else {
+            return "선택"
         }
     }
 }

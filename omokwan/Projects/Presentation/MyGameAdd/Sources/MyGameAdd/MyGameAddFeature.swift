@@ -19,6 +19,7 @@ public struct MyGameAddFeature: Reducer {
         var directSelectionTypeList: [MyGameAddDirectSelectionDayType] = MyGameAddDirectSelectionDayType.allCases
         var isSelectedDirectSelectionList: [Bool] = Array(repeating: true, count: MyGameAddDirectSelectionDayType.allCases.count)
         var maxNumOfPeople: Int = 0
+        var selectedCategory: GameCategory?
     }
     
     public enum Action: BindableAction {

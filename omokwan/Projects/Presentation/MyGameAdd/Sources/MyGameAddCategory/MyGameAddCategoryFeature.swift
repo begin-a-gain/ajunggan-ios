@@ -14,8 +14,8 @@ public struct MyGameAddCategoryFeature: Reducer {
     public struct State: Equatable {
         public init() {}
         
-        var categories: [GameCategoryModel] = GameCategoryModel.gameCategories
-        var isSelectedList: [Bool] = Array(repeating: false, count: GameCategoryModel.gameCategories.count)
+        var categories: [GameCategory] = GameCategory.allCases
+        var isSelectedList: [Bool] = Array(repeating: false, count: GameCategory.allCases.count)
         var isNextButtonEnable: Bool {
             return !isSelectedList.filter{ $0 == true }.isEmpty
         }
