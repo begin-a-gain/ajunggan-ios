@@ -20,6 +20,9 @@ public struct MyGameAddFeature: Reducer {
         var isSelectedDirectSelectionList: [Bool] = Array(repeating: true, count: MyGameAddDirectSelectionDayType.allCases.count)
         var maxNumOfPeople: Int = 0
         var selectedCategory: GameCategory?
+        @BindingState var isRemindAlarmSelected: Bool = false
+        @BindingState var isPrivateRoomSelected: Bool = false
+        var privateRoomPassword: String = "0000"
     }
     
     public enum Action: BindableAction {

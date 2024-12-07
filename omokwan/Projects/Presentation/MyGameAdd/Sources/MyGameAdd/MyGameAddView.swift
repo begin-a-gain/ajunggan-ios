@@ -53,9 +53,11 @@ public struct MyGameAddView: View {
 private extension MyGameAddView {
     private var addGameInfoView: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 0) {
                 gameNameSection
+                Spacer().height(16)
                 defaultSetting
+                Spacer().height(24)
                 additionalSetting
             }
             .hPadding(20)
@@ -178,8 +180,17 @@ private extension MyGameAddView {
             VStack(spacing: 0) {
                 gameCategoryView
                 Stroke02Divider()
-                // TODO: Implement Toggle Input View "리마인드 알림"
-                // TODO: Implement Toggle Input View "비공개"
+                OInputToggleField(
+                    title: "리마인드 알림",
+                    additionalInfo: "오전 9:00",
+                    isSelected: viewStore.$isRemindAlarmSelected
+                )
+                Stroke02Divider()
+                OInputToggleField(
+                    title: "비공개",
+                    additionalInfo: "코드 : \(viewStore.privateRoomPassword)",
+                    isSelected: viewStore.$isPrivateRoomSelected
+                )
             }
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(OColors.stroke02.swiftUIColor, lineWidth: 1.0))
         }
