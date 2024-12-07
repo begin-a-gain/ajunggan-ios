@@ -23,6 +23,8 @@ public struct MyGameAddFeature: Reducer {
         @BindingState var isRemindAlarmSelected: Bool = false
         @BindingState var isPrivateRoomSelected: Bool = false
         var privateRoomPassword: String = "0000"
+        
+        @PresentationState var repeatDaySheet: MyGameRepeatDaySheetFeature.State?
     }
     
     public enum Action: BindableAction {
@@ -31,6 +33,7 @@ public struct MyGameAddFeature: Reducer {
         case repeatDayButtonTapped
         case directSelectionListButtonTapped(Int)
         case maxNumOfPeopleButtonTapped
+        case repeatDaySheet(PresentationAction<MyGameRepeatDaySheetFeature.Action>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -42,14 +45,31 @@ public struct MyGameAddFeature: Reducer {
             case .binding:
                 return .none
             case .repeatDayButtonTapped:
-                // Implement Sheet present
+                state.repeatDaySheet = .init(selectedRepeatDayValue: state.selectedRepeatDay)
                 return .none
+            case .repeatDaySheet(let action):
+                switch action {
+                case .presented(let presentAction):
+                    switch presentAction {
+                    case .selectButtonTapped(let repeatDay):
+                        state.repeatDaySheet = nil
+                        state.selectedRepeatDay = repeatDay
+                        return .none
+                    default:
+                        return .none
+                    }
+                default:
+                    return .none
+                }
             case .directSelectionListButtonTapped(let index):
                 state.isSelectedDirectSelectionList[index].toggle()
                 return .none
             case .maxNumOfPeopleButtonTapped:
                 return .none
             }
+        }
+        .ifLet(\.$repeatDaySheet, action: /MyGameAddFeature.Action.repeatDaySheet) {
+            MyGameRepeatDaySheetFeature()
         }
     }
 }

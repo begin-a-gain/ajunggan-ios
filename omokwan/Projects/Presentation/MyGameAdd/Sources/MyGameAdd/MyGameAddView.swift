@@ -25,6 +25,10 @@ public struct MyGameAddView: View {
     
     public var body: some View {
         myGameAddBodyView
+        .sheet(store: store.scope(state: \.$repeatDaySheet, action: MyGameAddFeature.Action.repeatDaySheet)) { store in
+            MyGameRepeatDaySheetView(store: store)
+                .modifier(CommonSheetModifier(detent: [.medium]))
+        }
     }
     
     private var myGameAddBodyView: some View {
@@ -123,7 +127,7 @@ private extension MyGameAddView {
             }
             .padding(16)
             
-            if viewStore.selectedRepeatDay != .directSelection {
+            if viewStore.selectedRepeatDay == .directSelection {
                 dayCircleButtonView
             }
         }

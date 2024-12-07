@@ -5,7 +5,7 @@
 //  Created by 김동준 on 12/1/24
 //
 
-public enum MyGameAddRepeatDayType: String {
+public enum MyGameAddRepeatDayType: String, CaseIterable {
     case weekday = "주중"
     case weekend = "주말"
     case everyday = "매일"
