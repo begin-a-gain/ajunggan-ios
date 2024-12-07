@@ -58,13 +58,13 @@ public struct MyGameAddCategoryView: View {
             LazyVGrid(
                 columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
             ) {
-                ForEach(viewStore.categories.indices, id: \.self) { index in
+                ForEach(Array(zip(viewStore.categories.indices, viewStore.categories)), id: \.1) { index, category in
                     OImojiChips(
-                        imoji: viewStore.categories[index].imoji,
-                        title: viewStore.categories[index].title,
+                        imoji: category.imoji,
+                        title: category.rawValue,
                         isSelected: Binding(
-                            get: { viewStore.isSelectedList[index] },
-                            set: { newValue in viewStore.send(.categoryTapped(index)) }
+                            get: { viewStore.selectedCategory == category },
+                            set: { newValue in viewStore.send(.categoryTapped(category)) }
                         )
                     )
                 }.greedyWidth(.leading)
@@ -81,7 +81,7 @@ public struct MyGameAddCategoryView: View {
                 type: .text,
                 size: .small,
                 action: {
-                    viewStore.send(.skipButtonTapped)
+                    viewStore.send(.skipButtonTapped(viewStore.selectedCategory))
                 }
             )
             OButton(
@@ -89,7 +89,7 @@ public struct MyGameAddCategoryView: View {
                 status: viewStore.isNextButtonEnable ? .default : .disable,
                 type: .default,
                 action: {
-                    viewStore.send(.nextButtonTapped)
+                    viewStore.send(.nextButtonTapped(viewStore.selectedCategory))
                 }
             )
         }

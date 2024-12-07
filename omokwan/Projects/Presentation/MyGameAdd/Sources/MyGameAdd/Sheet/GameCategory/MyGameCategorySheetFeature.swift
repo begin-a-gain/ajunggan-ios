@@ -1,44 +1,41 @@
 //
-//  MyGameAddCategoryFeature.swift
+//  MyGameCategorySheetFeature.swift
 //  MyGameAdd
 //
-//  Created by 김동준 on 11/30/24
+//  Created by 김동준 on 12/7/24
 //
 
 import ComposableArchitecture
 import Domain
 
-public struct MyGameAddCategoryFeature: Reducer {
+public struct MyGameCategorySheetFeature: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public init() {}
+        public init(selectedCategory: GameCategory?) {
+            self.selectedCategory = selectedCategory
+        }
         
         var categories: [GameCategory] = GameCategory.allCases
         var selectedCategory: GameCategory?
-        var isNextButtonEnable: Bool {
-            return selectedCategory != nil
-        }
     }
     
-    public enum Action {
-        case skipButtonTapped(GameCategory?)
-        case nextButtonTapped(GameCategory?)
+    public enum Action: BindableAction {
+        case binding(BindingAction<State>)
         case categoryTapped(GameCategory)
-        case navigateToBack
+        case selectButtonTapped(GameCategory)
     }
     
     public var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
-            case .skipButtonTapped:
-                return .none
-            case .nextButtonTapped:
+            case .binding:
                 return .none
             case .categoryTapped(let category):
                 state.selectedCategory = category
                 return .none
-            case .navigateToBack:
+            case .selectButtonTapped:
                 return .none
             }
         }

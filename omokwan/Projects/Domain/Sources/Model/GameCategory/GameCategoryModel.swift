@@ -5,29 +5,32 @@
 //  Created by 김동준 on 11/30/24
 //
 
-public struct GameCategoryModel: Equatable, Hashable {
-    public let imoji: String
-    public let title: String
+public enum GameCategory: String, Equatable, CaseIterable {
+    case workout = "운동"
+    case health = "건강"
+    case read = "독서"
+    case hobby = "취미"
+    case life = "생활"
+    case study = "공부"
+    case practice = "연습"
+    case newsAndEducational = "시사/교양"
+    case diet = "다이어트"
+    case selfImprovement = "자기계발"
+    case instrument = "악기"
     
-    public init(
-        imoji: String,
-        title: String
-    ) {
-        self.imoji = imoji
-        self.title = title
+    public var imoji: String {
+        switch self {
+        case .workout: "💪️"
+        case .health: "🏃‍♀️"
+        case .read: "📕"
+        case .hobby: "🌈"
+        case .life: "🫧"
+        case .study: "📝"
+        case .practice: "🔁"
+        case .newsAndEducational: "🗞"
+        case .diet: "🥗"
+        case .selfImprovement: "📚"
+        case .instrument: "🎵"
+        }
     }
-    
-    static public var gameCategories = [
-        GameCategoryModel(imoji: "💪️", title: "운동"),
-        GameCategoryModel(imoji: "🏃‍♀️", title: "건강"),
-        GameCategoryModel(imoji: "📕", title: "독서"),
-        GameCategoryModel(imoji: "🌈", title: "취미"),
-        GameCategoryModel(imoji: "🫧", title: "생활"),
-        GameCategoryModel(imoji: "📝", title: "공부"),
-        GameCategoryModel(imoji: "🔁", title: "연습"),
-        GameCategoryModel(imoji: "🗞", title: "시사/교양"),
-        GameCategoryModel(imoji: "🥗", title: "다이어트"),
-        GameCategoryModel(imoji: "📚", title: "자기계발"),
-        GameCategoryModel(imoji: "🎵", title: "악기")
-    ]
 }

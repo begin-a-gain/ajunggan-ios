@@ -16,7 +16,7 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
     private let placeholder: String
     private let keyboardType: UIKeyboardType
     private let errorMessage: String
-    private let textMaxCount: Int
+    private let textMaxCount: Int?
     private let isSecureField: Bool
     private let isDisabled: Bool
     private let isReadOnly: Bool
@@ -37,7 +37,7 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
         placeholder: String,
         keyboardType: UIKeyboardType = .default,
         errorMessage: String = "",
-        textMaxCount: Int = 10,
+        textMaxCount: Int? = nil,
         isSecureField: Bool = false,
         isDisabled: Bool = false,
         isReadOnly: Bool = false,
@@ -98,7 +98,9 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
                         errorMessageView(errorMessage)
                     }
                     Spacer()
-                    textCountView
+                    if let textMaxCount = textMaxCount {
+                        textCountView(textMaxCount)
+                    }
                 }
                 .greedyWidth()
                 .hPadding(16)
@@ -191,22 +193,22 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
         }
     }
     
-    private var textCountView: some View {
+    private func textCountView(_ textMaxCount: Int) -> some View {
         HStack(alignment: .bottom, spacing: 4) {
             OText(
                 "\(text.count)",
                 token: .caption,
-                color: textCountColor
+                color: textCountColor(textMaxCount)
             )
             OText(
                 "/",
                 token: .caption,
-                color: textCountColor
+                color: textCountColor(textMaxCount)
             )
             OText(
                 "\(textMaxCount)",
                 token: .caption,
-                color: textCountColor
+                color: textCountColor(textMaxCount)
             )
         }
     }
@@ -262,7 +264,7 @@ private extension OTextField {
         }
     }
     
-    private var textCountColor: Color {
+    private func textCountColor(_ textMaxCount: Int) -> Color {
         if text.count > textMaxCount {
             OColors.textAlert.swiftUIColor
         } else {
