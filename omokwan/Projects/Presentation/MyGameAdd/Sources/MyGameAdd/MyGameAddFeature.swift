@@ -12,7 +12,9 @@ public struct MyGameAddFeature: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public init() {}
+        public init(selectedCategory: GameCategory?) {
+            self.selectedCategory = selectedCategory
+        }
         var isStartButtonEnable: Bool = false
         @BindingState var gameName: String = ""
         var selectedRepeatDay: MyGameAddRepeatDayType = .weekday
@@ -26,6 +28,7 @@ public struct MyGameAddFeature: Reducer {
         
         @PresentationState var repeatDaySheet: MyGameRepeatDaySheetFeature.State?
         @PresentationState var maxNumOfPeopleSheet: MyGameMaxNumOfPeopleSheetFeature.State?
+        @PresentationState var gameCategorySheet: MyGameCategorySheetFeature.State?
     }
     
     public enum Action: BindableAction {
@@ -34,8 +37,10 @@ public struct MyGameAddFeature: Reducer {
         case repeatDayButtonTapped
         case directSelectionListButtonTapped(Int)
         case maxNumOfPeopleButtonTapped
+        case gameCategorySettingButtonTapped
         case repeatDaySheet(PresentationAction<MyGameRepeatDaySheetFeature.Action>)
         case maxNumOfPeopleSheet(PresentationAction<MyGameMaxNumOfPeopleSheetFeature.Action>)
+        case gameCategorySheet(PresentationAction<MyGameCategorySheetFeature.Action>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -83,6 +88,23 @@ public struct MyGameAddFeature: Reducer {
                 default:
                     return .none
                 }
+            case .gameCategorySettingButtonTapped:
+                state.gameCategorySheet = .init(selectedCategory: state.selectedCategory)
+                return .none
+            case .gameCategorySheet(let action):
+                switch action {
+                case .presented(let presentAction):
+                    switch presentAction {
+                    case .selectButtonTapped(let value):
+                        state.gameCategorySheet = nil
+                        state.selectedCategory = value
+                        return .none
+                    default:
+                        return .none
+                    }
+                default:
+                    return .none
+                }
             }
         }
         .ifLet(\.$repeatDaySheet, action: /MyGameAddFeature.Action.repeatDaySheet) {
@@ -90,6 +112,9 @@ public struct MyGameAddFeature: Reducer {
         }
         .ifLet(\.$maxNumOfPeopleSheet, action: /MyGameAddFeature.Action.maxNumOfPeopleSheet) {
             MyGameMaxNumOfPeopleSheetFeature()
+        }
+        .ifLet(\.$gameCategorySheet, action: /MyGameAddFeature.Action.gameCategorySheet) {
+            MyGameCategorySheetFeature()
         }
     }
 }

@@ -90,7 +90,7 @@ public struct MainCoordinatorFeature: Reducer {
 private extension MainCoordinatorFeature {
     func waitFewSeconds() async -> Action {
         do {
-            let _ = try await Task.sleep(nanoseconds: 1 * 300_000_000)
+            try await Task.sleep(for: .seconds(0.1))
             return .noAction
         } catch {
             return .noAction

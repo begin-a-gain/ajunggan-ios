@@ -63,8 +63,8 @@ public struct MyGameAddCategoryView: View {
                         imoji: category.imoji,
                         title: category.rawValue,
                         isSelected: Binding(
-                            get: { viewStore.isSelectedList[index] },
-                            set: { newValue in viewStore.send(.categoryTapped(index)) }
+                            get: { viewStore.selectedCategory == category },
+                            set: { newValue in viewStore.send(.categoryTapped(category)) }
                         )
                     )
                 }.greedyWidth(.leading)
@@ -81,7 +81,7 @@ public struct MyGameAddCategoryView: View {
                 type: .text,
                 size: .small,
                 action: {
-                    viewStore.send(.skipButtonTapped)
+                    viewStore.send(.skipButtonTapped(viewStore.selectedCategory))
                 }
             )
             OButton(
@@ -89,7 +89,7 @@ public struct MyGameAddCategoryView: View {
                 status: viewStore.isNextButtonEnable ? .default : .disable,
                 type: .default,
                 action: {
-                    viewStore.send(.nextButtonTapped)
+                    viewStore.send(.nextButtonTapped(viewStore.selectedCategory))
                 }
             )
         }

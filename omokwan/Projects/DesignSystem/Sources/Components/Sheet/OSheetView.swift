@@ -10,22 +10,28 @@ import SwiftUI
 public struct OSheetView<Content: View>: View {
     let title: String
     let sheetContent: Content
+    let buttonStatus: OButtonStatus
     let buttonAction: () -> Void
     
     public init(
         title: String,
         sheetContent: Content,
+        buttonStatus: OButtonStatus = .default,
         buttonAction: @escaping () -> Void
     ) {
         self.title = title
         self.sheetContent = sheetContent
+        self.buttonStatus = buttonStatus
         self.buttonAction = buttonAction
     }
     
     public var body: some View {
         VStack(spacing: 0) {
+            Spacer().height(20)
             sheetTitle
-            sheetContent
+            ScrollView {
+                sheetContent
+            }
             sheetButton
         }
     }
@@ -40,7 +46,7 @@ public struct OSheetView<Content: View>: View {
     private var sheetButton: some View {
         OButton(
             title: "확인",
-            status: .default,
+            status: buttonStatus,
             type: .default,
             action: {
                 buttonAction()

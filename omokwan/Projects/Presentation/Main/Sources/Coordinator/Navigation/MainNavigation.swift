@@ -31,11 +31,11 @@ extension MainCoordinatorFeature {
         case .navigateToBack:
             _ = state.path.popLast()
             return .none
-        case .skipButtonTapped:
-            state.path.append(.myGameAdd(MyGameAddFeature.State()))
+        case .skipButtonTapped(let category):
+            state.path.append(.myGameAdd(MyGameAddFeature.State(selectedCategory: category)))
             return .none
-        case .nextButtonTapped:
-            state.path.append(.myGameAdd(MyGameAddFeature.State()))
+        case .nextButtonTapped(let category):
+            state.path.append(.myGameAdd(MyGameAddFeature.State(selectedCategory: category)))
             return .none
         default:
             return .none

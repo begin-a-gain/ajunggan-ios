@@ -33,6 +33,10 @@ public struct MyGameAddView: View {
             MyGameMaxNumOfPeopleSheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
         }
+        .sheet(store: store.scope(state: \.$gameCategorySheet, action: MyGameAddFeature.Action.gameCategorySheet)) { store in
+            MyGameCategorySheetView(store: store)
+                .modifier(CommonSheetModifier(detent: [.medium]))
+        }
     }
     
     private var myGameAddBodyView: some View {
@@ -209,7 +213,7 @@ private extension MyGameAddView {
             title: "대국 카테고리",
             value: selectedCategoryString,
             buttonAction: {
-                
+                viewStore.send(.gameCategorySettingButtonTapped)
             }
         )
     }
