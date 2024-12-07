@@ -18,13 +18,14 @@ public struct MyGameAddFeature: Reducer {
         var selectedRepeatDay: MyGameAddRepeatDayType = .weekday
         var directSelectionTypeList: [MyGameAddDirectSelectionDayType] = MyGameAddDirectSelectionDayType.allCases
         var isSelectedDirectSelectionList: [Bool] = Array(repeating: true, count: MyGameAddDirectSelectionDayType.allCases.count)
-        var maxNumOfPeople: Int = 0
+        var maxNumOfPeople: Int = 5
         var selectedCategory: GameCategory?
         @BindingState var isRemindAlarmSelected: Bool = false
         @BindingState var isPrivateRoomSelected: Bool = false
         var privateRoomPassword: String = "0000"
         
         @PresentationState var repeatDaySheet: MyGameRepeatDaySheetFeature.State?
+        @PresentationState var maxNumOfPeopleSheet: MyGameMaxNumOfPeopleSheetFeature.State?
     }
     
     public enum Action: BindableAction {
@@ -34,6 +35,7 @@ public struct MyGameAddFeature: Reducer {
         case directSelectionListButtonTapped(Int)
         case maxNumOfPeopleButtonTapped
         case repeatDaySheet(PresentationAction<MyGameRepeatDaySheetFeature.Action>)
+        case maxNumOfPeopleSheet(PresentationAction<MyGameMaxNumOfPeopleSheetFeature.Action>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -65,11 +67,29 @@ public struct MyGameAddFeature: Reducer {
                 state.isSelectedDirectSelectionList[index].toggle()
                 return .none
             case .maxNumOfPeopleButtonTapped:
+                state.maxNumOfPeopleSheet = .init(selectedMaxNumOfPeopleCount: state.maxNumOfPeople)
                 return .none
+            case .maxNumOfPeopleSheet(let action):
+                switch action {
+                case .presented(let presentAction):
+                    switch presentAction {
+                    case .selectButtonTapped(let value):
+                        state.maxNumOfPeopleSheet = nil
+                        state.maxNumOfPeople = value
+                        return .none
+                    default:
+                        return .none
+                    }
+                default:
+                    return .none
+                }
             }
         }
         .ifLet(\.$repeatDaySheet, action: /MyGameAddFeature.Action.repeatDaySheet) {
             MyGameRepeatDaySheetFeature()
+        }
+        .ifLet(\.$maxNumOfPeopleSheet, action: /MyGameAddFeature.Action.maxNumOfPeopleSheet) {
+            MyGameMaxNumOfPeopleSheetFeature()
         }
     }
 }
