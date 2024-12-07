@@ -19,18 +19,13 @@ struct MyGameRepeatDaySheetView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            sheetTitle
-            sheetContent
-            sheetButton
-        }
-    }
-    
-    private var sheetTitle: some View {
-        OText(
-            "반복 요일",
-            token: .title_02
-        ).vPadding(8)
+        OSheetView(
+            title: "반복 요일",
+            sheetContent: sheetContent,
+            buttonAction: {
+                viewStore.send(.selectButtonTapped(viewStore.selectedRepeatDay))
+            }
+        )
     }
     
     private var sheetContent: some View {
@@ -41,19 +36,6 @@ struct MyGameRepeatDaySheetView: View {
         }
         .pickerStyle(.wheel)
         .vPadding(14)
-        .hPadding(20)
-    }
-    
-    private var sheetButton: some View {
-        OButton(
-            title: "확인",
-            status: .default,
-            type: .default,
-            action: {
-                viewStore.send(.selectButtonTapped(viewStore.selectedRepeatDay))
-            }
-        )
-        .vPadding(16)
         .hPadding(20)
     }
 }

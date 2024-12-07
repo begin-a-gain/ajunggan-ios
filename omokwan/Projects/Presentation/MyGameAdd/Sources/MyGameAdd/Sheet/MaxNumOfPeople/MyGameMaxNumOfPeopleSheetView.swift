@@ -19,20 +19,14 @@ struct MyGameMaxNumOfPeopleSheetView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            sheetTitle
-            sheetContent
-            sheetButton
-        }
+        OSheetView(
+            title: "최대 인원 수",
+            sheetContent: sheetContent,
+            buttonAction: {
+                viewStore.send(.selectButtonTapped(viewStore.selectedMaxNumOfPeopleCount))
+            }
+        )
     }
-    
-    private var sheetTitle: some View {
-        OText(
-            "최대 인원 수",
-            token: .title_02
-        ).vPadding(8)
-    }
-    
     private var sheetContent: some View {
         Picker("", selection: viewStore.$selectedMaxNumOfPeopleCount) {
             ForEach(viewStore.maxNumOfPeopleAllCases, id: \.self) {
@@ -41,19 +35,6 @@ struct MyGameMaxNumOfPeopleSheetView: View {
         }
         .pickerStyle(.wheel)
         .vPadding(14)
-        .hPadding(20)
-    }
-    
-    private var sheetButton: some View {
-        OButton(
-            title: "확인",
-            status: .default,
-            type: .default,
-            action: {
-                viewStore.send(.selectButtonTapped(viewStore.selectedMaxNumOfPeopleCount))
-            }
-        )
-        .vPadding(16)
         .hPadding(20)
     }
 }
