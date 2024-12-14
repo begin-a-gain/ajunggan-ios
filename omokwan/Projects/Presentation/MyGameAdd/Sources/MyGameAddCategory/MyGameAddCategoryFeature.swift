@@ -22,7 +22,7 @@ public struct MyGameAddCategoryFeature: Reducer {
     }
     
     public enum Action {
-        case skipButtonTapped(GameCategory?)
+        case skipButtonTapped
         case nextButtonTapped(GameCategory?)
         case categoryTapped(GameCategory)
         case navigateToBack
