@@ -28,7 +28,7 @@ public struct MyGameView: View {
     
     private var myGameViewBody: some View {
         ZStack(alignment: .bottom) {
-            if !viewStore.isGameAddFloatingMessageVisible {
+            if viewStore.isGameAddFloatingMessageVisible {
                 gameAddFloatingMessageView
                     .zIndex(2)
             }
@@ -37,24 +37,12 @@ public struct MyGameView: View {
                     isMain: true,
                     trailingIcon: OImages.icBell.swiftUIImage,
                     trailingIconAction: {
-                        // TODO: Impelment this action
+                        viewStore.send(.bellButtonTapped)
                     }
                 )
                 dateInfoView
-                ScrollView {
-                    if viewStore.isDatePickerVisible {
-                        datePickerView
-                    }
-                    ForEach(0..<40) { _ in
-                        Text("My Game View").greedyWidth()
-                    }
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("Navigate To Depth View")
-                    }
-                }
+                StrokeDivider(color: OColors.stroke01.swiftUIColor)
+                MyGameMainContentView(store: store)
             }.zIndex(1)
         }
     }
@@ -126,13 +114,5 @@ private extension MyGameView {
         Date.now.formattedString(format: DateFormatConstants.calendarDayDateFormatter)
         
         return isDisable
-    }
-    
-    private var datePickerView: some View {
-        ZStack {
-            DatePicker("", selection: viewStore.$selectedDate, displayedComponents: [.date])
-                .datePickerStyle(.wheel)
-                .labelsHidden()
-        }
     }
 }
