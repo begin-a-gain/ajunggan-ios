@@ -81,7 +81,7 @@ public struct MyGameAddCategoryView: View {
                 type: .text,
                 size: .small,
                 action: {
-                    viewStore.send(.skipButtonTapped(viewStore.selectedCategory))
+                    viewStore.send(.skipButtonTapped)
                 }
             )
             OButton(
