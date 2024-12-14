@@ -118,7 +118,7 @@ public struct ONavigationBar: View {
     private func trailingIconView(_ image: Image) -> some View {
         HStack(spacing: 0) {
             Button {
-                if let action = leadingIconAction {
+                if let action = trailingIconAction {
                     action()
                 }
             } label: {

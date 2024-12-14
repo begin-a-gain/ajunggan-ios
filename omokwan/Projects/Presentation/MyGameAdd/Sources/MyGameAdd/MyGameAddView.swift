@@ -100,7 +100,7 @@ private extension MyGameAddView {
             .greedyWidth(.leading)
             VStack(spacing: 0) {
                 repeatDayView
-                Stroke02Divider()
+                StrokeDivider(color: OColors.stroke02.swiftUIColor)
                 maxNumOfPeopleView
             }
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(OColors.stroke02.swiftUIColor, lineWidth: 1.0))
@@ -191,13 +191,13 @@ private extension MyGameAddView {
             .greedyWidth(.leading)
             VStack(spacing: 0) {
                 gameCategoryView
-                Stroke02Divider()
+                StrokeDivider(color: OColors.stroke02.swiftUIColor)
                 OInputToggleField(
                     title: "리마인드 알림",
                     additionalInfo: "오전 9:00",
                     isSelected: viewStore.$isRemindAlarmSelected
                 )
-                Stroke02Divider()
+                StrokeDivider(color: OColors.stroke02.swiftUIColor)
                 OInputToggleField(
                     title: "비공개",
                     additionalInfo: "코드 : \(viewStore.privateRoomPassword)",

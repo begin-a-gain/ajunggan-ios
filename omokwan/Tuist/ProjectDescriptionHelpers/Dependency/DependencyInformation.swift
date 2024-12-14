@@ -17,7 +17,7 @@ let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .Main: [.MyGame, .MyGameAdd],
     .DI: [.Swinject],
     .Base: [.DesignSystem, .ComposableArchitecture],
-    .MyGame: [.Base, .Util],
+    .MyGame: [.Base, .Util, .Domain],
     .MyGameAdd: [.Base, .Util, .Domain]
 ]
 
