@@ -21,6 +21,7 @@ public struct AddGameSheetFeature: Reducer {
         case selectType(State.AddGameType)
         case addGameSheetButtonTapped
         case navigateToMyGameAddCategory
+        case navigateToMyGameParticipate
     }
     
     public var body: some ReducerOf<Self> {
@@ -31,11 +32,17 @@ public struct AddGameSheetFeature: Reducer {
                 return .none
             case .addGameSheetButtonTapped:
                 if let type = state.selectedGameType {
-                    return .send(.navigateToMyGameAddCategory)
+                    switch type {
+                    case .add:
+                        return .send(.navigateToMyGameAddCategory)
+                    case .participate:
+                        return .send(.navigateToMyGameParticipate)
+                    }
                 } else {
                     return .none
                 }
             case .navigateToMyGameAddCategory: return .none
+            case .navigateToMyGameParticipate: return .none
             }
         }
     }

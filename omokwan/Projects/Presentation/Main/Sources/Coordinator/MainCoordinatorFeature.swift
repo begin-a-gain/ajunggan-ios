@@ -33,6 +33,7 @@ public struct MainCoordinatorFeature: Reducer {
         case addGameButtonTapped
         case noAction
         case navigateToMyGameAddCategory
+        case navigateToMyGameParticipate
     }
 
     public var body: some ReducerOf<Self> {
@@ -53,6 +54,14 @@ public struct MainCoordinatorFeature: Reducer {
                             },
                             .send(.navigateToMyGameAddCategory)
                         ])
+                    case .navigateToMyGameParticipate:
+                        state.addGameSheet = nil
+                        return .concatenate([
+                            .run { send in
+                                await send(waitFewSeconds())
+                            },
+                            .send(.navigateToMyGameParticipate)
+                        ])
                     default:
                         return .none
                     }
@@ -61,6 +70,9 @@ public struct MainCoordinatorFeature: Reducer {
                 }
             case .navigateToMyGameAddCategory:
                 state.path.append(.myGameAddCategory(.init()))
+                return .none
+            case .navigateToMyGameParticipate:
+                // TODO: 대국 참여하기 이동 로직 필요
                 return .none
             case .addGameButtonTapped:
                 state.addGameSheet = .init()
