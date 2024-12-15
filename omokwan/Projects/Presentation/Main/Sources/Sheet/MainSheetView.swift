@@ -9,56 +9,40 @@ import SwiftUI
 import ComposableArchitecture
 import DesignSystem
 
-struct AddGameSheetView: View {
-    private let store: StoreOf<AddGameSheetFeature>
-    @ObservedObject private var viewStore: ViewStoreOf<AddGameSheetFeature>
+struct MainSheetView: View {
+    private let store: StoreOf<MainSheetFeature>
+    @ObservedObject private var viewStore: ViewStoreOf<MainSheetFeature>
     
-    public init(store: StoreOf<AddGameSheetFeature>) {
+    public init(store: StoreOf<MainSheetFeature>) {
         self.store = store
         viewStore = ViewStore(store) { $0 }
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            headerView
-            bodyView
-            bottomView
-        }
-    }
-    
-    private var headerView: some View {
-        OText(
-            "대국 추가하기",
-            token: .title_02
-        ).vPadding(8)
-    }
-    
-    private var bottomView: some View {
-        OButton(
-            title: "확인",
-            status: viewStore.selectedGameType == nil ? .disable : .default,
-            type: .default,
-            action: {
+        OSheetView(
+            title: "대국 추가하기",
+            sheetContent: bodyView,
+            buttonStatus: viewStore.selectedGameType == nil ? .disable : .default,
+            buttonAction: {
                 viewStore.send(.addGameSheetButtonTapped)
             }
         )
-        .vPadding(16)
-        .hPadding(20)
     }
 }
 
 // MARK: Body
-private extension AddGameSheetView {
+private extension MainSheetView {
     private var bodyView: some View {
         HStack(spacing: 16) {
-            ForEach(AddGameSheetFeature.State.AddGameType.allCases, id: \.self) { item in
+            ForEach(MainSheetFeature.State.AddGameType.allCases, id: \.self) { item in
                 addGameCardView(type: item)
             }
         }
+        .vPadding(14)
         .hPadding(20)
     }
     
-    private func addGameCardView(type: AddGameSheetFeature.State.AddGameType) -> some View {
+    private func addGameCardView(type: MainSheetFeature.State.AddGameType) -> some View {
         Button {
             viewStore.send(.selectType(type))
         } label: {
@@ -84,7 +68,7 @@ private extension AddGameSheetView {
         }
     }
     
-    private func getGameCardTitle(type: AddGameSheetFeature.State.AddGameType) -> String {
+    private func getGameCardTitle(type: MainSheetFeature.State.AddGameType) -> String {
         switch type {
         case .add:
             return "대국 만들기"

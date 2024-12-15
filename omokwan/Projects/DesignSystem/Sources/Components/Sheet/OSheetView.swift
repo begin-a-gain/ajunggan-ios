@@ -27,7 +27,7 @@ public struct OSheetView<Content: View>: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            Spacer().height(20)
+            Spacer().height(12)
             sheetTitle
             ScrollView {
                 sheetContent

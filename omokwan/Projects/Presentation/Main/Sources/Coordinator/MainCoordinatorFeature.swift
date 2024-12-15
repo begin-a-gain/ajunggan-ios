@@ -20,7 +20,7 @@ public struct MainCoordinatorFeature: Reducer {
         
         // MARK: Main State
         var selectedTab: MainBottomTabItem = .myGame
-        @PresentationState var addGameSheet: AddGameSheetFeature.State?
+        @PresentationState var mainSheet: MainSheetFeature.State?
         var myGameState: MyGameFeature.State = .init()
     }
 
@@ -29,7 +29,7 @@ public struct MainCoordinatorFeature: Reducer {
         
         // MARK: Main Action
         case selectTab(MainBottomTabItem)
-        case addGameSheet(PresentationAction<AddGameSheetFeature.Action>)
+        case mainSheet(PresentationAction<MainSheetFeature.Action>)
         case addGameButtonTapped
         case noAction
         case navigateToMyGameAddCategory
@@ -42,12 +42,12 @@ public struct MainCoordinatorFeature: Reducer {
             case .selectTab(let item):
                 state.selectedTab = item
                 return .none
-            case .addGameSheet(let presentationAction):
+            case .mainSheet(let presentationAction):
                 switch presentationAction {
                 case .presented(let sheetAction):
                     switch sheetAction {
                     case .navigateToMyGameAddCategory:
-                        state.addGameSheet = nil
+                        state.mainSheet = nil
                         return .concatenate([
                             .run { send in
                                 await send(waitFewSeconds())
@@ -55,7 +55,7 @@ public struct MainCoordinatorFeature: Reducer {
                             .send(.navigateToMyGameAddCategory)
                         ])
                     case .navigateToMyGameParticipate:
-                        state.addGameSheet = nil
+                        state.mainSheet = nil
                         return .concatenate([
                             .run { send in
                                 await send(waitFewSeconds())
@@ -75,7 +75,7 @@ public struct MainCoordinatorFeature: Reducer {
                 // TODO: 대국 참여하기 이동 로직 필요
                 return .none
             case .addGameButtonTapped:
-                state.addGameSheet = .init()
+                state.mainSheet = .init()
                 return .none
             case .noAction:
                 return .none
@@ -90,8 +90,8 @@ public struct MainCoordinatorFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$addGameSheet, action: /MainCoordinatorFeature.Action.addGameSheet) {
-            AddGameSheetFeature()
+        .ifLet(\.$mainSheet, action: /MainCoordinatorFeature.Action.mainSheet) {
+            MainSheetFeature()
         }
         .forEach(\.path, action: /MainCoordinatorFeature.Action.path) {
             MainPath()
