@@ -24,6 +24,10 @@ public struct MyGameView: View {
         .onAppear {
             viewStore.send(.onAppear)
         }
+        .sheet(store: store.scope(state: \.$myGameSheet, action: MyGameFeature.Action.myGameSheet)) { store in
+            MyGameSheetView(store: store)
+                .modifier(CommonSheetModifier(detent: [.medium]))
+        }
     }
     
     private var myGameViewBody: some View {

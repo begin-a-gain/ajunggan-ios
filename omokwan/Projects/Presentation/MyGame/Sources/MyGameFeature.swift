@@ -15,6 +15,8 @@ public struct MyGameFeature: Reducer {
     public struct State: Equatable {
         public init() {}
         @BindingState var selectedDate: Date = .now
+        @PresentationState var myGameSheet: MyGameSheetFeature.State?
+        
         var isDatePickerVisible: Bool = false
         var myGameList: [MyGameModel?] = Array(repeating: nil, count: 6)
         
@@ -31,6 +33,7 @@ public struct MyGameFeature: Reducer {
         case datePickerButtonTapped
         case navigateToMyGameAddCategory
         case bellButtonTapped
+        case myGameSheet(PresentationAction<MyGameSheetFeature.Action>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -46,10 +49,24 @@ public struct MyGameFeature: Reducer {
             case .dateArrowRightButtonTapped:
                 return .none
             case .datePickerButtonTapped:
-                state.isDatePickerVisible.toggle()
+                state.myGameSheet = .init(selectedDate: state.selectedDate)
                 return .none
             case .navigateToMyGameAddCategory:
                 return .none
+            case .myGameSheet(let action):
+                switch action {
+                case .presented(let sheetAction):
+                    switch sheetAction {
+                    case .dismissSheetWithData(let date):
+                        state.myGameSheet = nil
+                        state.selectedDate = date
+                        return .none
+                    default:
+                        return .none
+                    }
+                case .dismiss:
+                    return .none
+                }
             case .bellButtonTapped:
                 // 임시 로직
                 let randomValue: Int = Int.random(in: 0...2)
@@ -69,6 +86,9 @@ public struct MyGameFeature: Reducer {
                 checkAndAppendNilIfNeeded(state: &state)
                 return .none
             }
+        }
+        .ifLet(\.$myGameSheet, action: /MyGameFeature.Action.myGameSheet) {
+            MyGameSheetFeature()
         }
     }
 }
