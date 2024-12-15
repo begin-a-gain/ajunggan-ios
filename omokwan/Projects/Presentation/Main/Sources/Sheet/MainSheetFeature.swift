@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-public struct AddGameSheetFeature: Reducer {
+public struct MainSheetFeature: Reducer {
     public struct State: Equatable {
         public enum AddGameType: CaseIterable {
             case add

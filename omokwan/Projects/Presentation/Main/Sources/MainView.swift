@@ -42,8 +42,8 @@ public struct MainView: View {
                 .height(MainConstants.bottomTabBarHeight)
                 .greedyHeight(.bottom)
                 .ignoresSafeArea(edges: .bottom)
-        }.sheet(store: store.scope(state: \.$addGameSheet, action: MainCoordinatorFeature.Action.addGameSheet)) { store in
-            AddGameSheetView(store: store)
+        }.sheet(store: store.scope(state: \.$mainSheet, action: MainCoordinatorFeature.Action.mainSheet)) { store in
+            MainSheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
         }
     }
