@@ -11,17 +11,17 @@ public struct SignUpDoneFeature: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        
+        public init() {}
     }
     
     public enum Action {
-        
+        case navigateToMain
     }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            default:
+            case .navigateToMain:
                 return .none
             }
         }

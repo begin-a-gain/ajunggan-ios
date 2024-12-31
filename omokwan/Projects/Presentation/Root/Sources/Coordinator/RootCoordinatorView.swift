@@ -44,6 +44,10 @@ public struct RootCoordinatorView: View {
                 CaseLet(/RootCoordinatorFeature.RootPath.State.signUp, action: RootCoordinatorFeature.RootPath.Action.signUp) { store in
                     SignUpView(store: store)
                 }
+            case .signUpDone:
+                CaseLet(/RootCoordinatorFeature.RootPath.State.signUpDone, action: RootCoordinatorFeature.RootPath.Action.signUpDone) { store in
+                    SignUpDoneView(store: store)
+                }
             }
         }
     }

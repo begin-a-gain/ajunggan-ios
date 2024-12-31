@@ -27,7 +27,6 @@ public struct SignUpFeature: Reducer {
             switch action {
             case .setNickname(let name):
                 state.nickname = name
-                print("DONGJUN -> \(state.nickname)")
                 if !state.nickname.isEmpty {
                     state.isNextButtonEnable = true
                 } else {

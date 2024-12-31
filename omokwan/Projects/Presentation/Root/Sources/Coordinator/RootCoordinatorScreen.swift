@@ -15,11 +15,13 @@ extension RootCoordinatorFeature {
         public enum State: Equatable {
             case signIn(SignInFeature.State)
             case signUp(SignUpFeature.State)
+            case signUpDone(SignUpDoneFeature.State)
         }
 
         public enum Action {
             case signIn(SignInFeature.Action)
             case signUp(SignUpFeature.Action)
+            case signUpDone(SignUpDoneFeature.Action)
         }
         
         public var body: some ReducerOf<Self> {
@@ -28,6 +30,9 @@ extension RootCoordinatorFeature {
             }
             Scope(state: /State.signUp, action: /Action.signUp) {
                 SignUpFeature()
+            }
+            Scope(state: /State.signUpDone, action: /Action.signUpDone) {
+                SignUpDoneFeature()
             }
         }
     }
