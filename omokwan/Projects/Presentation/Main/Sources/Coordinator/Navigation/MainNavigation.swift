@@ -50,6 +50,9 @@ extension MainCoordinatorFeature {
         case .navigateToBack:
             _ = state.path.popLast()
             return .none
+        case .createRoomComplete(let title):
+            state.path.removeAll()
+            return .send(.myGameAction(.gameCreated(title)))
         default:
             return .none
         }

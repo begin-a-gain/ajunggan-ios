@@ -34,6 +34,7 @@ public struct MyGameFeature: Reducer {
         case navigateToMyGameAddCategory
         case bellButtonTapped
         case myGameSheet(PresentationAction<MyGameSheetFeature.Action>)
+        case gameCreated(String)
     }
     
     public var body: some ReducerOf<Self> {
@@ -84,6 +85,10 @@ public struct MyGameFeature: Reducer {
                 )
                 
                 checkAndAppendNilIfNeeded(state: &state)
+                return .none
+            case .gameCreated(let title):
+                // TODO: 대국 생성 완료 토스트 생성
+                print("DONGJUN -> \(title) 생성 완료")
                 return .none
             }
         }

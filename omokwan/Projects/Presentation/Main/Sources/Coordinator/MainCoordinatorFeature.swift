@@ -34,6 +34,7 @@ public struct MainCoordinatorFeature: Reducer {
         case noAction
         case navigateToMyGameAddCategory
         case navigateToMyGameParticipate
+        case myGameAction(MyGameFeature.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -79,7 +80,8 @@ public struct MainCoordinatorFeature: Reducer {
                 return .none
             case .noAction:
                 return .none
-                
+            case .myGameAction:
+                return .none
             case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGame(let myGameAction))):
                 return myGameNavigation(&state, myGameAction)
             case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGameAddCategory(let myGameAddCategoryAction))):
@@ -95,6 +97,9 @@ public struct MainCoordinatorFeature: Reducer {
         }
         .forEach(\.path, action: /MainCoordinatorFeature.Action.path) {
             MainPath()
+        }
+        Scope(state: \.myGameState, action: /MainCoordinatorFeature.Action.myGameAction) {
+            MyGameFeature()
         }
     }
 }
