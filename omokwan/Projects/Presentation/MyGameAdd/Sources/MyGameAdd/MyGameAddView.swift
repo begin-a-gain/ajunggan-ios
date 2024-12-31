@@ -8,11 +8,14 @@
 import ComposableArchitecture
 import SwiftUI
 import DesignSystem
+import Base
 
 public struct MyGameAddView: View {
     let store: StoreOf<MyGameAddFeature>
     @ObservedObject var viewStore: ViewStoreOf<MyGameAddFeature>
     @FocusState private var focusedField: MyGameAddTextFieldType?
+    @FocusState private var passwordFocusedField: PasswordFocusField?
+    typealias PasswordFocusField = MyGameAddFeature.State.PasswordFocusField
     
     private enum MyGameAddTextFieldType {
         case gameName
@@ -36,6 +39,16 @@ public struct MyGameAddView: View {
         .sheet(store: store.scope(state: \.$gameCategorySheet, action: MyGameAddFeature.Action.gameCategorySheet)) { store in
             MyGameCategorySheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
+        }
+        .oAlert(self.store.scope(state: \.alertState, action: MyGameAddFeature.Action.alertAction)) {
+            Group {
+                if let alertCase = viewStore.alertCase {
+                    switch alertCase {
+                    case .password:
+                        passwordAlertView
+                    }
+                }
+            }
         }
     }
     
@@ -200,8 +213,16 @@ private extension MyGameAddView {
                 StrokeDivider(color: OColors.stroke02.swiftUIColor)
                 OInputToggleField(
                     title: "비공개",
-                    additionalInfo: "코드 : \(viewStore.privateRoomPassword)",
-                    isSelected: viewStore.$isPrivateRoomSelected
+                    selectAreaAction: {
+                        viewStore.send(.privateRoomCodeButtonTapped)
+                    },
+                    additionalInfo: "코드 : \(viewStore.privateRoomPassword ?? "-")",
+                    isSelected: Binding(
+                        get: { viewStore.isPrivateRoomSelected },
+                        set: { newValue in
+                            viewStore.send(.privateRoomToggleButtonTapped)
+                        }
+                    )
                 )
             }
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(OColors.stroke02.swiftUIColor, lineWidth: 1.0))
@@ -243,6 +264,59 @@ private struct DirectSelectionCircleCircleStrokeModifier: ViewModifier {
                     Circle()
                         .stroke(OColors.stroke02.swiftUIColor, lineWidth: 1)
                 )
+        }
+    }
+}
+
+// MARK: About Alert
+private extension MyGameAddView {
+    var passwordAlertView: some View {
+        OAlertContentView(
+            type: .default,
+            primaryButtonAction: {
+                passwordFocusedField = nil
+                viewStore.send(.passwordAlertCancelButtonTapped)
+            },
+            secondaryButtonAction: {
+                viewStore.send(.passwordAlertConfirmButtonTapped)
+            },
+            content: {
+                VStack(spacing: 16) {
+                    OText(
+                        "대국 코드 설정",
+                        token: .headline
+                    )
+                    HStack(spacing: 8) {
+                        MyGameAddPasswordField(
+                            text: viewStore.$thousandsPlace,
+                            focusedField: $passwordFocusedField,
+                            focusedFieldType: .thousandsPlace,
+                            refreshAction: { viewStore.send(.passwordRefresh) }
+                        )
+                        MyGameAddPasswordField(
+                            text: viewStore.$hundredsPlace,
+                            focusedField: $passwordFocusedField,
+                            focusedFieldType: .hundredsPlace,
+                            refreshAction: { viewStore.send(.passwordRefresh) }
+                        )
+                        MyGameAddPasswordField(
+                            text: viewStore.$tensPlace,
+                            focusedField: $passwordFocusedField,
+                            focusedFieldType: .tensPlace,
+                            refreshAction: { viewStore.send(.passwordRefresh) }
+                        )
+                        MyGameAddPasswordField(
+                            text: viewStore.$onesPlace,
+                            focusedField: $passwordFocusedField,
+                            focusedFieldType: .onesPlace,
+                            refreshAction: { viewStore.send(.passwordRefresh) }
+                        )
+                    }
+                }.vPadding(4)
+            }
+        ).onAppear {
+            passwordFocusedField = .thousandsPlace
+            viewStore.send(.passwordRefresh)
         }
     }
 }

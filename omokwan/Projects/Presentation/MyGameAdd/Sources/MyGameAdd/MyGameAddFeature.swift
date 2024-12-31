@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Domain
+import Base
 
 public struct MyGameAddFeature: Reducer {
     public init() {}
@@ -15,6 +16,22 @@ public struct MyGameAddFeature: Reducer {
         public init(selectedCategory: GameCategory?) {
             self.selectedCategory = selectedCategory
         }
+        
+        // MARK: Alert
+        public enum AlertCase {
+            case password
+        }
+        var alertCase: AlertCase?
+        var alertState: AlertFeature.State = .init()
+        
+        // MARK: Password Focus Field
+        public enum PasswordFocusField {
+            case thousandsPlace
+            case hundredsPlace
+            case tensPlace
+            case onesPlace
+        }
+        
         var isStartButtonEnable: Bool = false
         @BindingState var gameName: String = ""
         var selectedRepeatDay: MyGameAddRepeatDayType = .weekday
@@ -23,12 +40,18 @@ public struct MyGameAddFeature: Reducer {
         var maxNumOfPeople: Int = 5
         var selectedCategory: GameCategory?
         @BindingState var isRemindAlarmSelected: Bool = false
-        @BindingState var isPrivateRoomSelected: Bool = false
-        var privateRoomPassword: String = "0000"
         
         @PresentationState var repeatDaySheet: MyGameRepeatDaySheetFeature.State?
         @PresentationState var maxNumOfPeopleSheet: MyGameMaxNumOfPeopleSheetFeature.State?
         @PresentationState var gameCategorySheet: MyGameCategorySheetFeature.State?
+        
+        // MARK: 비공개 설정
+        @BindingState var isPrivateRoomSelected: Bool = false
+        var privateRoomPassword: String?
+        @BindingState var thousandsPlace: String = ""
+        @BindingState var hundredsPlace: String = ""
+        @BindingState var tensPlace: String = ""
+        @BindingState var onesPlace: String = ""
     }
     
     public enum Action: BindableAction {
@@ -41,6 +64,13 @@ public struct MyGameAddFeature: Reducer {
         case repeatDaySheet(PresentationAction<MyGameRepeatDaySheetFeature.Action>)
         case maxNumOfPeopleSheet(PresentationAction<MyGameMaxNumOfPeopleSheetFeature.Action>)
         case gameCategorySheet(PresentationAction<MyGameCategorySheetFeature.Action>)
+        case privateRoomToggleButtonTapped
+        case alertAction(AlertFeature.Action)
+        case showAlert(State.AlertCase)
+        case passwordAlertConfirmButtonTapped
+        case passwordAlertCancelButtonTapped
+        case passwordRefresh
+        case privateRoomCodeButtonTapped
     }
     
     public var body: some ReducerOf<Self> {
@@ -105,6 +135,50 @@ public struct MyGameAddFeature: Reducer {
                 default:
                     return .none
                 }
+            case .privateRoomToggleButtonTapped:
+                if state.isPrivateRoomSelected {
+                    state.isPrivateRoomSelected = false
+                } else {
+                    if let _ = state.privateRoomPassword {
+                        state.isPrivateRoomSelected = true
+                    } else {
+                        return .send(.showAlert(.password))
+                    }
+                }
+                return .none
+            case .alertAction:
+                return .none
+            case .showAlert(let alertCase):
+                state.alertCase = alertCase
+                return .send(.alertAction(.present))
+            case .passwordAlertConfirmButtonTapped:
+                guard let thousands = Int(state.thousandsPlace),
+                      let hundreds = Int(state.hundredsPlace),
+                      let tens = Int(state.tensPlace),
+                      let ones = Int(state.onesPlace)
+                else { return .none }
+                
+                let password = (1000 * thousands) + (100 * hundreds) + (10 * tens) + ones
+                state.privateRoomPassword = String(password)
+                state.isPrivateRoomSelected = true
+                
+                return .send(.alertAction(.dismiss))
+            case .passwordAlertCancelButtonTapped:
+                return .send(.alertAction(.dismiss))
+            case .passwordRefresh:
+                state.thousandsPlace = ""
+                state.hundredsPlace = ""
+                state.tensPlace = ""
+                state.onesPlace = ""
+                return .none
+            case .privateRoomCodeButtonTapped:
+                if let _ = state.privateRoomPassword {
+                    if state.isPrivateRoomSelected {
+                        return .send(.showAlert(.password))
+                    }
+                }
+                
+                return .none
             }
         }
         .ifLet(\.$repeatDaySheet, action: /MyGameAddFeature.Action.repeatDaySheet) {
@@ -115,6 +189,9 @@ public struct MyGameAddFeature: Reducer {
         }
         .ifLet(\.$gameCategorySheet, action: /MyGameAddFeature.Action.gameCategorySheet) {
             MyGameCategorySheetFeature()
+        }
+        Scope(state: \.alertState, action: /MyGameAddFeature.Action.alertAction) {
+            AlertFeature()
         }
     }
 }
