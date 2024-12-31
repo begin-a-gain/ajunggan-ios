@@ -32,6 +32,8 @@ public struct RootCoordinatorFeature: Reducer {
                 return signInNavigation(&state, signInAction)
             case .path(.element(id: _, action: RootCoordinatorFeature.RootPath.Action.signUp(let signUpAction))):
                 return signUpNavigation(&state, signUpAction)
+            case .path(.element(id: _, action: RootCoordinatorFeature.RootPath.Action.signUpDone(let signUpDoneAction))):
+                return signUpDoneNavigation(&state, signUpDoneAction)
 //            case .path(.element(id: _, action: RootFeature.Path.Action.detail(.alert(.presented(.success))))):
 //                _ = state.path.popLast()
 //                return .none
@@ -63,9 +65,21 @@ private extension RootCoordinatorFeature {
     private func signUpNavigation(_ state: inout State, _ action: SignUpFeature.Action) -> Effect<Action> {
         switch action {
         case .nextButtonTapped:
-            state.isAuth = true
+            state.path.append(.signUpDone(SignUpDoneFeature.State()))
             return .none
         default:
+            return .none
+        }
+    }
+}
+
+// SignUpDone
+private extension RootCoordinatorFeature {
+    private func signUpDoneNavigation(_ state: inout State, _ action: SignUpDoneFeature.Action) -> Effect<Action> {
+        switch action {
+        case .navigateToMain:
+            state.path.removeAll()
+            state.isAuth = true
             return .none
         }
     }

@@ -32,7 +32,7 @@ public struct SignUpDoneView: View {
                 status: .default,
                 type: .default,
                 action: {
-                    // Main 으로 이동
+                    viewStore.send(.navigateToMain)
                 }
             ).padding(20)
         }.navigationBarBackButtonHidden(true)
