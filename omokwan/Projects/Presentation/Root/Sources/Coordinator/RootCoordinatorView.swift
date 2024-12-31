@@ -24,8 +24,7 @@ public struct RootCoordinatorView: View {
     public var body: some View {
         if viewStore.isAuth {
             MainCoordinatorRootView(
-                store: .init(initialState: MainCoordinatorFeature.State(), reducer: { MainCoordinatorFeature() }),
-                myGameStore: .init(initialState: MyGameFeature.State(), reducer: { MyGameFeature() })
+                store: .init(initialState: MainCoordinatorFeature.State(), reducer: { MainCoordinatorFeature() })
             )
         } else {
             rootView

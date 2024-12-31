@@ -16,10 +16,10 @@ public struct MainView: View {
     @ObservedObject var viewStore: ViewStoreOf<MainCoordinatorFeature>
     let myGameStore: StoreOf<MyGameFeature>
 
-    public init(store: StoreOf<MainCoordinatorFeature>, myGameStore: StoreOf<MyGameFeature>) {
+    public init(store: StoreOf<MainCoordinatorFeature>) {
         self.store = store
         self.viewStore = ViewStore(store, observe: { $0 })
-        self.myGameStore = myGameStore
+        self.myGameStore = self.store.scope(state: \.myGameState, action: MainCoordinatorFeature.Action.myGameAction)
     }
     
     public var body: some View {

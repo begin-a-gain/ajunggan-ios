@@ -46,6 +46,8 @@ public struct MyGameAddView: View {
                     switch alertCase {
                     case .password:
                         passwordAlertView
+                    case .create:
+                        createAlertView
                     }
                 }
             }
@@ -66,7 +68,10 @@ public struct MyGameAddView: View {
             OButton(
                 title: "대국 시작하기",
                 status: viewStore.isStartButtonEnable ? .default : .disable,
-                type: .default
+                type: .default,
+                action: {
+                    viewStore.send(.gameStartButtonTapped)
+                }
             )
             .hPadding(20)
             .vPadding(16)
@@ -318,5 +323,19 @@ private extension MyGameAddView {
             passwordFocusedField = .thousandsPlace
             viewStore.send(.passwordRefresh)
         }
+    }
+    
+    var createAlertView: some View {
+        OAlert(
+            type: .default,
+            title: "대국 생성 하시겠습니까?",
+            content: "'\(viewStore.gameName)' 대국을 시작해보세요.",
+            primaryButtonAction: {
+                viewStore.send(.createAlertCancelButtonTapped)
+            },
+            secondaryButtonAction: {
+                viewStore.send(.createAlertConfirmButtonTapped)
+            }
+        )
     }
 }

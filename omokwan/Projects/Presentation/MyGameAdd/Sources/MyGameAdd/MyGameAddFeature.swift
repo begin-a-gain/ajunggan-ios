@@ -20,6 +20,7 @@ public struct MyGameAddFeature: Reducer {
         // MARK: Alert
         public enum AlertCase {
             case password
+            case create
         }
         var alertCase: AlertCase?
         var alertState: AlertFeature.State = .init()
@@ -32,11 +33,10 @@ public struct MyGameAddFeature: Reducer {
             case onesPlace
         }
         
-        var isStartButtonEnable: Bool = false
         @BindingState var gameName: String = ""
         var selectedRepeatDay: MyGameAddRepeatDayType = .weekday
         var directSelectionTypeList: [MyGameAddDirectSelectionDayType] = MyGameAddDirectSelectionDayType.allCases
-        var isSelectedDirectSelectionList: [Bool] = Array(repeating: true, count: MyGameAddDirectSelectionDayType.allCases.count)
+        var isSelectedDirectSelectionList: [Bool] = Array(repeating: false, count: MyGameAddDirectSelectionDayType.allCases.count)
         var maxNumOfPeople: Int = 5
         var selectedCategory: GameCategory?
         @BindingState var isRemindAlarmSelected: Bool = false
@@ -52,6 +52,10 @@ public struct MyGameAddFeature: Reducer {
         @BindingState var hundredsPlace: String = ""
         @BindingState var tensPlace: String = ""
         @BindingState var onesPlace: String = ""
+        
+        var isStartButtonEnable: Bool {
+            return !gameName.isEmpty
+        }
     }
     
     public enum Action: BindableAction {
@@ -71,6 +75,10 @@ public struct MyGameAddFeature: Reducer {
         case passwordAlertCancelButtonTapped
         case passwordRefresh
         case privateRoomCodeButtonTapped
+        case gameStartButtonTapped
+        case createAlertCancelButtonTapped
+        case createAlertConfirmButtonTapped
+        case createRoomComplete(String)
     }
     
     public var body: some ReducerOf<Self> {
@@ -178,6 +186,18 @@ public struct MyGameAddFeature: Reducer {
                     }
                 }
                 
+                return .none
+            case .gameStartButtonTapped:
+                return .send(.showAlert(.create))
+            case .createAlertCancelButtonTapped:
+                return .send(.alertAction(.dismiss))
+            case .createAlertConfirmButtonTapped:
+                let title = state.gameName
+                return .merge([
+                    .send(.alertAction(.dismiss)),
+                    .send(.createRoomComplete(title))
+                ])
+            case .createRoomComplete:
                 return .none
             }
         }
