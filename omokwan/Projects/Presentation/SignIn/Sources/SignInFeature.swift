@@ -33,9 +33,11 @@ public struct SignInFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .kakaoButtonTapped:
-                return .run { send in
-                    await send(signInWithKakao())
-                }
+                // TODO: 임시, 테스트 빠르게 하기 위함. 추후 제거할 것
+                return .none
+//                return .run { send in
+//                    await send(signInWithKakao())
+//                }
             case .receiveKakaoTokenSuccessfully(let token):
                 state.tempKakaoToken = token
                 return .none

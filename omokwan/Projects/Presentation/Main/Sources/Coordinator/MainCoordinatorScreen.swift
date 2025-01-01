@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import MyGame
 import MyGameAdd
+import MyGameParticipate
 
 extension MainCoordinatorFeature {
     public struct MainPath: Reducer {
@@ -15,12 +16,14 @@ extension MainCoordinatorFeature {
             case myGame(MyGameFeature.State)
             case myGameAdd(MyGameAddFeature.State)
             case myGameAddCategory(MyGameAddCategoryFeature.State)
+            case myGameParticipate(MyGameParticipateFeature.State)
         }
 
         public enum Action {
             case myGame(MyGameFeature.Action)
             case myGameAdd(MyGameAddFeature.Action)
             case myGameAddCategory(MyGameAddCategoryFeature.Action)
+            case myGameParticipate(MyGameParticipateFeature.Action)
         }
         
         public var body: some ReducerOf<Self> {
@@ -32,6 +35,9 @@ extension MainCoordinatorFeature {
             }
             Scope(state: /State.myGameAddCategory, action: /Action.myGameAddCategory) {
                 MyGameAddCategoryFeature()
+            }
+            Scope(state: /State.myGameParticipate, action: /Action.myGameParticipate) {
+                MyGameParticipateFeature()
             }
         }
     }
