@@ -73,7 +73,7 @@ public struct MainCoordinatorFeature: Reducer {
                 state.path.append(.myGameAddCategory(.init()))
                 return .none
             case .navigateToMyGameParticipate:
-                // TODO: 대국 참여하기 이동 로직 필요
+                state.path.append(.myGameParticipate(.init()))
                 return .none
             case .addGameButtonTapped:
                 state.mainSheet = .init()
@@ -88,6 +88,8 @@ public struct MainCoordinatorFeature: Reducer {
                 return myGameAddCategoryNavigation(&state, myGameAddCategoryAction)
             case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGameAdd(let myGameAddAction))):
                 return myGameAddNavigation(&state, myGameAddAction)
+            case .path(.element(id: _, action: MainCoordinatorFeature.MainPath.Action.myGameParticipate(let myGameParticipateAction))):
+                return myGameParticipateNavigation(&state, myGameParticipateAction)
             case .path:
                 return .none
             }

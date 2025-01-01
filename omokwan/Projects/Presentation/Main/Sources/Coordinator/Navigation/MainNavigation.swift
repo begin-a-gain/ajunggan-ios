@@ -7,6 +7,7 @@
 
 import MyGame
 import MyGameAdd
+import MyGameParticipate
 import ComposableArchitecture
 
 // MARK: MyGame Navigation
@@ -54,6 +55,17 @@ extension MainCoordinatorFeature {
             state.path.removeAll()
             return .send(.myGameAction(.gameCreated(title)))
         default:
+            return .none
+        }
+    }
+}
+
+// MARK: MyGameParticipate Navigation
+extension MainCoordinatorFeature {
+    func myGameParticipateNavigation(_ state: inout State, _ action: MyGameParticipateFeature.Action) -> Effect<Action> {
+        switch action {
+        case .navigateToBack:
+            _ = state.path.popLast()
             return .none
         }
     }
