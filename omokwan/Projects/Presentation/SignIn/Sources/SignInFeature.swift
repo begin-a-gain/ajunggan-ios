@@ -10,6 +10,8 @@ import Base
 import ComposableArchitecture
 
 public struct SignInFeature: Reducer {
+    @Dependency(\.socialUseCase) var socialUseCase
+
     public init() {}
     
     public struct State: Equatable {
@@ -64,7 +66,7 @@ public struct SignInFeature: Reducer {
 private extension SignInFeature {
     private func signInWithKakao() async -> Action {
         return .receiveKakaoTokenSuccessfully("")
-//        let response = await socialUseCaseProtocol.signInWithKakao()
+//        let response = await socialUseCase.signInWithKakao()
 //        switch response {
 //        case let .success(result):
 //            return .receiveKakaoTokenSuccessfully(result)
