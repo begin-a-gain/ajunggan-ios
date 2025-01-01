@@ -54,6 +54,9 @@ private extension RootCoordinatorFeature {
         case .navigateToSignUp:
             state.path.append(.signUp(SignUpFeature.State()))
             return .none
+        case .kakaoButtonTapped: // TODO: 추후 제거할 액션
+            state.isAuth = true
+            return .none
         default:
             return .none
         }

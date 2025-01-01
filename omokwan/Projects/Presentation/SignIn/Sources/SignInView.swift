@@ -37,7 +37,7 @@ public struct SignInView: View {
     private var loginButton: some View {
         HStack(spacing: 20) {
             Button {
-//                viewStore.send(.kakaoButtonTapped)
+                viewStore.send(.kakaoButtonTapped)
             } label: {
                 OImages.icKakao.swiftUIImage
             }
