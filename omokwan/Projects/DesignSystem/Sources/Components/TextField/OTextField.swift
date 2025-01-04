@@ -142,6 +142,7 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
             .font(.suit(token: .body_02))
             .foregroundColor(OColors.textDisable.swiftUIColor)
         )
+        .multilineTextAlignment(.leading)
         .focused($focusedField, equals: focusedFieldType)
         .keyboardType(keyboardType)
         .font(.suit(token: .body_02))
@@ -156,14 +157,16 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
                 OText(
                     placeholder,
                     token: .body_02,
-                    color: OColors.textDisable.swiftUIColor
+                    color: OColors.textDisable.swiftUIColor,
+                    alignment: .leading
                 )
                 .greedyWidth(.leading)
             } else {
                 OText(
                     text,
                     token: .body_02,
-                    color: textColor
+                    color: textColor,
+                    alignment: .leading
                 )
                 .greedyWidth(.leading)
             }
@@ -172,6 +175,7 @@ public struct OTextField<FocusedFieldType: Hashable>: View {
                 "",
                 text: $text
             )
+            .multilineTextAlignment(.leading)
             .focused($focusedField, equals: focusedFieldType)
             .keyboardType(keyboardType)
             .font(.suit(token: .body_02))
