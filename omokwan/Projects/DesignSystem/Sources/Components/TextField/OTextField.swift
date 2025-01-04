@@ -223,7 +223,7 @@ private extension OTextField {
             if isDisabled { return .disable }
             if isReadOnly { return .readOnly }
             
-            guard let focusedField = focusedField else {
+            guard focusedField != nil else {
                 if text.isEmpty {
                     return .default
                 } else {

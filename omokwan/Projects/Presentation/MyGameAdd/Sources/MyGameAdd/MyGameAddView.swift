@@ -28,19 +28,19 @@ public struct MyGameAddView: View {
     
     public var body: some View {
         myGameAddBodyView
-        .sheet(store: store.scope(state: \.$repeatDaySheet, action: MyGameAddFeature.Action.repeatDaySheet)) { store in
+        .sheet(store: store.scope(state: \.$repeatDaySheet, action: \.repeatDaySheet)) { store in
             MyGameRepeatDaySheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
         }
-        .sheet(store: store.scope(state: \.$maxNumOfPeopleSheet, action: MyGameAddFeature.Action.maxNumOfPeopleSheet)) { store in
+        .sheet(store: store.scope(state: \.$maxNumOfPeopleSheet, action: \.maxNumOfPeopleSheet)) { store in
             MyGameMaxNumOfPeopleSheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
         }
-        .sheet(store: store.scope(state: \.$gameCategorySheet, action: MyGameAddFeature.Action.gameCategorySheet)) { store in
+        .sheet(store: store.scope(state: \.$gameCategorySheet, action: \.gameCategorySheet)) { store in
             MyGameCategorySheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
         }
-        .oAlert(self.store.scope(state: \.alertState, action: MyGameAddFeature.Action.alertAction)) {
+        .oAlert(self.store.scope(state: \.alertState, action: \.alertAction)) {
             Group {
                 if let alertCase = viewStore.alertCase {
                     switch alertCase {

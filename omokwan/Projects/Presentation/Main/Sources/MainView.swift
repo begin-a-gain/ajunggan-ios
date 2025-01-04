@@ -19,7 +19,7 @@ public struct MainView: View {
     public init(store: StoreOf<MainCoordinatorFeature>) {
         self.store = store
         self.viewStore = ViewStore(store, observe: { $0 })
-        self.myGameStore = self.store.scope(state: \.myGameState, action: MainCoordinatorFeature.Action.myGameAction)
+        self.myGameStore = self.store.scope(state: \.myGameState, action: \.myGameAction)
     }
     
     public var body: some View {
@@ -42,7 +42,7 @@ public struct MainView: View {
                 .height(MainConstants.bottomTabBarHeight)
                 .greedyHeight(.bottom)
                 .ignoresSafeArea(edges: .bottom)
-        }.sheet(store: store.scope(state: \.$mainSheet, action: MainCoordinatorFeature.Action.mainSheet)) { store in
+        }.sheet(store: store.scope(state: \.$mainSheet, action: \.mainSheet)) { store in
             MainSheetView(store: store)
                 .modifier(CommonSheetModifier(detent: [.medium]))
         }

@@ -10,7 +10,8 @@ import ComposableArchitecture
 import MyGame
 import MyGameAdd
 
-public struct MainCoordinatorFeature: Reducer {
+@Reducer
+public struct MainCoordinatorFeature {
     public init() {}
     
     public struct State: Equatable {
@@ -94,13 +95,13 @@ public struct MainCoordinatorFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$mainSheet, action: /MainCoordinatorFeature.Action.mainSheet) {
+        .ifLet(\.$mainSheet, action: \.mainSheet) {
             MainSheetFeature()
         }
-        .forEach(\.path, action: /MainCoordinatorFeature.Action.path) {
+        .forEach(\.path, action: \.path) {
             MainPath()
         }
-        Scope(state: \.myGameState, action: /MainCoordinatorFeature.Action.myGameAction) {
+        Scope(state: \.myGameState, action: \.myGameAction) {
             MyGameFeature()
         }
     }

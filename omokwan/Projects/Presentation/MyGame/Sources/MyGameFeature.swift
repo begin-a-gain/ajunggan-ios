@@ -9,7 +9,8 @@ import ComposableArchitecture
 import Foundation
 import Domain
 
-public struct MyGameFeature: Reducer {
+@Reducer
+public struct MyGameFeature {
     public init() {}
     
     public struct State: Equatable {
@@ -92,7 +93,7 @@ public struct MyGameFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$myGameSheet, action: /MyGameFeature.Action.myGameSheet) {
+        .ifLet(\.$myGameSheet, action: \.myGameSheet) {
             MyGameSheetFeature()
         }
     }

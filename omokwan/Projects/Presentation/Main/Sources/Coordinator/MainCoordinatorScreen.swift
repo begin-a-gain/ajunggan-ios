@@ -11,7 +11,8 @@ import MyGameAdd
 import MyGameParticipate
 
 extension MainCoordinatorFeature {
-    public struct MainPath: Reducer {
+    @Reducer
+    public struct MainPath {
         public enum State: Equatable {
             case myGame(MyGameFeature.State)
             case myGameAdd(MyGameAddFeature.State)
@@ -27,16 +28,16 @@ extension MainCoordinatorFeature {
         }
         
         public var body: some ReducerOf<Self> {
-            Scope(state: /State.myGame, action: /Action.myGame) {
+            Scope(state: \.myGame, action: \.myGame) {
                 MyGameFeature()
             }
-            Scope(state: /State.myGameAdd, action: /Action.myGameAdd) {
+            Scope(state: \.myGameAdd, action:\.myGameAdd) {
                 MyGameAddFeature()
             }
-            Scope(state: /State.myGameAddCategory, action: /Action.myGameAddCategory) {
+            Scope(state: \.myGameAddCategory, action: \.myGameAddCategory) {
                 MyGameAddCategoryFeature()
             }
-            Scope(state: /State.myGameParticipate, action: /Action.myGameParticipate) {
+            Scope(state: \.myGameParticipate, action: \.myGameParticipate) {
                 MyGameParticipateFeature()
             }
         }

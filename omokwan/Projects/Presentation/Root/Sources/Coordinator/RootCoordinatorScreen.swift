@@ -11,7 +11,8 @@ import SignUp
 import Main
 
 extension RootCoordinatorFeature {
-    public struct RootPath: Reducer {
+    @Reducer
+    public struct RootPath {
         public enum State: Equatable {
             case signIn(SignInFeature.State)
             case signUp(SignUpFeature.State)
@@ -25,13 +26,13 @@ extension RootCoordinatorFeature {
         }
         
         public var body: some ReducerOf<Self> {
-            Scope(state: /State.signIn, action: /Action.signIn) {
+            Scope(state: \.signIn, action: \.signIn) {
                 SignInFeature()
             }
-            Scope(state: /State.signUp, action: /Action.signUp) {
+            Scope(state: \.signUp, action: \.signUp) {
                 SignUpFeature()
             }
-            Scope(state: /State.signUpDone, action: /Action.signUpDone) {
+            Scope(state: \.signUpDone, action: \.signUpDone) {
                 SignUpDoneFeature()
             }
         }
