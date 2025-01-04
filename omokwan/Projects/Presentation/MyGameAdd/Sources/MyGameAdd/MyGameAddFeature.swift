@@ -9,7 +9,8 @@ import ComposableArchitecture
 import Domain
 import Base
 
-public struct MyGameAddFeature: Reducer {
+@Reducer
+public struct MyGameAddFeature {
     public init() {}
     
     public struct State: Equatable {
@@ -201,16 +202,16 @@ public struct MyGameAddFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$repeatDaySheet, action: /MyGameAddFeature.Action.repeatDaySheet) {
+        .ifLet(\.$repeatDaySheet, action: \.repeatDaySheet) {
             MyGameRepeatDaySheetFeature()
         }
-        .ifLet(\.$maxNumOfPeopleSheet, action: /MyGameAddFeature.Action.maxNumOfPeopleSheet) {
+        .ifLet(\.$maxNumOfPeopleSheet, action: \.maxNumOfPeopleSheet) {
             MyGameMaxNumOfPeopleSheetFeature()
         }
-        .ifLet(\.$gameCategorySheet, action: /MyGameAddFeature.Action.gameCategorySheet) {
+        .ifLet(\.$gameCategorySheet, action: \.gameCategorySheet) {
             MyGameCategorySheetFeature()
         }
-        Scope(state: \.alertState, action: /MyGameAddFeature.Action.alertAction) {
+        Scope(state: \.alertState, action: \.alertAction) {
             AlertFeature()
         }
     }

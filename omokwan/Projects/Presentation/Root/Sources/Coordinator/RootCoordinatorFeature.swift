@@ -10,7 +10,8 @@ import SignIn
 import SignUp
 import Main
 
-public struct RootCoordinatorFeature: Reducer {
+@Reducer
+public struct RootCoordinatorFeature {
     public init() {}
     
     public struct State: Equatable {
@@ -41,7 +42,7 @@ public struct RootCoordinatorFeature: Reducer {
                 return .none
             }
         }
-        .forEach(\.path, action: /RootCoordinatorFeature.Action.path) {
+        .forEach(\.path, action: \.path) {
             RootPath()
         }
     }
