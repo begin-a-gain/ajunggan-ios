@@ -67,6 +67,8 @@ extension MainCoordinatorFeature {
         case .navigateToBack:
             _ = state.path.popLast()
             return .none
+        default:
+            return .none
         }
     }
 }

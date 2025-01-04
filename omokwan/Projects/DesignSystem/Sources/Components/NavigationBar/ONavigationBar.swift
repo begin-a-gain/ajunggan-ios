@@ -75,6 +75,7 @@ public struct ONavigationBar: View {
             }
         }
         .greedyWidth()
+        .background(OColors.uiBackground.swiftUIColor)
         .navigationBarBackButtonHidden(true)
     }
     
