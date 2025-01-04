@@ -6,24 +6,35 @@
 //
 
 import DI
+import Dependencies
 
 public protocol SocialUseCaseProtocol {
     func signInWithKakao() async -> Result<String, NetworkError>
     func signInWithApple() async -> Result<String, AppleSignInError>
 }
 
-public struct SocialUseCase: SocialUseCaseProtocol {
-    let repository: SocialRepositoryProtocol
-    
-    public init(repository: SocialRepositoryProtocol) {
-        self.repository = repository
-    }
+public struct SocialUseCase {
+    public let signInWithKakao: () async -> Result<String, NetworkError>
+    public let signInWithApple: () async -> Result<String, AppleSignInError>
+}
 
-    public func signInWithKakao() async -> Result<String, NetworkError> {
-        await repository.signInWithKakao()
-    }
-    
-    public func signInWithApple() async -> Result<String, AppleSignInError> {
-        await repository.signInWithApple()
+extension SocialUseCase: DependencyKey {
+    public static var liveValue: SocialUseCase = {
+        let repository: SocialRepositoryProtocol = DIContainer.shared.resolve()
+        return SocialUseCase(
+            signInWithKakao: {
+                await repository.signInWithKakao()
+            },
+            signInWithApple: {
+                await repository.signInWithApple()
+            }
+        )
+    }()
+}
+
+extension DependencyValues {
+    public var socialUseCase: SocialUseCase {
+        get { self[SocialUseCase.self] }
+        set { self[SocialUseCase.self] = newValue }
     }
 }
