@@ -32,20 +32,20 @@ public struct RootCoordinatorView: View {
     }
     
     private var rootView: some View {
-        NavigationStackStore(store.scope(state: \.path, action: RootCoordinatorFeature.Action.path)) {
+        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
             RootView()
         } destination: { store in
             switch store {
             case .signIn:
-                CaseLet(/RootCoordinatorFeature.RootPath.State.signIn, action: RootCoordinatorFeature.RootPath.Action.signIn) { store in
+                CaseLet(\RootCoordinatorFeature.RootPath.State.signIn, action: RootCoordinatorFeature.RootPath.Action.signIn) { store in
                     SignInView(store: store)
                 }
             case .signUp:
-                CaseLet(/RootCoordinatorFeature.RootPath.State.signUp, action: RootCoordinatorFeature.RootPath.Action.signUp) { store in
+                CaseLet(\RootCoordinatorFeature.RootPath.State.signUp, action: RootCoordinatorFeature.RootPath.Action.signUp) { store in
                     SignUpView(store: store)
                 }
             case .signUpDone:
-                CaseLet(/RootCoordinatorFeature.RootPath.State.signUpDone, action: RootCoordinatorFeature.RootPath.Action.signUpDone) { store in
+                CaseLet(\RootCoordinatorFeature.RootPath.State.signUpDone, action: RootCoordinatorFeature.RootPath.Action.signUpDone) { store in
                     SignUpDoneView(store: store)
                 }
             }

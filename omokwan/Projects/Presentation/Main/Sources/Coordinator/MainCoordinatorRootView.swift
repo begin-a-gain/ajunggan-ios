@@ -21,24 +21,24 @@ public struct MainCoordinatorRootView: View {
     }
     
     public var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: MainCoordinatorFeature.Action.path)) {
+        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
             MainView(store: store)
         } destination: { store in
             switch store {
             case .myGame:
-                CaseLet(/MainCoordinatorFeature.MainPath.State.myGame, action: MainCoordinatorFeature.MainPath.Action.myGame) { store in
+                CaseLet(\MainCoordinatorFeature.MainPath.State.myGame, action: MainCoordinatorFeature.MainPath.Action.myGame) { store in
                     MyGameView(store: store)
                 }
             case .myGameAdd:
-                CaseLet(/MainCoordinatorFeature.MainPath.State.myGameAdd, action: MainCoordinatorFeature.MainPath.Action.myGameAdd) { store in
+                CaseLet(\MainCoordinatorFeature.MainPath.State.myGameAdd, action: MainCoordinatorFeature.MainPath.Action.myGameAdd) { store in
                     MyGameAddView(store: store)
                 }
             case .myGameAddCategory:
-                CaseLet(/MainCoordinatorFeature.MainPath.State.myGameAddCategory, action: MainCoordinatorFeature.MainPath.Action.myGameAddCategory) { store in
+                CaseLet(\MainCoordinatorFeature.MainPath.State.myGameAddCategory, action: MainCoordinatorFeature.MainPath.Action.myGameAddCategory) { store in
                     MyGameAddCategoryView(store: store)
                 }
             case .myGameParticipate:
-                CaseLet(/MainCoordinatorFeature.MainPath.State.myGameParticipate, action: MainCoordinatorFeature.MainPath.Action.myGameParticipate) { store in
+                CaseLet(\MainCoordinatorFeature.MainPath.State.myGameParticipate, action: MainCoordinatorFeature.MainPath.Action.myGameParticipate) { store in
                     MyGameParticipateView(store: store)
                 }
             }
