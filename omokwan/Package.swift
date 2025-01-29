@@ -21,6 +21,7 @@ let package = Package(
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.9.1"),
         .package(url: "https://github.com/kakao/kakao-ios-sdk.git", from: "2.20.0"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.12.1"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", exact: "1.3.9")
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", exact: "1.3.9"),
+        .package(url: "https://github.com/pointfreeco/swift-case-paths", exact: "1.5.6")
     ]
 )
