@@ -9,7 +9,7 @@ import Foundation
 
 let dependencyInfo: [DependencyInformation: [DependencyInformation]] = [
     .App: [.Root, .DI, .Data, .KakaoSDKUser],
-    .Domain: [.DI],
+    .Domain: [.DI, .ComposableArchitecture],
     .Data: [.Domain, .KakaoSDKUser],
     .Root: [.SignIn, .SignUp, .Main],
     .SignIn: [.Domain, .Base],
