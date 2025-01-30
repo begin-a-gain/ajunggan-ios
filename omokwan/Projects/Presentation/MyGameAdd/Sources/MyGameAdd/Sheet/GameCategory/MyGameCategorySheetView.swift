@@ -36,8 +36,8 @@ struct MyGameCategorySheetView: View {
                 columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
             ) {
                 ForEach(Array(zip(viewStore.categories.indices, viewStore.categories)), id: \.1) { index, category in
-                    OImojiChips(
-                        imoji: category.imoji,
+                    OEmojiChips(
+                        imoji: category.emoji,
                         title: category.rawValue,
                         isSelected: Binding(
                             get: { viewStore.selectedCategory == category },

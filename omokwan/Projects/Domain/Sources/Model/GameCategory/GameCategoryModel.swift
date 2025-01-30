@@ -18,7 +18,7 @@ public enum GameCategory: String, Equatable, CaseIterable {
     case selfImprovement = "자기계발"
     case instrument = "악기"
     
-    public var imoji: String {
+    public var emoji: String {
         switch self {
         case .workout: "💪️"
         case .health: "🏃‍♀️"

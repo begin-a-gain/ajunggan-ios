@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import SwiftUI
 import DesignSystem
+import Domain
 
 public struct MyGameAddCategoryView: View {
     let store: StoreOf<MyGameAddCategoryFeature>
@@ -54,23 +55,28 @@ public struct MyGameAddCategoryView: View {
     }
     
     private var categoriesChipsView: some View {
-        VStack(spacing: 0) {
-            LazyVGrid(
-                columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
-            ) {
-                ForEach(Array(zip(viewStore.categories.indices, viewStore.categories)), id: \.1) { index, category in
-                    OImojiChips(
-                        imoji: category.imoji,
-                        title: category.rawValue,
-                        isSelected: Binding(
-                            get: { viewStore.selectedCategory == category },
-                            set: { newValue in viewStore.send(.categoryTapped(category)) }
-                        )
-                    )
-                }.greedyWidth(.leading)
+        DynamicWidthChipsGridView(
+            categories: viewStore.categories.map {
+                ChipsGridModel(title: $0.rawValue, emoji: $0.emoji)
             }
-            .hPadding(20)
-        }
+        ).hPadding(20)
+//        VStack(spacing: 0) {
+//            LazyVGrid(
+//                columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
+//            ) {
+//                ForEach(Array(zip(viewStore.categories.indices, viewStore.categories)), id: \.1) { index, category in
+//                    OImojiChips(
+//                        imoji: category.imoji,
+//                        title: category.rawValue,
+//                        isSelected: Binding(
+//                            get: { viewStore.selectedCategory == category },
+//                            set: { newValue in viewStore.send(.categoryTapped(category)) }
+//                        )
+//                    )
+//                }.greedyWidth(.leading)
+//            }
+//            .hPadding(20)
+//        }
     }
     
     private var buttonView: some View {

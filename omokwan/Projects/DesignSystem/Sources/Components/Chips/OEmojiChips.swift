@@ -1,5 +1,5 @@
 //
-//  OImojiChips.swift
+//  OEmojiChips.swift
 //  DesignSystem
 //
 //  Created by 김동준 on 11/30/24
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct OImojiChips: View {
+public struct OEmojiChips: View {
     let imoji: String
     let title: String
     @Binding var isSelected: Bool
