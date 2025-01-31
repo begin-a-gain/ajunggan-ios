@@ -71,14 +71,9 @@ private extension DynamicWidthChipsGridView {
         var oneDimensionsRow: [ChipsGridModel] = []
         var totalSumOfOneDimensionRowWidth: CGFloat = 0
         
-        print("@@@ category count = \(categories.count)")
-        print("@@@ count = \(chipWidths.count)")
-        
         for category in categories {
             let chipWidth: CGFloat = round(chipWidths[category.title] ?? 100)
             let sumOfRow: CGFloat = round(totalSumOfOneDimensionRowWidth + chipWidth)
-            
-            print("@@@ maxWidth: \(maxWidth) / chipWidht: \(chipWidth)")
             
             if sumOfRow > maxWidth {
                 rows.append(oneDimensionsRow)
