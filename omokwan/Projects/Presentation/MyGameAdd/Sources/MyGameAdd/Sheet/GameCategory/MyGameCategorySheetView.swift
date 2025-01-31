@@ -30,23 +30,17 @@ struct MyGameCategorySheetView: View {
             }
         )
     }
+    
     private var sheetContent: some View {
-        VStack(spacing: 0) {
-            LazyVGrid(
-                columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
-            ) {
-                ForEach(Array(zip(viewStore.categories.indices, viewStore.categories)), id: \.1) { index, category in
-                    OEmojiChips(
-                        imoji: category.emoji,
-                        title: category.rawValue,
-                        isSelected: Binding(
-                            get: { viewStore.selectedCategory == category },
-                            set: { newValue in viewStore.send(.categoryTapped(category)) }
-                        )
-                    )
-                }.greedyWidth(.leading)
+        DynamicWidthChipsGridView(
+            categories: viewStore.categories.map {
+                ChipsGridModel(title: $0.rawValue, emoji: $0.emoji)
+            },
+            selectedTitle: viewStore.selectedCategory?.rawValue,
+            tapAction: { categoryTitle in
+                viewStore.send(.categoryTapped(categoryTitle))
             }
-        }
+        )
         .vPadding(14)
         .hPadding(20)
     }

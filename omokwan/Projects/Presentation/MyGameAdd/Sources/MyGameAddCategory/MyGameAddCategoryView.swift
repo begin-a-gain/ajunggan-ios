@@ -58,25 +58,13 @@ public struct MyGameAddCategoryView: View {
         DynamicWidthChipsGridView(
             categories: viewStore.categories.map {
                 ChipsGridModel(title: $0.rawValue, emoji: $0.emoji)
+            },
+            selectedTitle: viewStore.selectedCategory?.rawValue,
+            tapAction: { categoryTitle in
+                viewStore.send(.categoryTapped(categoryTitle))
             }
-        ).hPadding(20)
-//        VStack(spacing: 0) {
-//            LazyVGrid(
-//                columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
-//            ) {
-//                ForEach(Array(zip(viewStore.categories.indices, viewStore.categories)), id: \.1) { index, category in
-//                    OImojiChips(
-//                        imoji: category.imoji,
-//                        title: category.rawValue,
-//                        isSelected: Binding(
-//                            get: { viewStore.selectedCategory == category },
-//                            set: { newValue in viewStore.send(.categoryTapped(category)) }
-//                        )
-//                    )
-//                }.greedyWidth(.leading)
-//            }
-//            .hPadding(20)
-//        }
+        )
+        .hPadding(20)
     }
     
     private var buttonView: some View {
