@@ -54,7 +54,14 @@ private extension MyGameParticipateView {
 // MARK: 서치 뷰
 private extension MyGameParticipateView {
     var searchView: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 0) {
+            OImages.icSearch.swiftUIImage
+                .renderingMode(.template)
+                .resizedToFit(20,20)
+                .foregroundStyle(OColors.icon02.swiftUIColor)
+            
+            Spacer().width(4)
+            
             TextField(
                 "대국 이름, 대국방 ID, 방장으로 검색하기",
                 text: viewStore.$searchText
@@ -64,15 +71,29 @@ private extension MyGameParticipateView {
             .foregroundStyle(OColors.text01.swiftUIColor)
             .greedyWidth(.leading)
             
-            OImages.icSearch.swiftUIImage
-                .renderingMode(.template)
-                .resizedToFit(20,20)
-                .foregroundStyle(OColors.icon02.swiftUIColor)
+            if !viewStore.searchText.isEmpty {
+                clearButtonView
+            }
         }
         .vPadding(8)
         .hPadding(12)
         .background(OColors.ui03.swiftUIColor)
         .cornerRadius(8)
+    }
+    
+    var clearButtonView: some View {
+        HStack(spacing: 0) {
+            Spacer().width(12)
+            
+            Button {
+                viewStore.send(.searchBarClearButtonTapped)
+            } label: {
+                OImages.icCancel.swiftUIImage
+                    .renderingMode(.template)
+                    .resizedToFit(20, 20)
+                    .foregroundStyle(OColors.icon01.swiftUIColor)
+            }
+        }
     }
 }
 

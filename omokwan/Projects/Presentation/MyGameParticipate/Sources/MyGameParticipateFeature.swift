@@ -37,6 +37,7 @@ public struct MyGameParticipateFeature {
         case resetFilterButtonTapped
         case availableParticipateRoomFilterTapped
         case categoryFilterTapped
+        case searchBarClearButtonTapped
     }
     
     public var body: some ReducerOf<Self> {
@@ -56,6 +57,9 @@ public struct MyGameParticipateFeature {
                 return .none
             case .categoryFilterTapped:
                 state.isCategoryFilterSelected = true
+                return .none
+            case .searchBarClearButtonTapped:
+                state.searchText = ""
                 return .none
             }
         }
