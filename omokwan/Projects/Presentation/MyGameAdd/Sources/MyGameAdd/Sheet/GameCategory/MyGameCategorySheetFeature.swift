@@ -22,7 +22,7 @@ public struct MyGameCategorySheetFeature: Reducer {
     
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
-        case categoryTapped(GameCategory)
+        case categoryTapped(String)
         case selectButtonTapped(GameCategory)
     }
     
@@ -33,7 +33,16 @@ public struct MyGameCategorySheetFeature: Reducer {
             case .binding:
                 return .none
             case .categoryTapped(let category):
-                state.selectedCategory = category
+                guard let selectedCategory = state.selectedCategory else {
+                    state.selectedCategory = state.categories.first{ $0.rawValue == category}
+                    return .none
+                }
+                if selectedCategory.rawValue != category {
+                    state.selectedCategory = state.categories.first{ $0.rawValue == category}
+                } else {
+                    state.selectedCategory = nil
+                }
+                
                 return .none
             case .selectButtonTapped:
                 return .none

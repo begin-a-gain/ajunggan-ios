@@ -6,14 +6,24 @@
 //
 
 import SwiftUI
+import Foundation
 
 public struct DynamicWidthChipsGridView: View {
     let categories: [ChipsGridModel]
+    let selectedTitle: String?
+    let tapAction: (String) -> Void
     @State private var chipWidths: [String: CGFloat] = [:]
     private let spacingOfEachItems: CGFloat = 10
+    @State private var isChipWidthsUpdate: Bool = false
     
-    public init(categories: [ChipsGridModel]) {
+    public init(
+        categories: [ChipsGridModel],
+        selectedTitle: String?,
+        tapAction: @escaping (String) -> Void
+    ) {
         self.categories = categories
+        self.selectedTitle = selectedTitle
+        self.tapAction = tapAction
     }
     
     public var body: some View {
@@ -22,23 +32,33 @@ public struct DynamicWidthChipsGridView: View {
             let twoDimensionsRow = arrangeChips(categories, containerWidth, spacingOfEachItems)
             
             VStack(alignment: .leading, spacing: 12) {
-                ForEach(twoDimensionsRow, id: \.self) { row in
-                    HStack(spacing: spacingOfEachItems) {
-                        ForEach(row, id: \.self) { category in
-                            OEmojiChips(
-                                imoji: category.emoji,
-                                title: category.title,
-                                isSelected: Binding(
-                                    get: { false },
-                                    set: { _ in }
+                if isChipWidthsUpdate {
+                    ForEach(twoDimensionsRow, id: \.self) { row in
+                        HStack(spacing: spacingOfEachItems) {
+                            ForEach(row, id: \.self) { category in
+                                OEmojiChips(
+                                    emoji: category.emoji,
+                                    title: category.title,
+                                    isSelected: Binding(
+                                        get: { selectedTitle == category.title },
+                                        set: { _ in
+                                            tapAction(category.title)
+                                        }
+                                    )
                                 )
-                            )
-                            .modifier(
-                                DynamicWidthChipsModifier(chipWidths: $chipWidths, title: category.title)
-                            )
+                                .modifier(
+                                    DynamicWidthChipsModifier(chipWidths: $chipWidths, title: category.title)
+                                )
+                            }
                         }
+                        .greedyWidth(.leading)
                     }
-                    .greedyWidth(.leading)
+                }
+            }
+            .onAppear {
+                chipWidths = [:]
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    isChipWidthsUpdate = true
                 }
             }
         }
@@ -51,9 +71,14 @@ private extension DynamicWidthChipsGridView {
         var oneDimensionsRow: [ChipsGridModel] = []
         var totalSumOfOneDimensionRowWidth: CGFloat = 0
         
+        print("@@@ category count = \(categories.count)")
+        print("@@@ count = \(chipWidths.count)")
+        
         for category in categories {
             let chipWidth: CGFloat = round(chipWidths[category.title] ?? 100)
             let sumOfRow: CGFloat = round(totalSumOfOneDimensionRowWidth + chipWidth)
+            
+            print("@@@ maxWidth: \(maxWidth) / chipWidht: \(chipWidth)")
             
             if sumOfRow > maxWidth {
                 rows.append(oneDimensionsRow)

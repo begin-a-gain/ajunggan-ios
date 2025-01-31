@@ -8,16 +8,16 @@
 import SwiftUI
 
 public struct OEmojiChips: View {
-    let imoji: String
+    let emoji: String
     let title: String
     @Binding var isSelected: Bool
     
     public init(
-        imoji: String,
+        emoji: String,
         title: String,
         isSelected: Binding<Bool>
     ) {
-        self.imoji = imoji
+        self.emoji = emoji
         self.title = title
         self._isSelected = isSelected
     }
@@ -28,7 +28,7 @@ public struct OEmojiChips: View {
         } label: {
             HStack(spacing: 4) {
                 OText(
-                    imoji,
+                    emoji,
                     token: .subtitle_02
                 )
                 OText(

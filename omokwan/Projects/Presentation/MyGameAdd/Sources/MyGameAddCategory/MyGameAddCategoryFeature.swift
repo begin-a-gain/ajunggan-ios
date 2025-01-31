@@ -24,7 +24,7 @@ public struct MyGameAddCategoryFeature: Reducer {
     public enum Action {
         case skipButtonTapped
         case nextButtonTapped(GameCategory?)
-        case categoryTapped(GameCategory)
+        case categoryTapped(String)
         case navigateToBack
     }
     
@@ -36,7 +36,16 @@ public struct MyGameAddCategoryFeature: Reducer {
             case .nextButtonTapped:
                 return .none
             case .categoryTapped(let category):
-                state.selectedCategory = category
+                guard let selectedCategory = state.selectedCategory else {
+                    state.selectedCategory = state.categories.first{ $0.rawValue == category}
+                    return .none
+                }
+                if selectedCategory.rawValue != category {
+                    state.selectedCategory = state.categories.first{ $0.rawValue == category}
+                } else {
+                    state.selectedCategory = nil
+                }
+                
                 return .none
             case .navigateToBack:
                 return .none
