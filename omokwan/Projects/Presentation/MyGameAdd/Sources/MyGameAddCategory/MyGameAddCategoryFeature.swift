@@ -36,14 +36,10 @@ public struct MyGameAddCategoryFeature: Reducer {
             case .nextButtonTapped:
                 return .none
             case .categoryTapped(let category):
-                guard let selectedCategory = state.selectedCategory else {
-                    state.selectedCategory = state.categories.first{ $0.rawValue == category}
-                    return .none
-                }
-                if selectedCategory.rawValue != category {
-                    state.selectedCategory = state.categories.first{ $0.rawValue == category}
-                } else {
+                if let selectedCategory = state.selectedCategory, selectedCategory.rawValue == category {
                     state.selectedCategory = nil
+                } else {
+                    state.selectedCategory = state.categories.first { $0.rawValue == category }
                 }
                 
                 return .none
