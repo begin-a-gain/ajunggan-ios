@@ -33,7 +33,7 @@ public struct SignUpView: View {
             ONavigationBar(
                 leadingIcon: OImages.icArrowLeft.swiftUIImage,
                 leadingIconAction: {
-                    // Navigate Back
+                    viewStore.send(.navigateToBack)
                 }
             ).padding(.bottom, 34)
             nicknameSettingView.hPadding(20)

@@ -20,6 +20,7 @@ public struct SignUpFeature: Reducer {
     public enum Action {
         case setNickname(String)
         case nextButtonTapped
+        case navigateToBack
     }
     
     public var body: some ReducerOf<Self> {
@@ -34,6 +35,8 @@ public struct SignUpFeature: Reducer {
                 }
                 return .none
             case .nextButtonTapped:
+                return .none
+            case .navigateToBack:
                 return .none
             }
         }

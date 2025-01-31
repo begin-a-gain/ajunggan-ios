@@ -71,6 +71,9 @@ private extension RootCoordinatorFeature {
         case .nextButtonTapped:
             state.path.append(.signUpDone(SignUpDoneFeature.State()))
             return .none
+        case .navigateToBack:
+            _ = state.path.popLast()
+            return .none
         default:
             return .none
         }
