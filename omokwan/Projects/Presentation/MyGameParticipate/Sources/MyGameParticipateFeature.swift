@@ -52,7 +52,7 @@ public struct MyGameParticipateFeature {
                 state.isCategoryFilterSelected = false
                 return .none
             case .availableParticipateRoomFilterTapped:
-                state.isAvailableParticipateRoomSelected = true
+                state.isAvailableParticipateRoomSelected.toggle()
                 return .none
             case .categoryFilterTapped:
                 state.isCategoryFilterSelected = true
